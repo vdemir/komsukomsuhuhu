@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+	{% if user.is_authenticated %}
+	User: {{ user }} <br><br>
+
+    <hr/>
+	<a href="/logout/">Logout</a><br>
+	{% else %}
+	<b>You need to login or register in order to reach site</b><br>
+	<a href="/register/">Register</a><br>
+	<a href="/login/">Login</a><br>
+	{% endif %}
+</body>
+</html>
