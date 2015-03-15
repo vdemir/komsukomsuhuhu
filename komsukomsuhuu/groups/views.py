@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.shortcuts import render_to_response, redirect, get_object_or_404, HttpResponse
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
@@ -49,9 +49,10 @@ def detail_group(request, pk):
 
 @login_required(login_url='/login')
 def edit_group(request, pk):
+    if Group.objects.get(id=pk).manager != request.user:
+        return HttpResponse("Only owner can edit")
     group = Group.objects.get(id=pk, manager=request.user)
     form = GroupForm(instance=group)
-
     if request.method == 'POST':
         form = GroupForm(request.POST, instance=group)
         if form.is_valid():
@@ -62,3 +63,9 @@ def edit_group(request, pk):
         'form': form,
         'group': group,
     }, RequestContext(request))
+
+@login_required(login_url='/login')
+def join_group(request, pk):
+    group = Group.objects.get(id=pk)
+    group.members.add(request.user)
+    return redirect(reverse('groups'))
