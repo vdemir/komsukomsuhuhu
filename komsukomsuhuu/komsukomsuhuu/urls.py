@@ -18,7 +18,8 @@ urlpatterns = patterns('',
     url(r'new_group', groups.views.new_group, name='new_group'),
     url(r'^delete_group/(?P<pk>[\d]+)$', groups.views.delete_group, name='delete_group'),
     url(r'^detail_group/(?P<pk>[\d]+)$', groups.views.detail_group, name='detail_group'),
-     url(r'^edit_group/(?P<pk>[\d]+)$', groups.views.edit_group, name='edit_group'),
+    url(r'^edit_group/(?P<pk>[\d]+)$', groups.views.edit_group, name='edit_group'),
+    url(r'^join_group/(?P<pk>[\d]+)$', groups.views.join_group, name='join_group'),
 )
 
 
