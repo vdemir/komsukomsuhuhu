@@ -12,6 +12,12 @@
     {% for member in group.members.all %}
         <p>{{ member }}</p>
     {% endfor %}
+
+    <h2>Topics</h2><hr/>
+    {% for topic in topics %}
+        <h3>{{ topic.title }}</h3>
+        <p> {{ topic.content }}</p>
+    {% endfor %}
     <a href="{% url 'delete_group' group.id %}">Delete Group</a>
     <a href="{% url 'edit_group' group.id %}">Edit Group</a>
     <a href="{% url 'join_group' group.id %}">Join Group</a>

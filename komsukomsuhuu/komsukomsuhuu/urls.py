@@ -2,6 +2,8 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 import profiles.views
 import groups.views
+import entities.views
+
 
 urlpatterns = patterns('',
 
@@ -20,6 +22,10 @@ urlpatterns = patterns('',
     url(r'^detail_group/(?P<pk>[\d]+)$', groups.views.detail_group, name='detail_group'),
     url(r'^edit_group/(?P<pk>[\d]+)$', groups.views.edit_group, name='edit_group'),
     url(r'^join_group/(?P<pk>[\d]+)$', groups.views.join_group, name='join_group'),
+
+    #entities
+
+    url(r'new_topic/(?P<pk>[\d]+)$', entities.views.new_topic, name='new_topic'),
 )
 
 
