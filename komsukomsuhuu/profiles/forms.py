@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
-#from profiles.models import MyUser
+from profiles.models import CustomUser
 
 
 class LoginForm(forms.Form):
@@ -31,13 +31,14 @@ class RegistrationForm(UserCreationForm):
 
 
 class AdvancedRegistrationForm(UserCreationForm):
-    #customfield = forms.CharField(max_length=200)
+    first_name = forms.CharField(max_length=30, required=True)
+    last_name = forms.CharField(max_length=30, required=True)
+
     class Meta:
         model = User
 
         fields = ('first_name', 'last_name', 'username', 'email')
 
- 
     def clean_email(self):
         if not self.cleaned_data['email']:
             raise forms.ValidationError(u'Enter email.')
@@ -51,47 +52,13 @@ class AdvancedRegistrationForm(UserCreationForm):
         return self.cleaned_data['email']
 
 
-"""
-class AdvancedRegistrationForm(UserCreationForm):
-
-
-    customs = forms.CharField(max_length=100)
+class ChangeCustomUserDetails(forms.ModelForm):
 
     class Meta:
-        model = User
+        model = CustomUser
 
-        fields = ('first_name', 'last_name', 'username', 'email', 'customs')
+        fields = ('address', 'phone', 'birthDay')
 
-    def save(self, commit=True):
-        user = super(AdvancedRegistrationForm, self).save(commit=False)
-        user.set_password(self.cleaned_data['password1'])
-        if commit:
-            user.save()
-        return user
-"""
 
-"""
-class AdvancedRegistrationForm(UserCreationForm):
 
-    #customs = forms.CharField(widget=forms.widget.TextInput, label="Customss", max_length=100)
 
-    class Meta:
-        model = User
-        fields = ['first_name', 'last_name', 'username', 'email', ]
-
-    def clean(self):
-
-        cleaned_data = super(AdvancedRegistrationForm, self).clean()
-        if 'password1' in self.cleaned_data and 'password2' in self.cleaned_data:
-            if self.cleaned_data['password1'] != self.cleaned_data['password2']:
-                raise forms.ValidationError("Passwords don't match. Please enter both fields again.")
-        return self.cleaned_data
-
-    def save(self, commit=True):
-        user = super(AdvancedRegistrationForm, self).save(commit=False)
-        user.set_password(self.cleaned_data['password1'])
-        #user.email = self.cleaned_data['email']
-        if commit:
-            user.save()
-        return user
-"""
