@@ -4,6 +4,7 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from models import Group
 from forms import GroupForm
+from entities.models import Topic
 # Create your views here.
 
 
@@ -41,9 +42,11 @@ def delete_group(request, pk):
 @login_required(login_url='/login')
 def detail_group(request, pk):
     group = get_object_or_404(Group, id=pk)
+    topics = Topic.objects.filter(group=pk)
 
     return render_to_response('detail_group.html', {
-        'group': group
+        'group': group,
+        'topics': topics,
     }, RequestContext(request))
 
 
