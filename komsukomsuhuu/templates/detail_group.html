@@ -15,8 +15,7 @@
 
     <h2>Topics</h2><hr/>
     {% for topic in topics %}
-        <h3>{{ topic.title }}</h3>
-        <p> {{ topic.content }}</p>
+        <a href="{% url 'detail_topic' topic.id %}"><h3>{{ topic.title }}</h3></a>
     {% endfor %}
     <a href="{% url 'delete_group' group.id %}">Delete Group</a>
     <a href="{% url 'edit_group' group.id %}">Edit Group</a>

@@ -26,6 +26,9 @@ urlpatterns = patterns('',
     #entities
 
     url(r'new_topic/(?P<pk>[\d]+)$', entities.views.new_topic, name='new_topic'),
+    url(r'^detail_topic/(?P<pk>[\d]+)$', entities.views.detail_topic, name='detail_topic'),
+    url(r'^new_post/(?P<pk>[\d]+)$', entities.views.new_post, name='new_post'),
+
 )
 
 
