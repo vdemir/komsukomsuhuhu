@@ -19,10 +19,10 @@ class Topic(models.Model):
 
 class Post(models.Model):
     content = models.TextField()
-    owner = models.OneToOneField(User, related_name='post_owner')
+    owner = models.ForeignKey(User, related_name='post_owner')
     topic = models.ForeignKey(Topic, related_name='topic')
     date_created = models.DateTimeField(default=timezone.now)
     date_modified = models.DateField(auto_now=True)
 
     def __unicode__(self):
-        return "%s - %s" % (self.topic, self.owner)
+        return "%s - %s" % (self.topic.title, self.owner)
