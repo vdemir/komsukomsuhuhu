@@ -19,7 +19,12 @@
     {% endfor %}
     <a href="{% url 'delete_group' group.id %}">Delete Group</a>
     <a href="{% url 'edit_group' group.id %}">Edit Group</a>
+
+    {% if user in group.members.all %}
+    <a href="{% url 'join_group' group.id %}">Leave Group</a>
+    {% else %}
     <a href="{% url 'join_group' group.id %}">Join Group</a>
+    {% endif %}
     <a href="{% url 'fav_group' group.id %}">Fav Group</a>
 
 </body>

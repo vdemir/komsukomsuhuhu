@@ -46,6 +46,7 @@ def detail_group(request, pk):
     topics = Topic.objects.filter(group=pk)
 
     return render_to_response('detail_group.html', {
+        'user': request.user,
         'group': group,
         'topics': topics,
     }, RequestContext(request))
@@ -71,7 +72,10 @@ def edit_group(request, pk):
 @login_required(login_url='/login')
 def join_group(request, pk):
     group = Group.objects.get(id=pk)
-    group.members.add(request.user)
+    if Group.objects.filter(id=pk, members=request.user).exists():
+        group.members.remove(request.user)
+    else:
+        group.members.add(request.user)
     return redirect(reverse('groups'))
 
 @login_required(login_url='/login')

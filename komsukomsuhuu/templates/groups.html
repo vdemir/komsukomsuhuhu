@@ -6,13 +6,11 @@
 </head>
 <body>
 
-    {% if groups %}
-        {% for group in groups %}
-           <a href="{% url 'detail_group' group.id %}"><h3>{{ group.name }}</h3></a>
-        {% endfor %}
-    {% else %}
+    {% for group in groups %}
+    <a href="{% url 'detail_group' group.id %}"><h3>{{ group.name }}</h3></a>
+    {% empty %}
         No groups found
-    {% endif %}
+    {% endfor %}
 
 </body>
 </html>
