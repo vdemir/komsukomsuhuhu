@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from groups.models import Group
+
 # Create your models here.
 
 
@@ -8,3 +10,7 @@ class CustomUser(models.Model):
     phone = models.CharField(max_length=10, blank=True)
     birthDay = models.DateField(verbose_name="Date of Birth", blank=True, null=True, help_text="This field must be 'YYYY-MM-DD' format")
     user = models.OneToOneField(User)
+
+    def __unicode__(self):
+        return "%s " % self.name
+

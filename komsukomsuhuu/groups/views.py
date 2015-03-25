@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from models import Group
 from forms import GroupForm
 from entities.models import Topic
+from django.contrib.auth.models import User
+
 # Create your views here.
 
 
@@ -72,3 +74,12 @@ def join_group(request, pk):
     group = Group.objects.get(id=pk)
     group.members.add(request.user)
     return redirect(reverse('groups'))
+
+@login_required(login_url='/login')
+def favorite_group(request, pk):
+    group = Group.objects.get(id=pk)
+    group.user_favorited.add(request.user)
+    return redirect(reverse('groups'))
+
+
+

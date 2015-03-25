@@ -60,3 +60,9 @@ def detail_topic(request, pk):
         'topic': topic,
         'posts': posts
     }, RequestContext(request))
+
+@login_required(login_url='/login')
+def favorite_topic(request, pk):
+    topic = Topic.objects.get(id=pk)
+    topic.user_favorited.add(request.user)
+    return HttpResponse("I dont know")
