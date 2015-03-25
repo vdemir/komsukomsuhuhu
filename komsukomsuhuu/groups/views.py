@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required
 from models import Group
 from forms import GroupForm
 from entities.models import Topic
-from django.contrib.auth.models import User
 
 # Create your views here.
 
