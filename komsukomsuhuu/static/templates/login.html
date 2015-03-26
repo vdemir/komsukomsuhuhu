@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="UTF-8">
+      <link rel="stylesheet" href="/static/css/login.css"/>
+      <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+      <link rel="icon" href="/static/media/icon.png">
+</head>
+   <body>
+      {% if user.is_authenticated %}
+        <script language="javascript">
+            window.location.href="http://127.0.0.1:8000"
+        </script>
+      {% endif %}
+   <div class="container">
+           <h1>Komsu Komsu Hu Hu</h1>
+           <br>
+           <p1>Help communities organize, share and work together at solving local problems!</p1>
+      <br> <p2>Use the power of technology to build happier and safer places to call home!</p2>
+      <br> <p3>It's useful for your neighborhood, it's private and it's free!</p3>
+    <div class="row">
+      
+      <video width="555" height="370"  controls poster="/static/media/poster.jpg">
+       <source src="/static/media/social.mp4" type="video/mp4">
+       Your browser does not support the video tag.
+      </video>
+    
+        <div class="col-md-4 col-md-offset-7">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <label class="login">Login</label></div>
+                    <div class="panel-body">
+                  
+                     {% if form.errors %}
+                      Wrong username or password
+                     {% endif %}
+                  
+                    <form method="POST">
+                     {% csrf_token %}
+                     
+                    <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="id_username" class="col-sm-3 control-label">
+                            Username</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="id_username" name="username" placeholder="Username" required>
+                        </div>
+                   </div> 
+                    <div class="form-group">
+                        <label for="id_password" class="col-sm-3 control-label">
+                            Password</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" id="id_password" name="password" placeholder="Password" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"/>
+                                    Remember me
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group last">
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <button type="submit" value="Login" class="btn btn-success btn-sm">
+                                Sign in</button>
+                                {% if next %}
+                                <input type="hidden" name="next" value="{{ next }}" />
+                                {% else %}
+                                <input type="hidden" name="next" value="/.." />
+                                {% endif %}
+                                <button type="reset" class="btn btn-default btn-sm">
+                                Reset</button>
+                        </div>
+                    </div>
+                    </form>
+                   </form> 
+                 
+                </div>
+                <div class="panel-footer">
+                    Not Registred? <a href= '{% url "register" %}'>Register here</a></div>
+            </div>
+        </div>
+    </div>
+</div>   
+                                        
+ <!--<h3>Login Page</h3>
+
+{% if form.errors %}
+Wrong username or password
+{% endif %}
+ 
+<form method="POST">
+{% csrf_token %}
+<table>
+   <tr><th><label for="id_username">Username:</label></th><td><input id="id_username" name="username" type="text" /></td></tr>
+   <tr><th><label for="id_password">Password:</label></th><td><input id="id_password" name="password" type="password" /></td></tr>
+</table>
+<input type="submit" value="Login" />
+ 
+{% if next %}
+    <input type="hidden" name="next" value="{{ next }}" />
+{% else %}
+    <input type="hidden" name="next" value="/.." />
+{% endif %}
+</form>	-->
+</body>
+</html>
+     
+      

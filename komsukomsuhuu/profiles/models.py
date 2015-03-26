@@ -1,28 +1,19 @@
 from django.db import models
-from django.contrib.auth.models import User,AbstractBaseUser
-
+from django.contrib.auth.models import User
 # Create your models here.
-"""
-class MyUser(AbstractBaseUser):
-    user = models.ForeignKey(User, unique=True)
-    customs = models.CharField(max_length=200)
+
+
+class CustomUser(models.Model):
+    address = models.CharField(max_length=100, blank=True)
+    phone = models.CharField(max_length=10, blank=True)
+    birthDay = models.DateField(verbose_name="Date of Birth", blank=True, null=True, help_text="This field must be 'YYYY-MM-DD' format")
+    user = models.OneToOneField(User)
 
     def __unicode__(self):
-        return self.email
+        return "%s " % self.name
 
 
-class user_profile(AbstractBaseUser):
 
-
-    custom_field = models.CharField(blank=True, max_length=100)
-
-    def __unicode__(self):
-        return self.user
-"""
-"""
-
-class MyUser(AbstractBaseUser):
-    user = models.ForeignKey(User, unique=True)
-    customs = models.CharField(max_length=100)
-
-"""
+class UserLocation(models.Model):
+    longitude = models.CharField(max_length=50)
+    latitude = models.CharField(max_length=50)

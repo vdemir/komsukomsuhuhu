@@ -19,7 +19,16 @@ class Group(models.Model):
     isActive = models.BooleanField(default=True)
     date_created = models.DateTimeField(default=timezone.now)
     date_modified = models.DateField(auto_now=True)
+    user_favorited = models.ManyToManyField(User, related_name='favorite_groups')
 
     def __unicode__(self):
         return "%s - %s" % (self.name, self.manager)
 
+
+class GroupLocation(models.Model):
+    group = models.OneToOneField(Group)
+    longitude = models.CharField(max_length=50)
+    latitude = models.CharField(max_length=50)
+
+    def __unicode__(self):
+        return "Group id: %s-Longitude: %s-Latitude: %s" % (self.group.id, self.longitude, self.latitude)

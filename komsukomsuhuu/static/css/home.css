@@ -1,0 +1,5 @@
+.label,.glyphicon { margin-right:5px; }
+
+.input-group-btn:last-child>.btn{
+    margin-top:5px;
+    height: 37.5px}

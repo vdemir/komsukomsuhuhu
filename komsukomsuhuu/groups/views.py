@@ -3,7 +3,14 @@ from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from models import Group
-from forms import GroupForm
+from forms import GroupForm, GroupLocationForm
+from profiles.forms import UserLocationForm
+from entities.models import Topic
+from pymongo import Connection
+from bson import SON
+
+db = Connection()['komsukomsuhuu']
+
 # Create your views here.
 
 
@@ -17,13 +24,22 @@ def list_groups(request):
 @login_required(login_url='/login')
 def new_group(request):
     form = GroupForm()
-
+    form_location = GroupLocationForm()
     if request.method == 'POST':
         form = GroupForm(request.POST)
-
-        if form.is_valid():
+        form_location = GroupLocationForm(request.POST)
+        if form.is_valid() and form_location.is_valid():
             form.instance.manager = request.user
             form.save()
+            group = Group.objects.get(name=form.cleaned_data['name'])
+            form_location.instance.group = group
+            form_location.save()
+            data = {
+                 'group': group.id,
+                 'type': 'Point',
+                 'coordinates': (float(form_location.cleaned_data['longitude']), float(form_location.cleaned_data['latitude'])),
+            }
+            db.location.insert(data)
             return redirect(reverse('home'))
 
     return render_to_response('new_group.html', {
@@ -41,9 +57,27 @@ def delete_group(request, pk):
 @login_required(login_url='/login')
 def detail_group(request, pk):
     group = get_object_or_404(Group, id=pk)
+    topics = Topic.objects.filter(group=pk)
+    form = UserLocationForm()
 
+    if request.method == "POST":
+        form = UserLocationForm(request.POST)
+        if form.is_valid():
+            longitude = float(form.cleaned_data['longitude'])
+            latitude = float(form.cleaned_data['latitude'])
+            data = {
+                'group': group.id,
+                'coordinates':
+                    SON([('$near', [longitude, latitude]), ('$maxDistance', 1/111.12)])}
+            if list(db.location.find(data)):
+                group.members.add(request.user)
+                #return redirect(reverse('groups'))
+                return HttpResponse("ekleme gerceklesti.")
+            else:
+                return HttpResponse("ekleyemedik.")
     return render_to_response('detail_group.html', {
-        'group': group
+        'group': group,
+        'topics': topics,
     }, RequestContext(request))
 
 
@@ -67,5 +101,20 @@ def edit_group(request, pk):
 @login_required(login_url='/login')
 def join_group(request, pk):
     group = Group.objects.get(id=pk)
-    group.members.add(request.user)
+    if Group.objects.filter(id=pk, members=request.user).exists():
+        group.members.remove(request.user)
+    else:
+        group.members.add(request.user)
     return redirect(reverse('groups'))
+
+@login_required(login_url='/login')
+def favorite_group(request, pk):
+    group = Group.objects.get(id=pk)
+    if Group.objects.filter(id=pk, user_favorited=request.user).exists():
+        group.user_favorited.remove(request.user)
+    else:
+        group.user_favorited.add(request.user)
+    return redirect(reverse('groups'))
+
+
+
