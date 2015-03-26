@@ -19,7 +19,35 @@
     {% endfor %}
     <a href="{% url 'delete_group' group.id %}">Delete Group</a>
     <a href="{% url 'edit_group' group.id %}">Edit Group</a>
-    <a href="{% url 'join_group' group.id %}">Join Group</a>
+    <!--<a href="{% url 'join_group' group.id %}">Join Group</a>-->
+      <form action="{% url 'detail_group' group.id %}" method="POST" id="form1">
+      {% csrf_token %}
+      <input type="hidden" name="latitude" id="latitude"/>
+      <input type="hidden" name="longitude" id="longitude"/>
+    </form>
+
+      <button onclick="getLocation();">Join</button>
+    <script>
+        var latitude = document.getElementById("latitude");
+        var longitude = document.getElementById("longitude");
+        var form = document.getElementById("form1");
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+       latitude.value = position.coords.latitude;
+       longitude.value = position.coords.longitude;
+       form.submit();
+
+    }
+
+</script>
+
 
 </body>
 </html>

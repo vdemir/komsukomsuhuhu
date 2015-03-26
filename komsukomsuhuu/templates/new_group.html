@@ -6,11 +6,34 @@
 </head>
 <body>
 
-    <form action="{% url 'new_group' %}" method="post">
+    <form action="{% url 'new_group' %}" method="post" id="form1">
         {% csrf_token %}
         {{ form.as_p}}
-        <input type="submit" value="Create"/>
+        <input type="hidden" name="longitude" id="longitude"/>
+        <input type="hidden" name="latitude" id="latitude"/>
     </form>
+        <button onclick="getLocation();">Create</button>
+
+
+<script>
+var latitude = document.getElementById("latitude");
+var longitude = document.getElementById("longitude");
+var form = document.getElementById("form1");
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function showPosition(position) {
+    latitude.value = position.coords.latitude;
+    longitude.value = position.coords.longitude;
+    form.submit();
+}
+</script>
 
 </body>
 </html>

@@ -23,3 +23,11 @@ class Group(models.Model):
     def __unicode__(self):
         return "%s - %s" % (self.name, self.manager)
 
+
+class GroupLocation(models.Model):
+    group = models.OneToOneField(Group)
+    longitude = models.CharField(max_length=50)
+    latitude = models.CharField(max_length=50)
+
+    def __unicode__(self):
+        return "Group id: %s-Longitude: %s-Latitude: %s" % (self.group.id, self.longitude, self.latitude)

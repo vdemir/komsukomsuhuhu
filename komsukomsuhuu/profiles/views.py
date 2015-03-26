@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from profiles.models import CustomUser
 from profiles.forms import ChangeCustomUserDetails
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 # Create your views here.
 
 
@@ -37,7 +38,7 @@ def login(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             auth_login(request, form.user)
-        return HttpResponseRedirect("/..")
+        return redirect(reverse("groups"))
 
     return render_to_response("login.html", {
         "form": form

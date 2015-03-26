@@ -4,7 +4,15 @@
     <meta charset="UTF-8">
 </head>
 <body>
+
+
+
 <h3>Login Page</h3>
+{% if user.is_authenticated %}
+    <script language="javascript">
+        window.location.href = "http://localhost:8000";
+    </script>
+{% endif %}
 
 {% if form.errors %}
 Wrong username or password
