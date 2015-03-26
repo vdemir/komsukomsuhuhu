@@ -5,7 +5,7 @@
     <title>Topic Detail</title>
 </head>
 <body>
-    <h2>{{ topic.title }}</h2>
+    <h2>{{ topic.title }}</h2><a href="{% url 'fav_topic' topic.id %}">Fav Topic</a>
     <p> {{ topic.content }}</p><br/>
 
     <h3>Posts</h3>

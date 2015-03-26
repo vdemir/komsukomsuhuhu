@@ -12,6 +12,7 @@ class Topic(models.Model):
     group = models.ForeignKey(Group, related_name='group')
     date_created = models.DateTimeField(default=timezone.now)
     date_modified = models.DateField(auto_now=True)
+    user_favorited = models.ManyToManyField(User, related_name='favorite_topic')
 
     def __unicode__(self):
         return "%s - %s - %s" % (self.title, self.owner, self.group)

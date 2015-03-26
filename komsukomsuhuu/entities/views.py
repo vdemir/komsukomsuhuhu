@@ -60,3 +60,12 @@ def detail_topic(request, pk):
         'topic': topic,
         'posts': posts
     }, RequestContext(request))
+
+@login_required(login_url='/login')
+def favorite_topic(request, pk):
+    topic = Topic.objects.get(id=pk)
+    if Topic.objects.filter(id=pk, user_favorited=request.user).exists():
+        topic.user_favorited.remove(request.user)
+    else:
+        topic.user_favorited.add(request.user)
+    return HttpResponse("I dont know")

@@ -22,12 +22,14 @@ urlpatterns = patterns('',
     url(r'^detail_group/(?P<pk>[\d]+)$', groups.views.detail_group, name='detail_group'),
     url(r'^edit_group/(?P<pk>[\d]+)$', groups.views.edit_group, name='edit_group'),
     url(r'^join_group/(?P<pk>[\d]+)$', groups.views.join_group, name='join_group'),
+    url(r'^fav_group/(?P<pk>[\d]+)$', groups.views.favorite_group, name='fav_group'),
 
     #entities
 
     url(r'new_topic/(?P<pk>[\d]+)$', entities.views.new_topic, name='new_topic'),
     url(r'^detail_topic/(?P<pk>[\d]+)$', entities.views.detail_topic, name='detail_topic'),
     url(r'^new_post/(?P<pk>[\d]+)$', entities.views.new_post, name='new_post'),
+    url(r'^fav_topic/(?P<pk>[\d]+)$', entities.views.favorite_topic, name='fav_topic'),
 
 )
 

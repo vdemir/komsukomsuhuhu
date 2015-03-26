@@ -19,6 +19,7 @@ class Group(models.Model):
     isActive = models.BooleanField(default=True)
     date_created = models.DateTimeField(default=timezone.now)
     date_modified = models.DateField(auto_now=True)
+    user_favorited = models.ManyToManyField(User, related_name='favorite_groups')
 
     def __unicode__(self):
         return "%s - %s" % (self.name, self.manager)

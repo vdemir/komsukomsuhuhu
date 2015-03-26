@@ -101,4 +101,20 @@ def edit_group(request, pk):
 @login_required(login_url='/login')
 def join_group(request, pk):
     group = Group.objects.get(id=pk)
+    if Group.objects.filter(id=pk, members=request.user).exists():
+        group.members.remove(request.user)
+    else:
+        group.members.add(request.user)
+    return redirect(reverse('groups'))
+
+@login_required(login_url='/login')
+def favorite_group(request, pk):
+    group = Group.objects.get(id=pk)
+    if Group.objects.filter(id=pk, user_favorited=request.user).exists():
+        group.user_favorited.remove(request.user)
+    else:
+        group.user_favorited.add(request.user)
+    return redirect(reverse('groups'))
+
+
 
