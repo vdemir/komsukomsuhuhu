@@ -1,4 +1,8 @@
 from django.conf.urls import patterns, include, url
+
+from django.conf import settings
+from django.conf.urls.static import static
+
 from django.contrib import admin
 import profiles.views
 import groups.views
@@ -12,6 +16,7 @@ urlpatterns = patterns('',
     url(r'^register', profiles.views.register, name='register'),
     url(r'^login', profiles.views.login, name='login'),
     url(r'^logout', profiles.views.logout, name='logout'),
+    
     # other
     url(r'^$', 'profiles.views.home', name='home'),
     url(r'groups', groups.views.list_groups, name='groups'),
@@ -21,5 +26,12 @@ urlpatterns = patterns('',
     url(r'^edit_group/(?P<pk>[\d]+)$', groups.views.edit_group, name='edit_group'),
     url(r'^join_group/(?P<pk>[\d]+)$', groups.views.join_group, name='join_group'),
 )
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL,
+                            document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                            document_root=settings.MEDIA_ROOT)
+
 
 
