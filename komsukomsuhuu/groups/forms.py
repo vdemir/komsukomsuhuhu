@@ -14,5 +14,5 @@ class GroupForm(forms.ModelForm):
 class GroupLocationForm(forms.ModelForm):
 
     class Meta:
-        field = ['longitude', 'latitude']
+        fields = ['longitude', 'latitude']
         model = GroupLocation

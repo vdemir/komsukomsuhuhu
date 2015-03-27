@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Topic Detail</title>
+</head>
+<body>
+    <h2>{{ topic.title }}</h2><a href="{% url 'fav_topic' topic.id %}">Fav Topic</a>
+    <p> {{ topic.content }}</p><br/>
+
+    <h3>Posts</h3>
+    {% for post in posts %}
+        <div class="posts" style="border: 1px solid black;">
+        <p>{{ post.content }}</p><h5>{{ post.owner }}</h5><hr/>
+        </div>
+    {% endfor %}
+
+    <form action="{% url 'new_post' topic.id %}" method="POST">
+        {% csrf_token %}
+       <table>
+           <tr>
+               <td><h3>Post:</h3></td><td><input type="text" name="content"/></td>
+               <td><input type="submit" value="Add Post"/></td>
+           </tr>
+       </table>
+    </form>
+</body>
+</html>
