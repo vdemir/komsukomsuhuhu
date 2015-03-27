@@ -13,7 +13,6 @@ class CustomUser(models.Model):
         return "%s " % self.name
 
 
-
 class UserLocation(models.Model):
     longitude = models.CharField(max_length=50)
     latitude = models.CharField(max_length=50)

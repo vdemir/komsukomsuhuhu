@@ -1,7 +1,6 @@
-from django.shortcuts import HttpResponse, render_to_response, HttpResponseRedirect, redirect
+from django.shortcuts import render_to_response, HttpResponseRedirect, redirect
 from django.template import RequestContext
 from django.contrib.auth import login as auth_login, logout as auth_logout
-from django.contrib.auth.decorators import login_required
 from profiles.forms import LoginForm, AdvancedRegistrationForm
 from django.contrib.auth.decorators import login_required
 from profiles.models import CustomUser

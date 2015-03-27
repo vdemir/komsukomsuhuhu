@@ -24,6 +24,7 @@ class Post(models.Model):
     topic = models.ForeignKey(Topic, related_name='topic')
     date_created = models.DateTimeField(default=timezone.now)
     date_modified = models.DateField(auto_now=True)
+    user_displayed_posts = models.ManyToManyField(User, related_name="read_posts")
 
     def __unicode__(self):
         return "%s - %s" % (self.topic.title, self.owner)

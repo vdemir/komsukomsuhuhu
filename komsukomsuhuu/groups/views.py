@@ -13,7 +13,7 @@ db = Connection()['komsukomsuhuu']
 
 # Create your views here.
 
-
+@login_required(login_url='/login')
 def list_groups(request):
     groups = Group.objects.all()
     return render_to_response('groups.html', {

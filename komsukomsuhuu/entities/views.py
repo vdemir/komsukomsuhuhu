@@ -56,6 +56,15 @@ def detail_topic(request, pk):
     topic = get_object_or_404(Topic, id=pk)
     posts = Post.objects.filter(topic=pk)
 
+    unread_posts = Post.objects.filter(
+        topic=topic
+    ).exclude(
+        user_displayed_posts=request.user
+    )
+
+    for post in unread_posts:
+        post.user_displayed_posts.add(request.user)
+
     return render_to_response('detail_topic.html', {
         'topic': topic,
         'posts': posts

@@ -25,7 +25,7 @@
       <input type="hidden" name="latitude" id="latitude"/>
       <input type="hidden" name="longitude" id="longitude"/>
     </form>
-
+      <a href="{% url 'fav_group' group.id %}">Fav Group</a>
       <button onclick="getLocation();">Join</button>
     <script>
         var latitude = document.getElementById("latitude");
