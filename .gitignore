@@ -5,6 +5,6 @@
 
 ;;directories to ignore
 .idea/
-
+.DS_Store
 ;;db to ignore
 db.sqlite3
