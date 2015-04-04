@@ -6,14 +6,25 @@ from django.utils import timezone
 
 
 class Group(models.Model):
-    PUBLIC = 1
-    PRIVATE = 2
     TYPE_CHOICES = (
-        (PUBLIC, 'Public'),
-        (PRIVATE, 'Private'),
+        (1, 'Public'),
+        (2, 'Private'),
+    )
+    STATE_CHOICES = (
+        (1, 'Permanent'),
+        (2, 'Temporary'),
+    )
+    RANGE_CHOICES = (
+        (1, '1 KM'),
+        (2, '2 KM'),
+        (3, '3 KM'),
+        (4, '4 KM'),
+        (5, '5 KM'),
     )
     name = models.CharField(max_length=100)
-    type = models.IntegerField(choices=TYPE_CHOICES, default=PUBLIC)
+    type = models.IntegerField(choices=TYPE_CHOICES, default=1)
+    state = models.IntegerField(choices=STATE_CHOICES, default=1)
+    range = models.IntegerField(choices=RANGE_CHOICES, default=1)
     manager = models.ForeignKey(User, related_name='manager')
     members = models.ManyToManyField(User, related_name='members')
     isActive = models.BooleanField(default=True)
