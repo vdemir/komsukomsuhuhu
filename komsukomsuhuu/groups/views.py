@@ -13,6 +13,8 @@ db = Connection()['komsukomsuhuu']
 
 # Create your views here.
 
+# TODO temporary icin cozum getirilecek
+
 @login_required(login_url='/login')
 def list_groups(request):
     groups = Group.objects.all()
@@ -23,6 +25,7 @@ def list_groups(request):
 
 @login_required(login_url='/login')
 def new_group(request):
+    # TODO range set edilecek
     form = GroupForm()
     form_location = GroupLocationForm()
     if request.method == 'POST':
