@@ -9,7 +9,10 @@
         <p><b>Number of topic:</b> {{ user.topic_owner.count }}</p>
         <p><b>Number of post:</b> {{ user.post_owner.count }}</p>
         <p><b>Number of joined groups:</b>{{ user.members.count }}</p>
-        <form>
+        <form action="{% url 'new_message' user.username %}" method="post">
+            {% csrf_token %}
+            <h3>İlanın sahibine mesaj gönderin</h3>
+            {{ form.text }}
             <input type="submit" value="Send a message"/>
         </form>
 

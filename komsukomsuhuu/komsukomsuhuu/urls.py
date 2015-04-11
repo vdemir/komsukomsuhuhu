@@ -7,6 +7,7 @@ from django.contrib import admin
 import profiles.views
 import groups.views
 import entities.views
+import messages.views
 
 
 urlpatterns = patterns('',
@@ -35,6 +36,12 @@ urlpatterns = patterns('',
     url(r'^detail_topic/(?P<pk>[\d]+)$', entities.views.detail_topic, name='detail_topic'),
     url(r'^new_post/(?P<pk>[\d]+)$', entities.views.new_post, name='new_post'),
     url(r'^fav_topic/(?P<pk>[\d]+)$', entities.views.favorite_topic, name='fav_topic'),
+
+    #messages
+
+    url(r'^users/(?P<username>[\w\._-]+)/new-message$', messages.views.new_message, name='new_message'),
+    url(r'^messages$', messages.views.inbox, name='inbox'),
+    url(r'^messages/(?P<pk>[\d]+)$', messages.views.conversation_detail, name='conversation_detail'),
 
 )
 

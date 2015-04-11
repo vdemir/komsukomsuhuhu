@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Inbox Page</title>
+</head>
+<body>
+    <h3>Gelen Kutusu</h3>
+
+{% for conversation in conversations %}
+            <strong>{{ conversation.messages.last.sender.username }} diyorki:</strong>
+            <p>
+                <a href="{% url 'conversation_detail' conversation.id %}">{{ conversation.messages.last.text|truncatechars:50 }}</a>
+            </p>
+{% empty %}
+
+    Hiç yeni mesajınız yok.
+
+{% endfor %}
+
+
+</body>
+</html>

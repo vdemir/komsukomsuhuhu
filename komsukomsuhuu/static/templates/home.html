@@ -56,8 +56,8 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                    class="glyphicon glyphicon-comment"></span>Chats <span class="label label-primary">42</span>
+                <li class="dropdown"><a href="{% url 'inbox' %}"><span
+                    class="glyphicon glyphicon-comment"></span>Chats <span class="label label-primary">{{message_count}}</span>
                 </a>
                     <ul class="dropdown-menu">
                         <li><a href="#"><span class="label label-warning">7:00 AM</span>Hi :)</a></li>

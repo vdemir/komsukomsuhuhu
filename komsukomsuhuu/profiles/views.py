@@ -5,6 +5,7 @@ from profiles.forms import LoginForm, AdvancedRegistrationForm
 from django.contrib.auth.decorators import login_required
 from profiles.models import CustomUser
 from profiles.forms import ChangeCustomUserDetails
+from messages.forms import NewMessageForm
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 # Create your views here.
@@ -65,9 +66,9 @@ def logout(request):
 
 def users(request, username):
     user = get_object_or_404(User, username=username)
+    form = NewMessageForm()
 
     return render_to_response("users.html", {
-        'user': user
+        'user': user,
+        'form': form,
     }, RequestContext(request))
-
-# TODO users page like facebook wall
