@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, HttpResponseRedirect, redirect
+from django.shortcuts import render_to_response, HttpResponseRedirect, redirect, get_object_or_404
 from django.template import RequestContext
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from profiles.forms import LoginForm, AdvancedRegistrationForm
@@ -39,7 +39,6 @@ def login(request):
         if form.is_valid():
             auth_login(request, form.user)
             return redirect(reverse("home"))
-            
 
     return render_to_response("login.html", {
         "form": form
@@ -63,3 +62,12 @@ def logout(request):
     auth_logout(request)
     return HttpResponseRedirect("/../login")
 
+
+def users(request, username):
+    user = get_object_or_404(User, username=username)
+
+    return render_to_response("users.html", {
+        'user': user
+    }, RequestContext(request))
+
+# TODO users page like facebook wall

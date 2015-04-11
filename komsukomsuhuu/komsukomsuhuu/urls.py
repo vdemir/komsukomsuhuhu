@@ -19,6 +19,7 @@ urlpatterns = patterns('',
     url(r'^edit_profile', profiles.views.edit_profile, name='edit_profile'),
     # other
     url(r'^$', 'profiles.views.home', name='home'),
+    url(r'^users/(?P<username>[\w\._-]+)$', profiles.views.users, name='users'),
     #group processes
     url(r'groups', groups.views.list_groups, name='groups'),
     url(r'new_group', groups.views.new_group, name='new_group'),
