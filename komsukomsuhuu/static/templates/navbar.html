@@ -28,8 +28,8 @@
                         <li><a href="#" class="text-center">View All</a></li>
                     </ul>
                 </li>
-                <li class="dropdown2"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                    class="glyphicon glyphicon-envelope"></span>Inbox <span class="label label-success">5</span>
+                <li class="dropdown2"><a href="{% url 'inbox' %}"></span>
+                    <span class="glyphicon glyphicon-envelope"></span>Inbox <span class="label label-success">{{message_count}}</span>
                 </a>
                     <ul class="dropdown-menu">
                         <li><a href="#"><span class="label label-warning">4:00 AM</span>Favourites Snippet</a></li>
