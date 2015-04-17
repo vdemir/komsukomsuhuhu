@@ -2,98 +2,70 @@
 <html>
 <head>
     <meta charset="UTF-8">
+       <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
        <link rel="stylesheet" href="/static/css/bootstrap.min.css"/>
        <link rel="stylesheet" href="/static/css/home.css"/>
-       <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css"/>
+       <link rel="stylesheet" href="/static/css/navbar.css"/>
+       <link rel="stylesheet" href="/static/css/side-navbar.css"/>
+       <!--<link rel="stylesheet" href="/static/css/bootstrap-combined.min.css"/>-->
        <link rel="icon" href="/static/media/icon.png">
        <script src="/static/js/ie8-responsive-file-warning.js"></script>
       
 </head>
 <body>
+  {% include 'navbar.html' %}
+    <hr><hr><hr>
     <div class="container">
-    <nav class="navbar navbar-default" role="navigation">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span
-                    class="icon-bar"></span><span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href='{% url "home" %}'>Komsu Komsu Hu Hu</a>
+       <div class="row">
+	  <div class="col-md-3">
+              <div class="side-navigation">
+	       
+                  <ul class="options">
+                  <li><a style="background-color:#ffbb33;border-radius:10px;color:#fff"  href= '{% url "home" %}'><span class="glyphicon glyphicon-home"></span>Home</a></li> <br>
+                  <li><a href= '{% url "groups" %}'><span class="glyphicon glyphicon-edit"></span>Groups</a></li> <br>
+                  <li><a href= #><span class="glyphicon glyphicon-map-marker"></span>Map</a></li> <br>
+                  <li><a href= #><span class="glyphicon glyphicon-calendar"></span>Topics</a></li> <br>
+                  <li><a href= #><span class="glyphicon glyphicon-user"></span>Neighbours</a></li> 
+                  </ul>
+		  <hr>
+		  
+		  <ul class="groups">
+		  <div class="header"><span class="glyphicon glyphicon-edit"></span>Groups</div>
+		  <li><a href="/detail_group/1">Scholl1</a></li>
+		  <li><a href="/detail_group/2">endri</a></li>
+                  <p><a href= '{% url "new_group" %}'>+ Create</a> new group!</p>
+		  </ul>
+		  <hr>
+		     
+		  <ul class="events">
+		  <div class="header"><span class="glyphicon glyphicon-calendar"></span>Topics</div>
+		  <p><a href= "#" >+ Create</a> new topics!</p>
+		  </ul>
+		  
+		  
+              </div>
+          </div>
+	  
+      	  <div class="col-md-9">
+	
+		
+	        <div class="row">
+		<div class="span4 well" style="padding-bottom:0">
+            <form accept-charset="UTF-8" action="" method="POST">
+                <textarea class="span4" id="new_message" name="new_message"
+                placeholder="Type in your message" rows="5"></textarea>
+                <h6 class="pull-right">320 characters remaining</h6>
+                <button class="btn btn-info" type="submit">Post New Message</button>
+            </form>
         </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a href='{% url "home" %}'><span class="glyphicon glyphicon-home"></span>Home</a></li>
-                <li><a href='{% url "groups" %}'><span class="glyphicon glyphicon-edit"></span>Groups</a></li>
-		<li><a href="#"><span class="glyphicon glyphicon-map-marker"></span>Map</a></li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                    class="glyphicon glyphicon-list"></span>More <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#"><span class="glyphicon glyphicon-user"></span>Neighbours</a></li>
-			<li class="divider"></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-calendar"></span>Events</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                    class="glyphicon glyphicon-search"></span>Search <b class="caret"></b></a>
-                    <ul class="dropdown-menu" style="min-width: 300px;">
-                        <li>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <form class="navbar-form navbar-left" role="search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Search" />
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-primary" type="button">
-                                                Go!</button>
-                                        </span>
-                                    </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown"><a href="{% url 'inbox' %}"><span
-                    class="glyphicon glyphicon-comment"></span>Chats <span class="label label-primary">{{message_count}}</span>
-                </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#"><span class="label label-warning">7:00 AM</span>Hi :)</a></li>
-                        <li><a href="#"><span class="label label-warning">8:00 AM</span>How are you?</a></li>
-                        <li><a href="#"><span class="label label-warning">9:00 AM</span>What are you doing?</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#" class="text-center">View All</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                    class="glyphicon glyphicon-envelope"></span>Inbox <span class="label label-info">32</span>
-                </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#"><span class="label label-warning">4:00 AM</span>Favourites Snippet</a></li>
-                        <li><a href="#"><span class="label label-warning">4:30 AM</span>Email marketing</a></li>
-                        <li><a href="#"><span class="label label-warning">5:00 AM</span>Subscriber focused email
-                            design</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#" class="text-center">View All</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                    class="glyphicon glyphicon-user"></span>{{user}} <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{% url 'profile' user.username%}"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-cog"></span>Settings</a></li>
-                        <li class="divider"></li>
-                        <li><a href="/logout/"><span class="glyphicon glyphicon-off"></span>Logout</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </nav>
-</div>
+      
+              </div>
+	
+         </div>
+       </div>
+    </div>
     
+ 
 <script src="/static/js/jquery.min.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
         

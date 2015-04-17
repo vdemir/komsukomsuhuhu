@@ -1,0 +1,83 @@
+.navbar-default .navbar-collapse{
+    background-color: #ffbb33;
+}
+
+.label,.glyphicon { margin-right:5px; }
+
+.labrl, .glyphicon-search {margin-right:1px;}
+
+.navbar-default .navbar-brand {
+  font-family: 'Open Sans', sans-serif;
+  color: #fff;
+  margin-left:216px;
+}
+
+.navbar-default .navbar-nav>li>a {
+    font-family: 'Open Sans', sans-serif;
+    color: #fff;
+}
+
+.navbar-default .navbar-nav .dropdown3 {
+    margin-right:227px;
+}
+.navbar-default .navbar-nav>.open>a,
+.navbar-default .navbar-nav>.open>a:focus,
+.navbar-default .navbar-nav>.open>a:hover{
+    background-color: #e5a82e;
+}
+
+.dropdown-menu>li>a:hover{
+    color: #fff;
+    background-color: #ffbb33;
+}
+
+.label-success{
+  border-radius: 8px;
+  background-color: #CB250F;    
+}
+
+.input-group-btn:last-child>.btn{
+  margin-left:19px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  height: 38px;
+  margin-top: -1px;
+  margin-bottom: -1.5px;
+  background-color: #ffbb33;
+  border-color: #fff;
+  color: #fff;
+       }
+
+.input-group-btn:last-child>.btn:hover{
+    color:#333 ;
+}
+
+.input-group-btn:last-child>.btn:active,
+.input-group-btn:last-child>.btn:focus{
+    background-color: #e5a82e;
+    outline: 0.1px;
+    box-shadow: 0.1px 0.1px #fff;
+    border:1px solid #fff;
+    color:#fff;
+}
+
+.form-control {
+    color: #fff;
+}
+.input-group .form-control[type="text"]:focus{ background-color: #e5a82e;}
+
+.input-group .form-control[type="text"]:hover{background-color: #e5a82e;}
+
+.input-group .form-control {
+  margin-left:20px;
+  border-radius: 15px;
+  box-shadow: 0.1px 0.1px #fff;
+  margin-top: -1.5px;
+  margin-bottom: -1.5px;
+  background-color: #ffbb33;
+  border-color: #fff;
+}
+
+.navbar-default .navbar-nav .input-group{
+    margin-left:0px;
+}

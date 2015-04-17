@@ -8,34 +8,35 @@ body {
 
     .container h1{
      margin-top: 50px;
-     font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+     /*font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;*/
+     font-family: 'Open Sans', sans-serif;
      font-weight: 500;
      color:#fff;
-     text-shadow: 0 0px 1px rgba(0, 0, 0, 0.8);
+     text-shadow: 0 0px 1px rgba(0, 0, 0, 0.2);
      }
      
     .container p1{
-     font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+     font-family: 'Open Sans', sans-serif;
      color:#fff;
      font-size: 20px;
      font-weight: 500;
-     text-shadow: 0 0px 1px rgba(0, 0, 0, 0.8);
+     text-shadow: 0 0px 1px rgba(0, 0, 0, 0.2);
      }
      
     .container p2{
-     font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+     font-family: 'Open Sans', sans-serif;
      color:#fff;
      font-size: 20px;
      font-weight: 500;
-     text-shadow: 0 0px 1px rgba(0, 0, 0, 0.8);
+     text-shadow: 0 0px 1px rgba(0, 0, 0, 0.2);
      }
      
     .container p3{
-     font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+     font-family: 'Open Sans', sans-serif;
      color:#fff;
      font-size: 20px;
      font-weight: 500;
-     text-shadow: 0 0px 1px rgba(0, 0, 0, 0.8);
+     text-shadow: 0 0px 1px rgba(0, 0, 0, 0.2);
      }
      
     .container video{
@@ -57,11 +58,13 @@ body {
      margin-top:-3px;
      margin-left: 138px;
      font-size: 20px;
-     font-family:Arial;
+     font-family: 'Open Sans', sans-serif;
      }
 
     .control-label{
      margin-top:12.5px;
+     font-family: 'Open Sans', sans-serif;
+     font-size: 15px;
      }
 
     .btn-group-sm>.btn, .btn-sm {
