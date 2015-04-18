@@ -10,7 +10,10 @@ from groups.models import Group
 from entities.models import Topic
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from elasticsearch import Elasticsearch
 # Create your views here.
+
+es = Elasticsearch()
 
 @login_required(login_url='/login')
 def home(request):
@@ -26,6 +29,10 @@ def register(request):
             created_user = User.objects.get(username=form.cleaned_data['username'])
             blank_customuser = CustomUser(user=created_user)
             blank_customuser.save()
+            es.index(index='komsukomsuhuu', doc_type='users', body={
+                'name': created_user.get_full_name(),
+                'username': created_user.username
+            })
             return HttpResponseRedirect("/../login")
     else:
         form = AdvancedRegistrationForm()
@@ -95,3 +102,16 @@ def user_profile(request, username):
         'favtopic_showmore' : favtopic_showmore,
         'mygroups_showmore' : mygroups_showmore,
     }, RequestContext(request))
+
+
+def search(request):
+    q = request.GET['q']
+    value = es.search(index='komsukomsuhuu', q=q)
+    if value['hits']['total']:
+        data = User.objects.get(username=value['hits']['hits'][0]['_source']['username'])
+        return render_to_response("result.html", {
+            "data": data
+        }, RequestContext(request))
+    else:
+         return render_to_response("result.html", {
+        }, RequestContext(request))

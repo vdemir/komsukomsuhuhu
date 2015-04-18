@@ -45,6 +45,8 @@ urlpatterns = patterns('',
     url(r'^messages$', messages.views.inbox, name='inbox'),
     url(r'^messages/(?P<pk>[\d]+)$', messages.views.conversation_detail, name='conversation_detail'),
 
+    #search
+    url(r'search', profiles.views.search, name='search'),
 )
 
 if settings.DEBUG:
