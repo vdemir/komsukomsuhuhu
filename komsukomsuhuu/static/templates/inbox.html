@@ -5,10 +5,11 @@
     <title>Inbox Page</title>
 </head>
 <body>
+{% load gravatar %}
     <h3>Gelen Kutusu</h3>
 
 {% for conversation in conversations %}
-            <strong>{{ conversation.messages.last.sender.username }} diyorki:</strong>
+            <img src="{% gravatar_url conversation.messages.last.sender.email 100 %}" alt=""/><strong>{{ conversation.messages.last.sender.username }} diyorki:</strong>
             <p>
                 <a href="{% url 'conversation_detail' conversation.id %}">{{ conversation.messages.last.text|truncatechars:50 }}</a>
             </p>

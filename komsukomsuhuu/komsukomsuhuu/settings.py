@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'entities',
     'messages',
     'notifications',
+    'django_gravatar',
 )
 
 MIDDLEWARE_CLASSES = (

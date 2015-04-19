@@ -9,9 +9,9 @@
             <ul class="nav navbar-nav">
                 <ul class="nav navbar-right">
 		        <div class="search-box">
-                  <form class="navbar-form" role="search">
+                  <form class="navbar-form" role="q" method="get" action="{% url 'search' %}">
                     <div class="input-group">
-                     <input type="text" class="form-control" placeholder="Search" name="search">
+                     <input type="text" class="form-control" placeholder="Search" name="q">
                       <div class="input-group-btn">
                       <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                       </div>
