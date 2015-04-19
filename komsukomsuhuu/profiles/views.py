@@ -17,7 +17,14 @@ es = Elasticsearch()
 
 @login_required(login_url='/login')
 def home(request):
-    notifications = request.user.notifications.unread().order_by('-timestamp')
+
+    unread_notifications = request.user.notifications.unread()
+
+    for notification in unread_notifications:
+        notification.level = "warning"
+        notification.save()
+
+    notifications = request.user.notifications.order_by('-timestamp')
 
     return render_to_response('home.html', {
         'notifications': notifications
@@ -117,3 +124,18 @@ def search(request):
     else:
          return render_to_response("result.html", {
         }, RequestContext(request))
+
+
+def notifications(request):
+
+    unread_notifications = request.user.notifications.unread()
+
+    for notification in unread_notifications:
+        notification.level="warning"
+        notification.save()
+
+    notifications = request.user.notifications.order_by('-timestamp')
+
+    return render_to_response('notifications.html', {
+        'notifications': notifications
+    }, RequestContext(request))

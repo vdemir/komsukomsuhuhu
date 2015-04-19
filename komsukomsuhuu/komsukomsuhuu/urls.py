@@ -22,7 +22,7 @@ urlpatterns = patterns('',
     url(r'^logout', profiles.views.logout, name='logout'),
     url(r'^edit_profile', profiles.views.edit_profile, name='edit_profile'),
     url(r'^mark_as_read/$', entities.views.mark_as_read, name='mark_as_read'),
-
+    url(r'^notifications', profiles.views.notifications, name='notifications'),
     # other
     url(r'^$', 'profiles.views.home', name='home'),
     url(r'^users/(?P<username>[\w\._-]+)$', profiles.views.users, name='users'),

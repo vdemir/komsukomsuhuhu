@@ -18,7 +18,7 @@ def send_notification(sender, recipient_usernames, verb, target):
                     sender,
                     recipient=recipient_username,
                     verb=verb,
-                    target=target
+                    target=target,
                 )
 
 
@@ -92,6 +92,8 @@ def detail_topic(request, pk):
     for unread_notification in unread_notifications:
         if unread_notification.target == topic:
             unread_notification.mark_as_read()
+            unread_notification.level="info"
+            unread_notification.save()
 
     return render_to_response('detail_topic.html', {
         'topic': topic,
@@ -106,6 +108,7 @@ def favorite_topic(request, pk):
     else:
         topic.user_favorited.add(request.user)
     return HttpResponse("I dont know")
+    # TODO Fav Topic - Return
 
 
 @login_required

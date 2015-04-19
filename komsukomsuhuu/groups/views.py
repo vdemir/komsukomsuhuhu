@@ -84,6 +84,8 @@ def detail_group(request, pk):
     for unread_notification in unread_notifications:
         if unread_notification.target == group:
             unread_notification.mark_as_read()
+            unread_notification.level="info"
+            unread_notification.save()
 
     return render_to_response('detail_group.html', {
         'group': group,

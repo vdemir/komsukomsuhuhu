@@ -28,20 +28,26 @@
                 </a>
                     <ul class="dropdown-menu">
 
-                        {% for notification in notifications %}
+                        {% for notification in notifications|slice:":5" %}
                         <li>
                             {% if notification.verb == 'posted on'%}
                             <a href="{% url 'detail_topic' notification.target.id %}">
                             {% elif notification.verb == 'created new topic on'%}
                              <a href="{% url 'detail_group' notification.target.id %}">
                             {% endif %}
+                                 {% if notification.level == 'warning' %}
+                                 <span class="label label-success">{{ notification.timestamp }}</span>
+                                 {% elif notification.level == 'info' %}
                                  <span class="label label-warning">{{ notification.timestamp }}</span>
+                                 {% endif %}
                             {{ notification.actor|default:"" }}
                             {{ notification.verb|default:"" }}
                             {{ notification.target|default:"" }}</a></li>
+                        {% empty %}
+                         <li><span class="label label-success" >Nothing to notify</span></li>
                         {% endfor %}
                         <li class="divider"></li>
-                        <li><a href="#" class="text-center">View All</a></li>
+                        <li><a href="{% url 'notifications' %}" class="text-center">View All</a></li>
                     </ul>
                 </li>
                 <li class="dropdown2"><a href="{% url 'inbox' %}"></span>
