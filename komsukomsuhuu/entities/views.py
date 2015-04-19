@@ -5,7 +5,21 @@ from django.core.urlresolvers import reverse
 from models import Topic, Post
 from forms import TopicForm, PostForm
 from groups.models import Group
+from notifications import notify
 # Create your views here.
+
+
+def send_notification(sender, recipient_usernames, verb, target):
+
+    if recipient_usernames:
+        for recipient_username in recipient_usernames:
+            if recipient_username != sender:
+                notify.send(
+                    sender,
+                    recipient=recipient_username,
+                    verb=verb,
+                    target=target
+                )
 
 
 @login_required(login_url='/login')
@@ -19,6 +33,9 @@ def list_topics(request, pk):
 def new_topic(request, pk):
     group = Group.objects.get(id=pk)
     form = TopicForm()
+    recipient_usernames = group.user_favorited.all()
+
+    send_notification(request.user, recipient_usernames, 'created new topic on', group)
 
     if request.method == 'POST':
         form = TopicForm(request.POST)
@@ -39,6 +56,10 @@ def new_topic(request, pk):
 def new_post(request, pk):
     form = PostForm()
     topic = Topic.objects.get(id=pk)
+    recipient_usernames = topic.user_favorited.all()
+
+    send_notification(request.user, recipient_usernames, 'posted on', topic)
+
     if request.method == 'POST':
         form = PostForm(request.POST)
 
@@ -65,6 +86,12 @@ def detail_topic(request, pk):
     for post in unread_posts:
         post.user_displayed_posts.add(request.user)
 
+    unread_notifications = request.user.notifications.unread()
+
+    for unread_notification in unread_notifications:
+        if unread_notification.target == topic:
+            unread_notification.mark_as_read()
+
     return render_to_response('detail_topic.html', {
         'topic': topic,
         'posts': posts
@@ -78,3 +105,11 @@ def favorite_topic(request, pk):
     else:
         topic.user_favorited.add(request.user)
     return HttpResponse("I dont know")
+
+
+@login_required
+def mark_as_read(request):
+    request.user.notifications.unread().mark_all_as_read()
+
+    return HttpResponseRedirect(reverse('home'))
+

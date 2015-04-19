@@ -33,7 +33,7 @@ class Group(models.Model):
     user_favorited = models.ManyToManyField(User, related_name='favorite_groups')
 
     def __unicode__(self):
-        return "%s - %s" % (self.name, self.manager)
+        return "%s" % (self.name)
 
 
 class GroupLocation(models.Model):
