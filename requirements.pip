@@ -3,6 +3,5 @@ django-gravatar2==1.1.4
 elasticsearch==1.4.0
 pymongo==2.8
 urllib3==1.10.2
-elasticsearch==1.4.0
 gnureadline==6.3.3
 wsgiref==0.1.2
