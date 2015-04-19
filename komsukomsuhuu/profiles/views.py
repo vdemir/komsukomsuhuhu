@@ -17,9 +17,11 @@ es = Elasticsearch()
 
 @login_required(login_url='/login')
 def home(request):
-        return render_to_response('home.html', {
-            }, RequestContext(request))
+    notifications = request.user.notifications.unread().order_by('-timestamp')
 
+    return render_to_response('home.html', {
+        'notifications': notifications
+    }, RequestContext(request))
 
 def register(request):
     if request.method == 'POST':

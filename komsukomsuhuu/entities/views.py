@@ -35,7 +35,6 @@ def new_topic(request, pk):
     form = TopicForm()
     recipient_usernames = group.user_favorited.all()
 
-    send_notification(request.user, recipient_usernames, 'created new topic on', group)
 
     if request.method == 'POST':
         form = TopicForm(request.POST)
@@ -45,6 +44,8 @@ def new_topic(request, pk):
             form.instance.group = group
             form.save()
             return redirect(reverse("groups"))
+
+    send_notification(request.user, recipient_usernames, 'created new topic on', group)
 
     return render_to_response('new_topic.html', {
         'form': form,

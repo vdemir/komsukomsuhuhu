@@ -78,6 +78,13 @@ def detail_group(request, pk):
                 return HttpResponse("ekleme gerceklesti.")
             else:
                 return HttpResponse("ekleyemedik.")
+
+    unread_notifications = request.user.notifications.unread()
+
+    for unread_notification in unread_notifications:
+        if unread_notification.target == group:
+            unread_notification.mark_as_read()
+
     return render_to_response('detail_group.html', {
         'group': group,
         'topics': topics,
