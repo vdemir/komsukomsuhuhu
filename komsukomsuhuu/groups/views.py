@@ -81,7 +81,7 @@ def detail_group(request, pk):
             data = {
                 'group': group.id,
                 'coordinates':
-                    SON([('$near', [longitude, latitude]), ('$maxDistance', 1/111.12)])}
+                    SON([('$near', [longitude, latitude]), ('$maxDistance', group.range/111.12)])}
             if list(db.location.find(data)):
                 group.members.add(request.user)
                 #return redirect(reverse('groups'))
