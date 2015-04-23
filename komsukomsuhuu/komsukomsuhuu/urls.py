@@ -36,6 +36,7 @@ urlpatterns = patterns('',
     url(r'^edit_group/(?P<pk>[\d]+)$', groups.views.edit_group, name='edit_group'),
     url(r'^join_group/(?P<pk>[\d]+)$', groups.views.join_group, name='join_group'),
     url(r'^fav_group/(?P<pk>[\d]+)$', groups.views.favorite_group, name='fav_group'),
+    url(r'maps', groups.views.list_groups_on_map, name='maps'),
 
     #entities
 

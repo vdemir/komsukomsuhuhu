@@ -18,9 +18,19 @@ db = Connection()['komsukomsuhuu']
 @login_required(login_url='/login')
 def list_groups(request):
     groups = Group.objects.all()
+
     return render_to_response('groups.html', {
         'groups': groups
     }, RequestContext(request))
+
+@login_required(login_url='/login')
+def list_groups_on_map(request):
+    groups = Group.objects.all()
+    return render_to_response('maps.html', {
+        'groups': groups,
+        'length': len(groups)
+    }, RequestContext(request))
+
 
 
 @login_required(login_url='/login')
@@ -127,6 +137,5 @@ def favorite_group(request, pk):
     else:
         group.user_favorited.add(request.user)
     return redirect(reverse('groups'))
-
 
 
