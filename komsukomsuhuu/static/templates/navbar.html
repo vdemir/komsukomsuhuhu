@@ -1,4 +1,5 @@
 <div class="container">
+    <div class="fix">
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="navbar-header">
             <a class="navbar-brand" href='{% url "home" %}'>Komsu Komsu Hu Hu</a>
@@ -43,7 +44,7 @@
                     </ul>
                 </li>
                 <li class="dropdown3"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                    class="glyphicon glyphicon-user"></span>{{user}}<b class="caret"></b></a>
+                    class="glyphicon glyphicon-user"></span>{{user.get_full_name}}<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="#"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
                         <li><a href="#"><span class="glyphicon glyphicon-cog"></span>Settings</a></li>
@@ -55,4 +56,5 @@
         </div>
         <!-- /.navbar-collapse -->
     </nav>
+    </div>
 </div>

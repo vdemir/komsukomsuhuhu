@@ -9,7 +9,7 @@
 .navbar-default .navbar-brand {
   font-family: 'Open Sans', sans-serif;
   color: #fff;
-  margin-left:216px;
+  padding-left:232px;
 }
 
 .navbar-default .navbar-nav>li>a {
@@ -18,8 +18,10 @@
 }
 
 .navbar-default .navbar-nav .dropdown3 {
-    margin-right:227px;
+    max-width: 300px;
+    margin-right:255px;
 }
+
 .navbar-default .navbar-nav>.open>a,
 .navbar-default .navbar-nav>.open>a:focus,
 .navbar-default .navbar-nav>.open>a:hover{
@@ -62,7 +64,7 @@
 }
 
 .form-control {
-    color: #fff;
+    /*color: #fff;*/
 }
 .input-group .form-control[type="text"]:focus{ background-color: #e5a82e;}
 

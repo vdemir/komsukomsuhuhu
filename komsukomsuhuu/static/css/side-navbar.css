@@ -56,6 +56,7 @@ ul{
     display: block;
     padding: 4px;
     width: 183px;
+    overflow:hidden;
     float:left;
 }
 
@@ -67,6 +68,8 @@ ul{
 }
 
 .side-navigation .groups>p{
+     overflow:hidden;
+     width: 183px;
     float:left;
 }
 
@@ -83,6 +86,7 @@ ul{
     display: block;
     padding: 4px;
     width: 183px;
+    overflow:hidden;
     float:left;
 }
 
@@ -94,7 +98,10 @@ ul{
 }
 
 .side-navigation .events>p{
+     overflow:hidden;
+     width: 183px;
     float:left;
+    overflow:hidden;
 }
 
 .side-navigation .events>p>a:hover{
