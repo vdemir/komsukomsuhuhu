@@ -18,9 +18,19 @@ db = Connection()['komsukomsuhuu']
 @login_required(login_url='/login')
 def list_groups(request):
     groups = Group.objects.all()
+
     return render_to_response('groups.html', {
         'groups': groups
     }, RequestContext(request))
+
+@login_required(login_url='/login')
+def list_groups_on_map(request):
+    groups = Group.objects.all()
+    return render_to_response('maps.html', {
+        'groups': groups,
+        'length': len(groups)
+    }, RequestContext(request))
+
 
 
 @login_required(login_url='/login')
@@ -71,13 +81,22 @@ def detail_group(request, pk):
             data = {
                 'group': group.id,
                 'coordinates':
-                    SON([('$near', [longitude, latitude]), ('$maxDistance', 1/111.12)])}
+                    SON([('$near', [longitude, latitude]), ('$maxDistance', group.range/111.12)])}
             if list(db.location.find(data)):
                 group.members.add(request.user)
                 #return redirect(reverse('groups'))
                 return HttpResponse("ekleme gerceklesti.")
             else:
                 return HttpResponse("ekleyemedik.")
+
+    unread_notifications = request.user.notifications.unread()
+
+    for unread_notification in unread_notifications:
+        if unread_notification.target == group:
+            unread_notification.mark_as_read()
+            unread_notification.level="info"
+            unread_notification.save()
+
     return render_to_response('detail_group.html', {
         'group': group,
         'topics': topics,
@@ -118,6 +137,5 @@ def favorite_group(request, pk):
     else:
         group.user_favorited.add(request.user)
     return redirect(reverse('groups'))
-
 
 

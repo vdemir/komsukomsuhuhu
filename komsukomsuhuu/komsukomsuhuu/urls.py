@@ -8,16 +8,21 @@ import profiles.views
 import groups.views
 import entities.views
 import messages.views
-
+import notifications
 
 urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
+    url('^inbox/notifications/', include(notifications.urls)),
+    url(r'', include('user_sessions.urls', 'user_sessions')),
+
     # profile processes
     url(r'^register', profiles.views.register, name='register'),
     url(r'^login', profiles.views.login, name='login'),
     url(r'^logout', profiles.views.logout, name='logout'),
     url(r'^edit_profile', profiles.views.edit_profile, name='edit_profile'),
+    url(r'^mark_as_read/$', entities.views.mark_as_read, name='mark_as_read'),
+    url(r'^notifications', profiles.views.notifications, name='notifications'),
     # other
     url(r'^$', 'profiles.views.home', name='home'),
     url(r'^users/(?P<username>[\w\._-]+)$', profiles.views.users, name='users'),
@@ -31,6 +36,7 @@ urlpatterns = patterns('',
     url(r'^edit_group/(?P<pk>[\d]+)$', groups.views.edit_group, name='edit_group'),
     url(r'^join_group/(?P<pk>[\d]+)$', groups.views.join_group, name='join_group'),
     url(r'^fav_group/(?P<pk>[\d]+)$', groups.views.favorite_group, name='fav_group'),
+    url(r'maps', groups.views.list_groups_on_map, name='maps'),
 
     #entities
 

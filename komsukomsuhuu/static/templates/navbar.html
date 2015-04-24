@@ -1,5 +1,6 @@
 <div class="container">
     <div class="fix">
+    {% load notifications_tags %}
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="navbar-header">
             <a class="navbar-brand" href='{% url "home" %}'>Komsu Komsu Hu Hu</a>
@@ -21,14 +22,33 @@
                 </ul>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+
+            {% notifications_unread as unread_count %}
                 <li class="dropdown1"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                    class="glyphicon glyphicon-bell"></span>Notifications <span class="label label-success">2</span>
+                    class="glyphicon glyphicon-bell"></span>Notifications <span class="label label-success">{{ unread_count }}</span>
                 </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#"><span class="label label-warning">7:00 AM</span>Ahmet liked your picture</a></li>
-                        <li><a href="#"><span class="label label-warning">8:00 AM</span>New event available</a></li>
+
+                        {% for notification in notifications|slice:":5" %}
+                        <li>
+                            {% if notification.verb == 'posted on'%}
+                            <a href="{% url 'detail_topic' notification.target.id %}">
+                            {% elif notification.verb == 'created new topic on'%}
+                             <a href="{% url 'detail_group' notification.target.id %}">
+                            {% endif %}
+                                 {% if notification.level == 'warning' %}
+                                 <span class="label label-success">{{ notification.timestamp }}</span>
+                                 {% elif notification.level == 'info' %}
+                                 <span class="label label-warning">{{ notification.timestamp }}</span>
+                                 {% endif %}
+                            {{ notification.actor|default:"" }}
+                            {{ notification.verb|default:"" }}
+                            {{ notification.target|default:"" }}</a></li>
+                        {% empty %}
+                         <li><span class="label label-success" >Nothing to notify</span></li>
+                        {% endfor %}
                         <li class="divider"></li>
-                        <li><a href="#" class="text-center">View All</a></li>
+                        <li><a href="{% url 'notifications' %}" class="text-center">View All</a></li>
                     </ul>
                 </li>
                 <li class="dropdown2"><a href="{% url 'inbox' %}"></span>

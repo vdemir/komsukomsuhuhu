@@ -15,7 +15,7 @@ class Topic(models.Model):
     user_favorited = models.ManyToManyField(User, related_name='favorite_topic')
 
     def __unicode__(self):
-        return "%s - %s - %s" % (self.title, self.owner, self.group)
+        return "%s - %s" % (self.title, self.group)
 
 
 class Post(models.Model):

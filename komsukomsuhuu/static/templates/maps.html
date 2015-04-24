@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Detail Group Page</title>
+
+
+     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+    <script type="text/javascript">
+
+    var map;
+  function initialize() {
+    var mapDiv = document.getElementById('map-canvas');
+    map = new google.maps.Map(mapDiv, {
+      center: new google.maps.LatLng(41.0053215,29.0121795),
+      zoom: 12,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    google.maps.event.addListenerOnce(map, 'tilesloaded', addMarkers);
+
+  }
+  function addMarkers() {
+
+      {% for mark in groups %}
+        var point = new google.maps.LatLng({{mark.grouplocation.latitude}},{{mark.grouplocation.longitude}});
+        var type= {{ mark.type }};
+        var state= {{ mark.state }};
+        if( type == 1){
+            type="Public"
+        }else {
+            type="Private"
+        }
+        if( state == 1){
+            state="Permanent"
+        }else {
+            state="Temporary"
+        }
+
+            var marker = new google.maps.Marker({
+            position: point,
+            map: map,
+            url: 'http://172.16.0.101:8882/zone/' + {{mark.id}},
+           title: '{{ mark.id }}'
+        });
+             marker['infowindow']  = new google.maps.InfoWindow({
+                     content: "<h1>{{mark.name}}</h1> <br> Manager: {{ mark.manager }} <br> Type:"+type+"<br> State:"+state+" <p> <a href=\"detail_group\/{{ mark.id }}\"> Details</a>"
+        });
+            google.maps.event.addListener(marker, 'click', function() {
+                //window.location.href = this.url;
+                 this['infowindow'].open(map, this);
+            });
+           google.maps.event.addListener(marker, 'mouseover', function() {
+                // this['infowindow'].open(map, this);
+                    });
+           google.maps.event.addListener(marker, 'mouseout', function() {
+                // this['infowindow'].close(map, this);
+
+            });
+
+
+
+
+
+        {% endfor %}
+
+  }
+
+
+  google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+
+  </head>
+
+  <body>
+
+    <div id="map-canvas" style="width: 500px; height: 300px"></div>
+
+  </body>
+</html>
