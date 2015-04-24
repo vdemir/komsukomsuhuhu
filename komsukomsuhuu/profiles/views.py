@@ -102,24 +102,17 @@ def users(request, username):
     }, RequestContext(request))
 
 
-def user_profile(request, username):
-    user = get_object_or_404(User, username=username)
-    fav_groups = list(Group.objects.filter(user_favorited=user))
-    fav_topics = list(Topic.objects.filter(user_favorited=user))
-    my_groups = list(Group.objects.filter(members=user))
+def user_profile(request):
 
-    favgroups_showmore = True if len(fav_groups) > 5 else False
-    favtopic_showmore = True if len(fav_topics) > 5 else False
-    mygroups_showmore = True if len(my_groups) > 5 else False
+    fav_groups = list(Group.objects.filter(user_favorited=request.user))
+    fav_topics = list(Topic.objects.filter(user_favorited=request.user))
+    my_groups = list(Group.objects.filter(members=request.user))
 
     return render_to_response("profile.html", {
-        'user': user,
-        'fav_groups': fav_groups[:5],
-        'my_groups': my_groups[:5],
-        'fav_topics': fav_topics[:5],
-        'favgroups_showmore' : favgroups_showmore,
-        'favtopic_showmore' : favtopic_showmore,
-        'mygroups_showmore' : mygroups_showmore,
+        'user': request.user,
+        'fav_groups': fav_groups,
+        'my_groups': my_groups,
+        'fav_topics': fav_topics,
     }, RequestContext(request))
 
 
@@ -137,14 +130,18 @@ def search(request):
 
 
 def notifications(request):
-
+    notifications = []
     unread_notifications = request.user.notifications.unread()
 
     for notification in unread_notifications:
         notification.level="warning"
         notification.save()
 
-    notifications = request.user.notifications.order_by('-timestamp')
+    all_notifications = request.user.notifications.order_by('-timestamp')
+
+    for notification in all_notifications:
+        if notification.verb not in ('sent new message to you','created new conversation'):
+            notifications.append(notification)
 
     return render_to_response('notifications.html', {
         'notifications': notifications
