@@ -1,0 +1,53 @@
+.h1, h1{
+    font-family: 'Open Sans', sans-serif;
+    margin-top: 0px;
+    font-size:30px;
+}
+
+.h5, h5{
+    font-family: 'Open Sans', sans-serif;
+    margin-top: 20px;
+    font-size:17px;
+    color:#A8A8A8;
+}
+
+.main-content>p{
+    color:#A8A8A8;
+    font-size: 15px;
+}
+
+.main-content>li{
+    list-style-type: none;
+    margin-bottom:15px;
+}
+
+.main-content>li>a{
+    padding: 3px;
+    text-decoration: none;
+    border: 1px solid #ffbb33;
+    border-radius: 10px;
+    color: #333;
+    font-size: 17px;
+    font-family: 'Open Sans', sans-serif;   
+}
+
+.main-content>li>a:hover{
+    background-color: #ffbb33;
+    color: #fff;
+}
+
+.main-content>li>a:focus{
+    background-color: #e5a82e;
+    color: #333;
+}
+
+.main-content .buttons .btn{
+    width:96.5px;
+}
+
+.main-content>hr{
+    margin-top: 0px;
+    border-top: 1px solid #ccc;
+    float:left;
+    width:400px;
+}

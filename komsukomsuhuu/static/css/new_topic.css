@@ -1,0 +1,39 @@
+/*body {padding-top:20px;}*/
+.well{
+    border-radius: 10px;
+    background-color:#fff;
+    border: 2px solid #ffbb33;
+    color:#ffbb33;
+    margin-top:5px;
+    float:left;
+    width:400px;
+}
+
+legend{
+      border-bottom: 1px solid #ffbb33;
+}
+.well .form-group .btn{
+    border-radius: 13px;
+    border-color: #fff;
+    background-color:#ffbb33;
+}
+
+.well .form-group .btn:hover{
+    background-color: #ffbb33;
+    border-color:#fff;
+    color:#333;
+}
+
+.well .form-group .btn:active{
+    box-shadow: none !important;
+    outline-color: #fff;
+    outline: none !important;
+ }
+.well .form-group .btn:focus{
+    background-color: #e5a82e;
+    outline-color: #fff;
+    outline: 0.1px;
+    box-shadow: 0.1px 0.1px #fff;
+    border:1px solid #fff;
+    color:#fff;
+}
