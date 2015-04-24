@@ -7,7 +7,7 @@ body {
      }
 
     .container h1{
-     margin-top: 50px;
+     padding-top: 60px;
      /*font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;*/
      font-family: 'Open Sans', sans-serif;
      font-weight: 500;
@@ -15,7 +15,7 @@ body {
      text-shadow: 0 0px 1px rgba(0, 0, 0, 0.2);
      }
      
-    .container p1{
+    .container p{
      font-family: 'Open Sans', sans-serif;
      color:#fff;
      font-size: 20px;
@@ -23,60 +23,29 @@ body {
      text-shadow: 0 0px 1px rgba(0, 0, 0, 0.2);
      }
      
-    .container p2{
-     font-family: 'Open Sans', sans-serif;
-     color:#fff;
-     font-size: 20px;
-     font-weight: 500;
-     text-shadow: 0 0px 1px rgba(0, 0, 0, 0.2);
+     .container .main-content{
+      margin-top:70px;
      }
      
-    .container p3{
-     font-family: 'Open Sans', sans-serif;
-     color:#fff;
-     font-size: 20px;
-     font-weight: 500;
-     text-shadow: 0 0px 1px rgba(0, 0, 0, 0.2);
+     .main-content h4{
+      font-family: 'Open Sans', sans-serif;
+       font-weight: 500;
+      color:#fff;    
      }
      
-    .container video{
-     width:600px;
-     margin-top:35px;
-     margin-left: 15.5px;
-     }
-
-    .panel-default {
-     opacity: 0.9;
-     margin-top:-361px;
-     margin-right:-100px;
-     margin-left:100px;
-     height:338.5px;
-     }
-
-    .login{
-     margin-bottom: -3px;
-     margin-top:-3px;
-     margin-left: 138px;
-     font-size: 20px;
-     font-family: 'Open Sans', sans-serif;
-     }
-
-    .control-label{
-     margin-top:12.5px;
-     font-family: 'Open Sans', sans-serif;
-     font-size: 15px;
-     }
-
-    .btn-group-sm>.btn, .btn-sm {
-     width:105px;
-     height:32px;
-     margin-top: 9px;
-     }
-
-    .form-group.last { margin-bottom:0px; }
-
-    .panel-footer{
-     margin-top:21px;
+     .main-content .last-btn .btn{
+      width:42%;
+      float:right;
      }
      
+     .input-group .form-control{
+      margin-top:0px;
+     }
      
+     .main-content .alert-danger-alt {
+      border-color: #B63E5A;
+      background: #E26868;
+      color: #fff;
+      }
+     
+   

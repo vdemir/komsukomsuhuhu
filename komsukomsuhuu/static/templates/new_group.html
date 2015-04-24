@@ -2,18 +2,65 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/static/css/new_group.css"/>
     <title>New Group Page</title>
 </head>
 <body>
 
-    <form action="{% url 'new_group' %}" method="post" id="form1">
-        {% csrf_token %}
-        {{ form.as_p}}
+    <form class="form-horizontal"  action="{% url 'new_group' %}" method="post" id="form1">
+            {% csrf_token %}
+            <div class="form-group">
+               <label for="id_name" class="col-sm-2 control-label">Name:</label> 
+               <div class="col-sm-10">
+                <input class="form-control" id="id_name" maxlength="100" name="name" type="text" />
+               </div>
+            </div>
+            <div class="form-group">
+               <label for="id_type" class="col-sm-2 control-label">Type:</label> 
+               <div class="col-sm-10">
+                <select class="form-control" id="id_type" name="type">
+                  <option value="1" selected="selected">Public</option>
+                  <option value="2">Private</option>
+                </select>
+               </div>
+            </div>
+            <div class="form-group">
+               <label for="id_state" class="col-sm-2 control-label">State:</label> 
+               <div class="col-sm-10">
+                <select class="form-control" id="id_state" name="state">
+                  <option value="1" selected="selected">Permanent</option>
+                  <option value="2">Temporary</option>
+                </select>
+               </div>
+            </div>
+            <div class="form-group">
+               <label for="id_range" class="col-sm-2 control-label">Range:</label> 
+               <div class="col-sm-10">
+                <select class="form-control" id="id_range" name="range">
+                  <option value="1" selected="selected">1 km</option>
+                  <option value="2">2 km</option>
+                  <option value="3">3 km</option>
+                  <option value="4">4 km</option>
+                  <option value="5">5 km</option>
+                </select>
+               </div>
+            </div>
+            <div class="form-group">
+               <div class="col-sm-offset-2 col-sm-10" >
+                  <div class="checkbox">
+                    <label for="id_isActive">
+                    <input checked="checked" id="id_isActive" name="isActive" type="checkbox"> IsActive
+                    </label>
+                  <!--<label for="id_isActive">IsActive:</label>-->
+                  <!--<input checked="checked" id="id_isActive" name="isActive" type="checkbox" />    -->             
+                  </div>
+               </div>
+            </div>  
+            
         <input type="hidden" name="longitude" id="longitude"/>
         <input type="hidden" name="latitude" id="latitude"/>
     </form>
-        <button onclick="getLocation();">Create</button>
-
 
 <script>
 var latitude = document.getElementById("latitude");
@@ -34,6 +81,5 @@ function showPosition(position) {
     form.submit();
 }
 </script>
-
 </body>
 </html>
