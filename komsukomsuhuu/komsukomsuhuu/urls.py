@@ -26,7 +26,7 @@ urlpatterns = patterns('',
     # other
     url(r'^$', 'profiles.views.home', name='home'),
     url(r'^users/(?P<username>[\w\._-]+)$', profiles.views.users, name='users'),
-    url(r'^profile/(?P<username>[\w\._-]+)$', profiles.views.user_profile, name='profile'),
+    url(r'^profile/', profiles.views.user_profile, name='profile'),
 
     #group processes
     url(r'groups', groups.views.list_groups, name='groups'),
