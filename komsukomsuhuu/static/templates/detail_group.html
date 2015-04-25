@@ -32,15 +32,13 @@
                   </ul>
 		  <hr>
 
-		  <ul class="groups">
+		 <ul class="groups">
 		  <div class="header"><span class="glyphicon glyphicon-edit"></span>Groups</div>
-		  {% if groups %}
                   {% for group in groups %}
                   <li><a href="{% url 'detail_group' group.id %}">{{ group.name }}</a></li>
-                  {% endfor %}
-                  {% else %}
+                 {% empty %}
                  <p>No groups available!</p>
-                  {% endif %}
+                  {% endfor %}
 
                   <p><a href= '{% url "groups" %}'>+ Create</a> new group!</p>
 		  </ul>
@@ -48,13 +46,11 @@
 
 		  <ul class="events">
 		  <div class="header"><span class="glyphicon glyphicon-calendar"></span>Topics</div>
-                  {% if topics %}
                  {% for topic in topics %}
                  <li> <a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li>
-                 {% endfor %}
-                 {% else %}
+                 {% empty %}
                  <p>No topics available!</p>
-                {% endif %}
+                {% endfor %}
 		  <p><a href= "#" >+ Create</a> new topics!</p>
 		  </ul>
               </div>
