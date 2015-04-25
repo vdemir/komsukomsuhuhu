@@ -22,16 +22,16 @@
        <div class="row">
 	  <div class="col-md-3">
               <div class="side-navigation">
-	       
+
                   <ul class="options">
                   <li><a href= '{% url "home" %}'><span class="glyphicon glyphicon-home"></span>Home</a></li> <br>
                   <li><a style="background-color:#ffbb33;border-radius:10px;color:#fff" href= '{% url "groups" %}'><span class="glyphicon glyphicon-edit"></span>Groups</a></li> <br>
                   <li><a href= #><span class="glyphicon glyphicon-map-marker"></span>Map</a></li> <br>
                   <li><a href= #><span class="glyphicon glyphicon-calendar"></span>Topics</a></li> <br>
-                  <li><a href= #><span class="glyphicon glyphicon-user"></span>Neighbours</a></li> 
+                  <li><a href= #><span class="glyphicon glyphicon-user"></span>Neighbours</a></li>
                   </ul>
 		  <hr>
-		  
+
 		  <ul class="groups">
 		  <div class="header"><span class="glyphicon glyphicon-edit"></span>Groups</div>
 		  {% if groups %}
@@ -41,16 +41,16 @@
                   {% else %}
                  <p>No groups available!</p>
                   {% endif %}
-		  
+
                   <p><a href= '{% url "groups" %}'>+ Create</a> new group!</p>
 		  </ul>
 		  <hr>
-		     
+
 		  <ul class="events">
 		  <div class="header"><span class="glyphicon glyphicon-calendar"></span>Topics</div>
                   {% if topics %}
                  {% for topic in topics %}
-                 <li> <a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li> 
+                 <li> <a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li>
                  {% endfor %}
                  {% else %}
                  <p>No topics available!</p>
@@ -59,16 +59,16 @@
 		  </ul>
               </div>
           </div>
-   
+
 
 	  <div class="col-md-5">
               <div class="main-content">
                  <h1>{{ group.name }}</h1>
                  <p>Owner: {{ group.manager}}</p>
-                
-                  <hr/> 
+
+                  <hr/>
                  <!--<b>Type</b><p>{{ group.type}}</p>-->
-                                
+
                  <!-- <b>Members</b>
                  {% for member in group.members.all %}
                  <p>{{ member }}</p>
@@ -77,24 +77,24 @@
                  {% include 'new_topic.html' %}
 
                  <hr/>
-                 
+
                  <h1>Trending Topics</h1>
                  {% if topics %}
                  {% for topic in topics %}
-                 <li> <a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li> 
+                 <li> <a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li>
                  {% endfor %}
                  {% else %}
                  <h5>No topics available!</h5>
                 {% endif %}
-                 
+
                  <hr/>
-                 
+
                  <div class="buttons">
-                    
+
                         <a class="btn btn-danger btn-sm" href="{% url 'delete_group' group.id %}">Delete Group</a>
-                        
-                        
-                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal">Edit Group</button>                       
+
+
+                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal">Edit Group</button>
                         <!-- Modal -->
                         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                          <div class="modal-dialog">
@@ -104,12 +104,12 @@
                            <h4 class="modal-title" id="myModalLabel">Edit Group!</h4>
                            </div>
                            <div class="modal-body">
-			    {% include 'edit_group.html' %}                           
-                           </div>                           
+			    {% include 'edit_group.html' %}
+                           </div>
                           </div>
                          </div>
                         </div>
-                        
+
                         <a class="btn btn-success btn-sm" href="{% url 'fav_group' group.id %}">Favourites</a>
                         {% endif %}
                         {% if not user in group.members.all  %}
@@ -138,12 +138,12 @@
                         form.submit();
                         }
                        </script>
-                        
-                 </div>
-                 
 
-                 
-                </div>            
+                 </div>
+
+
+
+                </div>
           </div>
            {% if user in group.members.all  %}
            <div class="col-md-4">
@@ -154,11 +154,11 @@
                 <div class="panel-heading c-list">
 
                     <span class="title">Members</span>
-                    <ul class="pull-right c-controls">                       
+                    <ul class="pull-right c-controls">
                         <li><a href="#" style="color:#fff;" class="hide-search" data-command="toggle-search" data-toggle="tooltip" data-placement="top" title="Toggle Search"><i class="fa fa-ellipsis-v"></i></a></li>
                     </ul>
                 </div>
-                
+
                 <div class="row" style="display: none;">
                     <div class="col-xs-12">
                         <div class="input-group c-search">
