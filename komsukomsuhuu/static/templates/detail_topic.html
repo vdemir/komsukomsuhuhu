@@ -44,6 +44,7 @@
 <body>
     
     {% include 'navbar.html' %}
+    {% load gravatar %}
     <hr><hr><hr>
     <div class="container">
        <div class="row">
@@ -96,7 +97,7 @@
                     </ul>
                 </div>
                 <div class="panel-heading">
-                    <img class="[ img-circle pull-left ]" src="/static/media/endri.jpg" alt="Mouse0270" />
+                    <img class="[ img-circle pull-left ]" src="{% gravatar_url user.email 100 %}" alt="Mouse0270" />
                     <h3>{{ user.get_full_name }}</h3>
                     <h5><span>Shared publicly</span> - <span class="glyphicon glyphicon-calendar"></span><span>Jun 27, 2014</span> </h5>
                     <h2>{{ topic.title }}</h2>
