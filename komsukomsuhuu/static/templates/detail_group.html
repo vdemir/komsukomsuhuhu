@@ -73,7 +73,7 @@
                  {% for member in group.members.all %}
                  <p>{{ member }}</p>
                  {% endfor %} -->
-                 
+                 {% if user in group.members.all  %}
                  {% include 'new_topic.html' %}
 
                  <hr/>
@@ -111,6 +111,7 @@
                         </div>
                         
                         <a class="btn btn-success btn-sm" href="{% url 'fav_group' group.id %}">Favourites</a>
+                        {% endif %}
                         {% if not user in group.members.all  %}
                         <button type="button" class="btn btn-primary btn-sm" onclick="getLocation();">Join Group</button>
                         {% endif %}
@@ -144,13 +145,14 @@
                  
                 </div>            
           </div>
-           
+           {% if user in group.members.all  %}
            <div class="col-md-4">
             <div class="members">
             <div class="row">
             <div class="col-xs-12 col-sm-offset-3 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading c-list">
+
                     <span class="title">Members</span>
                     <ul class="pull-right c-controls">                       
                         <li><a href="#" style="color:#fff;" class="hide-search" data-command="toggle-search" data-toggle="tooltip" data-placement="top" title="Toggle Search"><i class="fa fa-ellipsis-v"></i></a></li>
@@ -187,6 +189,7 @@
                     {% endfor %}
                 </ul>
             </div>
+            {% endif %}
         </div>
 	</div>
             </div>
