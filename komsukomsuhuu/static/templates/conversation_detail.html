@@ -5,7 +5,7 @@
     <title>Conversation Details Page</title>
 </head>
 <body>
-    <h3>Gelen Kutusu</h3>
+    <h3>Conversation w/ {{ other_party }}</h3>
 
 {% for message in messages %}
 <div class="conversation-item">
@@ -17,9 +17,9 @@
 <div class="contact">
     <form action="{% url 'conversation_detail' conversation.id %}" method="post">
         {% csrf_token %}
-        <h3>Cevap gönderin</h3>
+        <h3>Reply</h3>
         {{ form.text }}
-        <input type="submit" value="Gönder"/>
+        <input type="submit" value="Send"/>
     </form>
 </div>
 

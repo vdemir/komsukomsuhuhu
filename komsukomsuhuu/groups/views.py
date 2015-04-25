@@ -135,12 +135,12 @@ def join_group(request, pk):
 @login_required(login_url='/login')
 def favorite_group(request, pk):
     group = Group.objects.get(id=pk)
-    if(request.user in group.members.all()):
+    if request.user in group.members.all():
         if Group.objects.filter(id=pk, user_favorited=request.user).exists():
             group.user_favorited.remove(request.user)
         else:
             group.user_favorited.add(request.user)
-        return redirect(reverse('groups'))
+    return redirect(reverse('groups'))
     return HttpResponse("You are not member of this group")
 
 

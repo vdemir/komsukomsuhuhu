@@ -102,7 +102,7 @@
                 <div class="panel-heading">
                     <img class="[ img-circle pull-left ]" src="{% gravatar_url user.email 100 %}" alt="Mouse0270" />
                     <h3>{{ user.get_full_name }}</h3>
-                    <h5><span>Shared publicly</span> - <span class="glyphicon glyphicon-calendar"></span><span>Jun 27, 2014</span> </h5>
+                    <h5><span>Shared publicly</span> - <span class="glyphicon glyphicon-calendar"></span><span>{{ topic.date_created }}</span> </h5>
                     <h2>{{ topic.title }}</h2>
                 </div>
                 <div class="panel-body">
@@ -147,7 +147,7 @@
 			        <div class="asker-meta">
 				    <span class="qa-message-what"></span>
 				    <span class="qa-message-when">
-				    <span class="qa-message-when-data1"><span class="glyphicon glyphicon-calendar"></span>Nov 24, 2013</span>
+				    <span class="qa-message-when-data1"><span class="glyphicon glyphicon-calendar"></span>{{ post.date_created }}</span>
 				    </span>
 				    <span class="qa-message-who">
 				    <span class="qa-message-who-pad">by </span>

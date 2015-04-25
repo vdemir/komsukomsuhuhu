@@ -11,7 +11,7 @@
         <p><b>Number of joined groups:</b>{{ user.members.count }}</p>
         <form action="{% url 'new_message' user.username %}" method="post">
             {% csrf_token %}
-            <h3>İlanın sahibine mesaj gönderin</h3>
+            <h3>Send a private message:</h3>
             {{ form.text }}
             <input type="submit" value="Send a message"/>
         </form>

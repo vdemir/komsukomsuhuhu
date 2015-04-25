@@ -36,10 +36,10 @@ def list_topics(request, pk):
 @login_required(login_url='/login')
 def new_topic(request, pk):
     group = Group.objects.get(id=pk)
-    if request.user in group.members.all():
-        form = TopicForm()
-        recipient_usernames = group.user_favorited.all()
+    form = TopicForm()
+    recipient_usernames = group.user_favorited.all()
 
+    if request.user in group.members.all():
 
         if request.method == 'POST':
             form = TopicForm(request.POST)
@@ -48,15 +48,15 @@ def new_topic(request, pk):
                 form.instance.owner = request.user
                 form.instance.group = group
                 form.save()
+                send_notification(request.user, recipient_usernames, 'created new topic on', group)
                 return redirect(reverse("groups"))
-
-        send_notification(request.user, recipient_usernames, 'created new topic on', group)
 
         return render_to_response('new_topic.html', {
             'form': form,
             'group': group,
         }, RequestContext(request))
-    return HttpResponse("You are not member of this group")
+    else:
+        return HttpResponse("You are not member of this group")
 
 
 @login_required(login_url='/login')
@@ -87,7 +87,7 @@ def detail_topic(request, pk):
     topic = get_object_or_404(Topic, id=pk)
     group = topic.group;
     if request.user in group.members.all():
-        posts = Post.objects.filter(topic=pk)
+        posts = Post.objects.filter(topic=pk).order_by('-date_created')
 
         unread_posts = Post.objects.filter(
             topic=topic

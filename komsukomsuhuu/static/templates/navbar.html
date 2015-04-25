@@ -89,7 +89,7 @@
                 <li class="dropdown3"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
                     class="glyphicon glyphicon-user"></span>{{user.get_full_name}}<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
+                        <li><a href="{% url 'profile' %}"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
                         <li><a href="#"><span class="glyphicon glyphicon-cog"></span>Settings</a></li>
                         <li class="divider"></li>
                         <li><a href='{% url "logout" %}'><span class="glyphicon glyphicon-off"></span>Logout</a></li>
