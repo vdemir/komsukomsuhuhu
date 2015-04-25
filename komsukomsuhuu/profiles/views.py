@@ -18,7 +18,8 @@ es = Elasticsearch()
 
 @login_required(login_url='/login')
 def home(request):
-
+    favorited_groups = list(Group.objects.filter(user_favorited=request.user))
+    favorited_topics = list(Topic.objects.filter(user_favorited=request.user))
     inbox_notifications = []
     other_notifications = []
 
@@ -38,7 +39,9 @@ def home(request):
 
     return render_to_response('home.html', {
         'notifications': other_notifications,
-        'inbox_notifications': inbox_notifications
+        'inbox_notifications': inbox_notifications,
+        'favorited_groups': favorited_groups,
+        'favorited_topics': favorited_topics,
     }, RequestContext(request))
 
 def register(request):

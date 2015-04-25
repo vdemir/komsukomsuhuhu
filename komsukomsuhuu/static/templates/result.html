@@ -30,20 +30,27 @@
                   </ul>
 		  <hr>
 		  
-		  <ul class="groups">
+		 <ul class="groups">
 		  <div class="header"><span class="glyphicon glyphicon-edit"></span>Groups</div>
-		  <li><a href="/detail_group/1">Scholl1</a></li>
-		  <li><a href="/detail_group/2">endri</a></li>
-                  <p><a href= '{% url "new_group" %}'>+ Create</a> new group!</p>
+                  {% for group in groups %}
+                  <li><a href="{% url 'detail_group' group.id %}">{{ group.name }}</a></li>
+                 {% empty %}
+                 <p>No groups available!</p>
+                  {% endfor %}
+
+                  <p><a href= '{% url "groups" %}'>+ Create</a> new group!</p>
 		  </ul>
 		  <hr>
-		     
+
 		  <ul class="events">
 		  <div class="header"><span class="glyphicon glyphicon-calendar"></span>Topics</div>
+                 {% for topic in topics %}
+                 <li> <a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li>
+                 {% empty %}
+                 <p>No topics available!</p>
+                {% endfor %}
 		  <p><a href= "#" >+ Create</a> new topics!</p>
 		  </ul>
-		  
-		  
               </div>
           </div>
 	  
@@ -53,7 +60,7 @@
 	        <div class="row">
 		<div class="span4 well" style="padding-bottom:0">
             {% if data %}
-               <a href="{% url 'users' data.username %}"> <img src="{% gravatar_url data.email 100 %}" alt=""/> {{ data.get_full_name }} </a>
+               <a href="{% url 'users' data.username %}"> <img src="{% gravatar_url data.email 100 %}" class="img-responsive img-circle" alt=""/> {{ data.get_full_name }} </a>
             {% else %}
                 <p>Aradiginiz kullanici bulunamadi</p>
             {% endif %}

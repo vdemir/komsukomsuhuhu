@@ -3,12 +3,21 @@
     {% load notifications_tags %}
     {% load profiles_extras%}
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="navbar-header">
-            <a class="navbar-brand" href='{% url "home" %}'>Komsu Komsu Hu Hu</a>
-        </div>
+
+
+
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+            <div class="row">
+              <div class="col-md-3">
+                  <a class="navbar-brand logo_ozel" href='{% url "home" %}'>Komsu Komsu Hu Hu</a>
+              </div>
+              <div class="col-md-9">
+
             <ul class="nav navbar-nav">
+
+
                 <ul class="nav navbar-right">
 		        <div class="search-box">
                   <form class="navbar-form" role="q" method="get" action="{% url 'search' %}">
@@ -22,6 +31,8 @@
                 </div>
                 </ul>
             </ul>
+
+
             <ul class="nav navbar-nav navbar-right">
 
             {% notifications_unread as unread_count %}
@@ -85,6 +96,10 @@
                     </ul>
                 </li>
             </ul>
+
+                  </div>
+                </div>
+
         </div>
         <!-- /.navbar-collapse -->
     </nav>

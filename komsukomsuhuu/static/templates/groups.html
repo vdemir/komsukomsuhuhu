@@ -13,23 +13,23 @@
     <title>Groups Page</title>
 </head>
 <body>
-    
+
     {% include 'navbar.html' %}
     <hr><hr><hr>
     <div class="container">
        <div class="row">
 	  <div class="col-md-3">
               <div class="side-navigation">
-	       
+
                   <ul class="options">
                   <li><a href= '{% url "home" %}'><span class="glyphicon glyphicon-home"></span>Home</a></li> <br>
                   <li><a style="background-color:#ffbb33;border-radius:10px;color:#fff" href= '{% url "groups" %}'><span class="glyphicon glyphicon-edit"></span>Groups</a></li> <br>
                   <li><a href= #><span class="glyphicon glyphicon-map-marker"></span>Map</a></li> <br>
                   <li><a href= #><span class="glyphicon glyphicon-calendar"></span>Topics</a></li> <br>
-                  <li><a href= #><span class="glyphicon glyphicon-user"></span>Neighbours</a></li> 
+                  <li><a href= #><span class="glyphicon glyphicon-user"></span>Neighbours</a></li>
                   </ul>
 		  <hr>
-		  
+
 		  <ul class="groups">
 		  <div class="header"><span class="glyphicon glyphicon-edit"></span>Groups</div>
               {% for group in groups %}
@@ -41,21 +41,26 @@
                   <p><a href= '{% url "groups" %}'>+ Create</a> new group!</p>
 		  </ul>
 		  <hr>
-		     
+
 		  <ul class="events">
 		  <div class="header"><span class="glyphicon glyphicon-calendar"></span>Topics</div>
+                 {% for topic in topics %}
+                 <li> <a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li>
+                 {% empty %}
+                 <p>No topics available!</p>
+                {% endfor %}
 		  <p><a href= "#" >+ Create</a> new topics!</p>
 		  </ul>
               </div>
           </div>
-   
+
 
 	  <div class="col-md-9">
               <div class="main-content">
 
               <!--<a href="{% url 'new_group' %}">Create Group</a>-->
               <!--<a href="{% url 'groups' %}">List Group</a>-->
-	      
+
 		<!-- Button trigger modal -->
                 <button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#myModal">
 		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -72,7 +77,7 @@
                        </div>
                           <div class="modal-body">
 			    {% include 'new_group.html' %}
-                           
+
                           </div>
                           <div class="modal-footer">
                           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -83,7 +88,7 @@
                 </div>		
 
               {% for group in groups %}
-	      
+
 	<section class="comment-list">
 	  <!--<article class="row">  -->
             <!-- <div class="col-md-2 col-sm-2 hidden-xs">
@@ -94,17 +99,17 @@
              <div class="col-md-10 col-sm-10">
               <div class="panel panel-default arrow left">
                <div class="panel-body">
-                   <div class="comment-post">
+		 <div class="comment-post">
                     <p>
                       <a href="{% url 'detail_group' group.id %}">{{ group.name }}</a>
                     </p>
-		    
+
 		    <header class="text-left">
                     <div class="comment-user"><span class="glyphicon glyphicon-user"></span>By <a href="#">{{ group.manager }}</a></div>
                     <time class="comment-date" datetime="{{ group.date_created }}"><span class="glyphicon glyphicon-time"></span>{{ group.date_created }}</time>
                     </header>
                   </div>
-                                   
+
                </div>
               </div>
 	     </div>
@@ -117,7 +122,7 @@
              </div>
          </div>
     </div>
-</div>   
+</div>
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
 
