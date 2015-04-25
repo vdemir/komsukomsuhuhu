@@ -10,6 +10,7 @@
       <link rel="icon" href="/static/media/icon.png">
 </head>
    <body>
+
       {% if user.is_authenticated %}
         <script language="javascript">
             window.location.href="http://127.0.0.1:8000"
@@ -75,7 +76,7 @@
                                              </div>
                                              
                                              <p class="help-block">
-                                             <a class="pull-right text-muted" href="#" id="olvidado" style="color: #55A0E0;"><small>Forgot your password?</small></a>
+                                             <a class="pull-right text-muted" href="<!- redirect /password/reset -!>" id="olvidado" style="color: #55A0E0;"><small>Forgot your password?</small></a>
                                              </p>
                                         </div>
                            </fieldset>
