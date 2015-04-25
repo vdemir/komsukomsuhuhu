@@ -19,11 +19,6 @@
     <li>You didn't favorite any group.. yet :D</li>
     {% endfor %}
 </ul>
-
-{% if favgroups_showmore %}
-<p><b>Show more..</b></p>
-
-{% endif %}
 <h3>Favorited Topic</h3>
 <ul>
     {% for topic in fav_topics %}
@@ -32,11 +27,6 @@
     <li>You didn't topic any group.. yet :D</li>
     {% endfor %}
 </ul>
-
-{% if favtopic_showmore %}
-<p><b>Show more..</b></p>
-{% endif %}
-
 <h3>My Groups</h3>
 <ul>
     {% for group in my_groups %}
@@ -46,8 +36,5 @@
     {% endfor %}
 </ul>
 
-{% if mygroups_showmore %}
-<p><b>Show more..</b></p>
-{% endif %}
 </body>
 </html>

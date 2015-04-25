@@ -1,0 +1,13 @@
+/*label {
+    font-family: 'Open Sans', sans-serif;
+    width: 100px;
+    /*height: 20px;
+    background-color:#ffbb33;
+    padding: 4px;
+}*/
+
+.form-control {
+  margin-top: 0px;
+  width: 80%;
+}
+
