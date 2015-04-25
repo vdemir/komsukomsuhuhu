@@ -27,7 +27,7 @@ def list_topics(request, pk):
 
     topics = Topic.objects.get(id=pk)
     group = topics.group;
-    if(request.user in group.members.all()):
+    if request.user in group.members.all():
         return render_to_response("detail_group.html", {
             'topics': topics
         }, RequestContext(request))
@@ -36,7 +36,7 @@ def list_topics(request, pk):
 @login_required(login_url='/login')
 def new_topic(request, pk):
     group = Group.objects.get(id=pk)
-    if(request.user in group.members.all()):
+    if request.user in group.members.all():
         form = TopicForm()
         recipient_usernames = group.user_favorited.all()
 
@@ -64,7 +64,7 @@ def new_post(request, pk):
     form = PostForm()
     topic = Topic.objects.get(id=pk)
     group = topic.group;
-    if(request.user in group.members.all()):
+    if request.user in group.members.all():
         recipient_usernames = topic.user_favorited.all()
 
         send_notification(request.user, recipient_usernames, 'posted on', topic)
@@ -86,7 +86,7 @@ def new_post(request, pk):
 def detail_topic(request, pk):
     topic = get_object_or_404(Topic, id=pk)
     group = topic.group;
-    if(request.user in group.members.all()):
+    if request.user in group.members.all():
         posts = Post.objects.filter(topic=pk)
 
         unread_posts = Post.objects.filter(
@@ -116,11 +116,11 @@ def detail_topic(request, pk):
 def favorite_topic(request, pk):
     topic = Topic.objects.get(id=pk)
     group = topic.group;
-    if(request.user in group.members.all()):
+    if request.user in group.members.all():
         if Topic.objects.filter(id=pk, user_favorited=request.user).exists():
             topic.user_favorited.remove(request.user)
         else:
-           topic.user_favorited.add(request.user)
+            topic.user_favorited.add(request.user)
         return HttpResponse("I dont know")
         # TODO Fav Topic - Return
     return HttpResponse("You are not member of this group")
