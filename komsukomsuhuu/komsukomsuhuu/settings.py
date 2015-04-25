@@ -26,6 +26,16 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Email Set-up
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'huhukomsukomsu@gmail.com'
+EMAIL_HOST_PASSWORD = 'komsuhu123'
+DEFAULT_FROM_EMAIL = 'huhukomsukomsu@gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+SITE_ID=1
+
 
 # Application definition
 
@@ -43,6 +53,7 @@ INSTALLED_APPS = (
     'messages',
     'notifications',
     'django_gravatar',
+    'django.contrib.sites',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -120,3 +131,5 @@ if DEBUG:
     STATICFILES_DIRS = (
          os.path.join(BASE_DIR, "static"),
     )
+
+

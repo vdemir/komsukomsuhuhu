@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, HttpResponseRedirect, redirect, get_object_or_404 ,get_list_or_404
+from django.shortcuts import render_to_response, HttpResponseRedirect, redirect, get_object_or_404, get_list_or_404, render
 from django.template import RequestContext
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from profiles.forms import LoginForm, AdvancedRegistrationForm
@@ -9,9 +9,10 @@ from messages.forms import NewMessageForm
 from groups.models import Group
 from entities.models import Topic
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
 from elasticsearch import Elasticsearch
-# Create your views here.
+from django.core.urlresolvers import reverse
+from django.contrib.auth.views import password_reset, password_reset_confirm
+
 
 es = Elasticsearch()
 
@@ -146,3 +147,20 @@ def notifications(request):
     return render_to_response('notifications.html', {
         'notifications': notifications
     }, RequestContext(request))
+
+def reset(request):
+
+    return password_reset(request, template_name='reset.html',
+        email_template_name='reset_email.html',
+        subject_template_name='reset_subject.txt',
+        post_reset_redirect=reverse('success'))
+
+
+def reset_confirm(request, uidb64=None, token=None):
+
+    return password_reset_confirm(request, template_name='reset_confirm.html',
+        uidb36=uidb36, token=token, post_reset_redirect=reverse('success'))
+
+
+def success(request):
+  return render(request, "success.html")

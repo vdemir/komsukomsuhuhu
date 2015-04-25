@@ -43,8 +43,7 @@
             var marker = new google.maps.Marker({
             position: point,
             map: map,
-            url: 'http://172.16.0.101:8882/zone/' + {{mark.id}},
-           title: '{{ mark.id }}'
+            title: '{{ mark.id }}'
         });
              marker['infowindow']  = new google.maps.InfoWindow({
                      content: "<h1>{{mark.name}}</h1> <br> Manager: {{ mark.manager }} <br> Type:"+type+"<br> State:"+state+" <p> <a href=\"detail_group\/{{ mark.id }}\"> Details</a>"

@@ -23,6 +23,24 @@ urlpatterns = patterns('',
     url(r'^edit_profile', profiles.views.edit_profile, name='edit_profile'),
     url(r'^mark_as_read/$', entities.views.mark_as_read, name='mark_as_read'),
     url(r'^notifications', profiles.views.notifications, name='notifications'),
+    #password reset
+    url(r'^password/reset/$',
+        'django.contrib.auth.views.password_reset',
+        {'post_reset_redirect':'/password/reset/done/'},
+        name='password_reset'),
+
+    url(r'^password/reset/done/$',
+        'django.contrib.auth.views.password_reset_done',
+        name='password_reset_done'),
+
+    url(r'^password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
+        'django.contrib.auth.views.password_reset_confirm',
+        {'post_reset_redirect':'/password/done/'},
+        name='password_reset_confirm'),
+
+    url(r'^password/done/$',
+        'django.contrib.auth.views.password_reset_complete',
+        name='password_reset_complete'),
     # other
     url(r'^$', 'profiles.views.home', name='home'),
     url(r'^users/(?P<username>[\w\._-]+)$', profiles.views.users, name='users'),
@@ -60,6 +78,3 @@ if settings.DEBUG:
                             document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL,
                             document_root=settings.MEDIA_ROOT)
-
-
-
