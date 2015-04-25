@@ -53,7 +53,7 @@
 	        <div class="row">
 		<div class="span4 well" style="padding-bottom:0">
             {% if data %}
-               <a href="{% url 'users' data.username %}"> <img src="{% gravatar_url data.email 100 %}" alt=""/> {{ data.get_full_name }} </a>
+               <a href="{% url 'users' data.username %}"> <img src="{% gravatar_url data.email 100 %}" class="img-responsive img-circle" alt=""/> {{ data.get_full_name }} </a>
             {% else %}
                 <p>Aradiginiz kullanici bulunamadi</p>
             {% endif %}
