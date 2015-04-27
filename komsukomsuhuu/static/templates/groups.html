@@ -15,6 +15,7 @@
 <body>
 
     {% include 'navbar.html' %}
+    {% load gravatar %}
     <hr><hr><hr>
     <div class="container">
        <div class="row">
@@ -105,7 +106,7 @@
                     </p>
 
 		    <header class="text-left">
-                    <div class="comment-user"><span class="glyphicon glyphicon-user"></span>By <a href="#">{{ group.manager }}</a></div>
+                    <div class="comment-user"><img src="{% gravatar_url member.email 100 %}" alt="" class="img-circle" style="width:14px;height:14px;*margin-right:.3em;line-height:14px;vertical-align:text-top;}"/> By <a href="{% url 'users' group.manager.username %}">{{ group.manager }}</a></div>
                     <time class="comment-date" datetime="{{ group.date_created }}"><span class="glyphicon glyphicon-time"></span>{{ group.date_created }}</time>
                     </header>
                   </div>
