@@ -2,18 +2,18 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
-       <link rel="stylesheet" href="/static/css/bootstrap.min.css"/>
-       <link rel="stylesheet" href="/static/css/navbar.css"/>
-       <link rel="stylesheet" href="/static/css/side-navbar.css"/>
-       <link rel="stylesheet" href="/static/css/detail_topic.css"/>
-       <link rel="stylesheet" href="/static/css/topic_comment.css"/>
-       <!--<link rel="stylesheet" href="/static/css/bootstrap-theme.min.css"/>-->
-       <link rel="icon" href="/static/media/icon.png">
-        <!--<script src="/static/js/topicbox.js"></script>-->
-        <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-        <script type="text/javascript">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/static/css/navbar.css"/>
+    <link rel="stylesheet" href="/static/css/side-navbar.css"/>
+    <link rel="stylesheet" href="/static/css/detail_topic.css"/>
+    <link rel="stylesheet" href="/static/css/topic_comment.css"/>
+    <!--<link rel="stylesheet" href="/static/css/bootstrap-theme.min.css"/>-->
+    <link rel="icon" href="/static/media/icon.png">
+    <!--<script src="/static/js/topicbox.js"></script>-->
+    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
             $(function () {
         $('.panel-google-plus > .panel-footer > .input-placeholder, .panel-google-plus > .panel-google-plus-comment > .panel-google-plus-textarea > button[type="reset"]').on('click', function(event) {
         var $panel = $(this).closest('.panel-google-plus');
@@ -37,158 +37,179 @@
         }
    });
 });
-</script>
+
+    </script>
 
     <title>Topic Detail</title>
 </head>
 <body>
-    
-    {% include 'navbar.html' %}
-    {% load gravatar %}
-    <hr><hr><hr>
-    <div class="container">
-       <div class="row">
-	  <div class="col-md-3">
-              <div class="side-navigation">
-	       
-                  <ul class="options">
-                  <li><a href= '{% url "home" %}'><span class="glyphicon glyphicon-home"></span>Home</a></li> <br>
-                  <li><a style="background-color:#ffbb33;border-radius:10px;color:#fff" href= '{% url "groups" %}'><span class="glyphicon glyphicon-edit"></span>Groups</a></li> <br>
-                  <li><a href= #><span class="glyphicon glyphicon-map-marker"></span>Map</a></li> <br>
-                  <li><a href= #><span class="glyphicon glyphicon-calendar"></span>Topics</a></li> <br>
-                  <li><a href= #><span class="glyphicon glyphicon-user"></span>Neighbours</a></li> 
-                  </ul>
-		  <hr>
-		  
-		 <ul class="groups">
-		  <div class="header"><span class="glyphicon glyphicon-edit"></span>Groups</div>
-                  {% for group in groups %}
-                  <li><a href="{% url 'detail_group' group.id %}">{{ group.name }}</a></li>
-                 {% empty %}
-                 <p>No groups available!</p>
-                  {% endfor %}
 
-                  <p><a href= '{% url "groups" %}'>+ Create</a> new group!</p>
-		  </ul>
-		  <hr>
+{% include 'navbar.html' %}
+{% load gravatar %}
+<hr>
+<hr>
+<hr>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="side-navigation">
 
-		  <ul class="events">
-		  <div class="header"><span class="glyphicon glyphicon-calendar"></span>Topics</div>
-                 {% for topic in topics %}
-                 <li> <a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li>
-                 {% empty %}
-                 <p>No topics available!</p>
-                {% endfor %}
-		  <p><a href= "#" >+ Create</a> new topics!</p>
-		  </ul>
-              </div>
-          </div>
-   
+                <ul class="options">
+                    <li><a href='{% url "home" %}'><span class="glyphicon glyphicon-home"></span>Home</a></li>
+                    <br>
+                    <li><a style="background-color:#ffbb33;border-radius:10px;color:#fff"
+                           href='{% url "groups" %}'><span class="glyphicon glyphicon-edit"></span>Groups</a></li>
+                    <br>
+                    <li><a href=#><span class="glyphicon glyphicon-map-marker"></span>Map</a></li>
+                    <br>
+                    <li><a href=#><span class="glyphicon glyphicon-calendar"></span>Topics</a></li>
+                    <br>
+                    <li><a href=#><span class="glyphicon glyphicon-user"></span>Neighbours</a></li>
+                </ul>
+                <hr>
 
-	  <div class="col-md-9">
-              <div class="main-content">
+                <ul class="groups">
+                    <div class="header"><span class="glyphicon glyphicon-edit"></span>Groups</div>
+                    {% for group in groups %}
+                    <li><a href="{% url 'detail_group' group.id %}">{{ group.name }}</a></li>
+                    {% empty %}
+                    <p>No groups available!</p>
+                    {% endfor %}
+
+                    <p><a href='{% url "groups" %}'>+ Create</a> new group!</p>
+                </ul>
+                <hr>
+
+                <ul class="events">
+                    <div class="header"><span class="glyphicon glyphicon-calendar"></span>Topics</div>
+                    {% for topic in topics %}
+                    <li><a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li>
+                    {% empty %}
+                    <p>No topics available!</p>
+                    {% endfor %}
+                    <p><a href="#">+ Create</a> new topics!</p>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="col-md-9">
+            <div class="main-content">
                 <form action="{% url 'new_post' topic.id %}" method="POST">
-                     {% csrf_token %}
-                <div class="[ panel panel-default ] panel-google-plus">
-                <div class="dropdown">
+                    {% csrf_token %}
+                    <div class="[ panel panel-default ] panel-google-plus">
+                        <div class="dropdown">
                     <span class="dropdown-toggle" type="button" data-toggle="dropdown">
                         <span class="[ glyphicon glyphicon-chevron-down ]"></span>
                     </span>
-                    <ul class="dropdown-menu" role="menu">                    
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'fav_topic' topic.id %}">Favourite Topic</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Delete Topic</a></li>
-                    </ul>
-                </div>
-                <div class="panel-heading">
-                    <img class="[ img-circle pull-left ]" src="{% gravatar_url user.email 100 %}" alt="Mouse0270" />
-                    <h3>{{ user.get_full_name }}</h3>
-                    <h5><span>Shared publicly</span> - <span class="glyphicon glyphicon-calendar"></span><span>{{ topic.date_created }}</span> </h5>
-                    <h2>{{ topic.title }}</h2>
-                </div>
-                <div class="panel-body">
-                    <p> {{ topic.content }}</p>
-                </div>
-                <div class="panel-footer">
-                  <!--  <button type="button" class="[ btn btn-default ]">+1</button>
-                    <button type="button" class="[ btn btn-default ]">
-                        <span class="[ glyphicon glyphicon-share-alt ]"></span>
-                    </button> -->
-                    <div class="input-placeholder">Add a comment...</div>
-                </div>
-                
-                
-                <div class="panel-google-plus-comment">
-                    <img class="img-circle" src="https://lh3.googleusercontent.com/uFp_tsTJboUY7kue5XAsGA=s46" alt="User Image" />
-                    <div class="panel-google-plus-textarea">
-                         
-                        <textarea type="text" name="content" rows="4"></textarea>
-                        <button type="submit" value="Add Post" class="[ btn btn-success disabled ]" >Post comment</button>
-                        <button type="reset" class="[ btn btn-default ]">Cancel</button>
-                        
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                
-            </div>
-                
-                
-            <div class="qa-message-list" id="wallmessages">
-                {% for post in posts %}
-		<div class="message-item">
-		    <div class="message-inner" >
-                        
-		    <div class="message-head clearfix">
-			<div class="avatar pull-left"><a href="./index.php?qa=user&qa_1=amiya"><img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                           href="{% url 'fav_topic' topic.id %}">Favourite Topic</a>
+                                </li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Delete Topic</a></li>
+                            </ul>
                         </div>
-		    <div class="user-detail">
-                        
-			<h5 class="handle">{{ post.owner }}</h5>
-			    <div class="post-meta">
-			        <div class="asker-meta">
-				    <span class="qa-message-what"></span>
+                        <div class="panel-heading">
+                            <img class="[ img-circle pull-left ]" src="{% gravatar_url user.email 100 %}"
+                                 alt="Mouse0270"/>
+
+                            <h3>{{ user.get_full_name }}</h3>
+                            <h5><span>Shared publicly</span> - <span class="glyphicon glyphicon-calendar"></span><span>{{ topic.date_created }}</span>
+                            </h5>
+
+                            <h2>{{ topic.title }}</h2>
+                        </div>
+                        <div class="panel-body">
+                            <p> {{ topic.content }}</p>
+                        </div>
+                        <div class="panel-footer">
+                            <!--  <button type="button" class="[ btn btn-default ]">+1</button>
+                              <button type="button" class="[ btn btn-default ]">
+                                  <span class="[ glyphicon glyphicon-share-alt ]"></span>
+                              </button> -->
+                            <div class="input-placeholder">Add a comment...</div>
+                        </div>
+
+
+                        <div class="panel-google-plus-comment">
+                            <img class="img-circle" src="https://lh3.googleusercontent.com/uFp_tsTJboUY7kue5XAsGA=s46"
+                                 alt="User Image"/>
+
+                            <div class="panel-google-plus-textarea">
+
+                                <textarea type="text" name="content" rows="4"></textarea>
+                                <button type="submit" value="Add Post" class="[ btn btn-success disabled ]">Post
+                                    comment
+                                </button>
+                                <button type="reset" class="[ btn btn-default ]">Cancel</button>
+
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="qa-message-list" id="wallmessages">
+                        {% for post in posts %}
+                        <div class="message-item">
+                            <div class="message-inner">
+
+                                <div class="message-head clearfix">
+                                    <div class="avatar pull-left"><a href="./index.php?qa=user&qa_1=amiya"><img
+                                            src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></a>
+                                    </div>
+                                    <div class="user-detail">
+
+                                        <h5 class="handle">{{ post.owner }}</h5>
+
+                                        <div class="post-meta">
+                                            <div class="asker-meta">
+                                                <span class="qa-message-what"></span>
 				    <span class="qa-message-when">
 				    <span class="qa-message-when-data1"><span class="glyphicon glyphicon-calendar"></span>{{ post.date_created }}</span>
 				    </span>
 				    <span class="qa-message-who">
 				    <span class="qa-message-who-pad">by </span>
-				    <span class="qa-message-who-data"><a href="./index.php?qa=user&qa_1=amiya">{{ post.owner }}</a></span>
+				    <span class="qa-message-who-data"><a href="./index.php?qa=user&qa_1=amiya">{{ post.owner}}</a></span>
 				    </span>
-				</div>
-			    </div>    
-		    </div>
-		    </div>
-			<div class="qa-message-content">
-			    {{ post.content }}
-			</div>
-                        
-		    </div></div>
-                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="qa-message-content">
+                                    {{ post.content }}
+                                </div>
+
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!--<h2>{{ topic.title }}</h2>-->
+                    <!--<a href="{% url 'fav_topic' topic.id %}">Fav Topic</a>-->
+                    <!--<p> {{ topic.content }}</p><br/>-->
+
+                    <!-- <h3>Posts</h3>
+                     {% for post in posts %}
+                      <div class="posts" style="border: 1px solid black;">
+                     <p>{{ post.content }}</p><h5>{{ post.owner }}</h5><hr/>
+                     </div>
+                     {% endfor %}
+
+                     <form action="{% url 'new_post' topic.id %}" method="POST">
+                         {% csrf_token %}
+                     <table>
+                     <tr>
+                     <td><h3>Post:</h3></td><td><input type="text" name="content"/></td>
+                     <td><input type="submit" value="Add Post"/></td>
+                     </tr>
+                     </table>
+                     </form>-->
+                </form>
             </div>
-                <!--<h2>{{ topic.title }}</h2>-->
-                <!--<a href="{% url 'fav_topic' topic.id %}">Fav Topic</a>-->
-                <!--<p> {{ topic.content }}</p><br/>-->
+        </div>
 
-               <!-- <h3>Posts</h3>
-                {% for post in posts %}
-                 <div class="posts" style="border: 1px solid black;">
-                <p>{{ post.content }}</p><h5>{{ post.owner }}</h5><hr/>
-                </div>
-                {% endfor %}
-
-                <form action="{% url 'new_post' topic.id %}" method="POST">
-                    {% csrf_token %}
-                <table>
-                <tr>
-                <td><h3>Post:</h3></td><td><input type="text" name="content"/></td>
-                <td><input type="submit" value="Add Post"/></td>
-                </tr>
-                </table>
-                </form>-->
-               </form> 
-              </div>
-          </div>
-          
-    <!--<script src="/static/js/jquery.min.js"></script>-->
-    <!--<script src="/static/js/bootstrap.min.js"></script>-->
+        <!--<script src="/static/js/jquery.min.js"></script>-->
+        <!--<script src="/static/js/bootstrap.min.js"></script>-->
 </body>
 </html>

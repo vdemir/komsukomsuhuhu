@@ -5,11 +5,11 @@
     <title>Profile Edit Page</title>
 </head>
 <body>
-    <form action="{% url 'edit_profile' %}" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Submit"/>
-    </form>
+<form action="{% url 'edit_profile' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit"/>
+</form>
 </body>
 </html>
 
