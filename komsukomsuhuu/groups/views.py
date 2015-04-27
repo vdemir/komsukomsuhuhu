@@ -8,6 +8,8 @@ from profiles.forms import UserLocationForm
 from entities.models import Topic
 from pymongo import Connection
 from bson import SON
+from groups.tasks import create_temp_group, destroy_temp_group
+from datetime import datetime, timedelta
 
 db = Connection()['komsukomsuhuu']
 
@@ -17,7 +19,7 @@ db = Connection()['komsukomsuhuu']
 
 @login_required(login_url='/login')
 def list_groups(request):
-    groups = Group.objects.all()
+    groups = Group.objects.filter(isActive=True)
 
     return render_to_response('groups.html', {
         'groups': groups
@@ -25,7 +27,7 @@ def list_groups(request):
 
 @login_required(login_url='/login')
 def list_groups_on_map(request):
-    groups = Group.objects.all()
+    groups = Group.objects.filter(isActive=True)
     return render_to_response('maps.html', {
         'groups': groups,
         'length': len(groups)
@@ -44,6 +46,7 @@ def new_group(request):
         if form.is_valid() and form_location.is_valid():
             form.instance.manager = request.user
             form.save()
+            #TODO our group names not unique!! get by name fails if there are 2 groups with same name
             group = Group.objects.get(name=form.cleaned_data['name'])
             group.members.add(request.user)
             group.save()
@@ -55,6 +58,10 @@ def new_group(request):
                  'coordinates': (float(form_location.cleaned_data['longitude']), float(form_location.cleaned_data['latitude'])),
             }
             db.location.insert(data)
+
+            if group.state == 2:
+                create_temp_group.apply_async(args=[group.id, ], eta=datetime.utcnow() + timedelta(hours=group.duration), link=destroy_temp_group.s())
+
             return redirect(reverse('groups'))
 
     return render_to_response('new_group.html', {
@@ -64,7 +71,7 @@ def new_group(request):
 
 @login_required(login_url='/login')
 def delete_group(request, pk):
-    Group.objects.filter(id=pk, manager=request.user).delete()
+    Group.objects.filter(id=pk, manager=request.user).isActive = False
 
     return redirect(reverse('home'))
 

@@ -21,6 +21,20 @@ class Group(models.Model):
         (4, '4 KM'),
         (5, '5 KM'),
     )
+    DURATION_CHOICES = (
+        (1, '1 hour'),
+        (2, '2 hour'),
+        (3, '3 hour'),
+        (4, '4 hour'),
+        (5, '5 hour'),
+        (6, '6 hour'),
+        (7, '7 hour'),
+        (8, '8 hour'),
+        (9, '9 hour'),
+        (10, '10 hour'),
+        (11, '11 hour'),
+        (12, '12 hour'),
+    )
     name = models.CharField(max_length=100)
     type = models.IntegerField(choices=TYPE_CHOICES, default=1)
     state = models.IntegerField(choices=STATE_CHOICES, default=1)
@@ -31,6 +45,7 @@ class Group(models.Model):
     date_created = models.DateTimeField(default=timezone.now)
     date_modified = models.DateField(auto_now=True)
     user_favorited = models.ManyToManyField(User, related_name='favorite_groups')
+    duration =models.IntegerField(choices=DURATION_CHOICES, default=1)
 
     def __unicode__(self):
         return "%s" % (self.name)

@@ -7,6 +7,23 @@
     <title>New Group Page</title>
 </head>
 <body>
+<script>
+function check_temp() {
+
+    if(document.getElementById("id_state").value == '2'){
+    document.getElementById("id_duration").style.visibility = "visible";
+    document.getElementById("label_duration").style.visibility = "visible";
+
+    } else{
+    document.getElementById("id_duration").style.visibility = "hidden";
+    document.getElementById("label_duration").style.visibility = "hidden";
+    }
+
+
+}
+</script>
+
+
 
     <form class="form-horizontal"  action="{% url 'new_group' %}" method="post" id="form1">
             {% csrf_token %}
@@ -26,9 +43,9 @@
                </div>
             </div>
             <div class="form-group">
-               <label for="id_state" class="col-sm-2 control-label">State:</label> 
+               <label for="id_state" class="col-sm-2 control-label">State:</label>
                <div class="col-sm-10">
-                <select class="form-control" id="id_state" name="state">
+                <select class="form-control" id="id_state" name="state" onchange="check_temp()">
                   <option value="1" selected="selected">Permanent</option>
                   <option value="2">Temporary</option>
                 </select>
@@ -46,6 +63,25 @@
                 </select>
                </div>
             </div>
+        <div class="form-group">
+            <label id="label_duration" for="id_duration" class="col-sm-2 control-label" style="visibility:hidden" >Duration:</label>
+            <div class="col-sm-10">
+                 <select class="form-control" id="id_duration" name="duration" style="visibility:hidden">
+                     <option value="1" selected="selected">1 hour</option>
+                     <option value="2">2 hour</option>
+                     <option value="3">3 hour</option>
+                     <option value="4">4 hour</option>
+                     <option value="5">5 hour</option>
+                     <option value="6">6 hour</option>
+                     <option value="7">7 hour</option>
+                     <option value="8">8 hour</option>
+                     <option value="9">9 hour</option>
+                     <option value="10">10 hour</option>
+                     <option value="11">11 hour</option>
+                     <option value="12">12 hour</option>
+                </select>
+            </div>
+        </div>
             <div class="form-group">
                <div class="col-sm-offset-2 col-sm-10" >
                   <div class="checkbox">
