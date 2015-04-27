@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    {% block css %}
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/static/css/home.css"/>
+    <link rel="stylesheet" href="/static/css/navbar.css"/>
+    <link rel="stylesheet" href="/static/css/postbox.css"/>
+    <link rel="stylesheet" href="/static/css/side-navbar.css"/>
+    <link rel="icon" href="/static/media/icon.png">
+    {% endblock %}
+
+    {% block js %}
+    <script src="/static/js/ie8-responsive-file-warning.js"></script>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    {% endblock %}
+
+    <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+
+{% include 'navbar.html' %}
+<hr>
+<hr>
+<hr>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="side-navigation">
+
+                <ul class="options">
+                    <li><a id="home" href='{% url "home" %}'><span class="glyphicon glyphicon-home"></span>Home</a></li>
+                    <br>
+                    <li><a id="groups" href='{% url "groups" %}'><span class="glyphicon glyphicon-edit"></span>Groups</a></li>
+                    <br>
+                    <li><a id="maps" href='{% url "maps" %}'><span class="glyphicon glyphicon-map-marker"></span>Map</a></li>
+                    <br>
+                    <li><a id="topics" href=#><span class="glyphicon glyphicon-calendar"></span>Topics</a></li>
+                    <br>
+                    <li><a id="neighbours" href=#><span class="glyphicon glyphicon-user"></span>Neighbours</a></li>
+
+                    {% block sidebarjs%}
+
+                    {% endblock%}
+
+                </ul>
+                <hr>
+
+                <ul class="groups">
+                    <div class="header"><span class="glyphicon glyphicon-edit"></span>Groups</div>
+                    {% for group in groups %}
+                    <li><a href="{% url 'detail_group' group.id %}">{{ group.name }}</a></li>
+                    {% empty %}
+                    <p>No groups available!</p>
+                    {% endfor %}
+
+                    <p><a href='{% url "groups" %}'>+ Create</a> new group!</p>
+                </ul>
+                <hr>
+
+                <ul class="events">
+                    <div class="header"><span class="glyphicon glyphicon-calendar"></span>Topics</div>
+                    {% for topic in topics %}
+                    <li><a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li>
+                    {% empty %}
+                    <p>No topics available!</p>
+                    {% endfor %}
+                    <p><a href="#">+ Create</a> new topics!</p>
+                </ul>
+            </div>
+        </div>
+        {% block content %}
+
+        <div class="col-md-9">
+            <div class="main-content">
+                <div class="widget-area no-padding blank">
+                    <div class="status-upload">
+                        <form>
+                            <textarea placeholder="Write something about your neighbourhood!"></textarea>
+                            <ul>
+                                <li><a title="" data-toggle="tooltip" data-placement="bottom"
+                                       data-original-title="Video"><i class="fa fa-video-camera"></i></a></li>
+                                <li><a title="" data-toggle="tooltip" data-placement="bottom"
+                                       data-original-title="Picture"><i class="fa fa-picture-o"></i></a></li>
+                                <li><a title="" data-toggle="tooltip" data-placement="bottom"
+                                       data-original-title="Sound Record"><i class="fa fa-microphone"></i></a></li>
+                            </ul>
+                            <button type="submit" class="btn btn-success green"><i class="fa fa-share"></i> Share
+                            </button>
+                        </form>
+                    </div>
+                    <!-- Status Upload  -->
+                </div>
+                <!-- Widget Area -->
+            </div>
+        </div>
+
+        {% endblock %}
+        </div>
+    </div>
+</body>
+</html>

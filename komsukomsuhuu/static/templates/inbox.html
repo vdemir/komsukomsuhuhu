@@ -9,18 +9,12 @@
 <h3>Inbox</h3>
 
 {% for conversation in conversations %}
-<img src="{% gravatar_url conversation.messages.last.sender.email 100 %}" alt=""/><strong>{{
-    conversation.messages.last.sender.username }} says:</strong>
-
-<p>
-    <a href="{% url 'conversation_detail' conversation.id %}">{{ conversation.messages.last.text|truncatechars:50 }}</a>
-</p>
+<img src="{% gravatar_url conversation.messages.last.sender.email 100 %}" alt=""/>
+<strong>{{conversation.messages.last.sender.username }} says:</strong>
+<p><a href="{% url 'conversation_detail' conversation.id %}">{{ conversation.messages.last.text|truncatechars:50 }}</a></p>
 {% empty %}
-
 Your inbox is empty.
-
 {% endfor %}
-
 
 </body>
 </html>
