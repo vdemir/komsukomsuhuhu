@@ -22,6 +22,7 @@ class Group(models.Model):
         (5, '5 KM'),
     )
     DURATION_CHOICES = (
+        (0, 'permanent'),
         (1, '1 hour'),
         (2, '2 hour'),
         (3, '3 hour'),
@@ -34,6 +35,18 @@ class Group(models.Model):
         (10, '10 hour'),
         (11, '11 hour'),
         (12, '12 hour'),
+        (13, '13 hour'),
+        (14, '14 hour'),
+        (15, '15 hour'),
+        (16, '16 hour'),
+        (17, '17 hour'),
+        (18, '18 hour'),
+        (19, '19 hour'),
+        (20, '20 hour'),
+        (21, '21 hour'),
+        (22, '22 hour'),
+        (23, '23 hour'),
+        (24, '24 hour'),
     )
     name = models.CharField(max_length=100)
     type = models.IntegerField(choices=TYPE_CHOICES, default=1)
@@ -45,7 +58,7 @@ class Group(models.Model):
     date_created = models.DateTimeField(default=timezone.now)
     date_modified = models.DateField(auto_now=True)
     user_favorited = models.ManyToManyField(User, related_name='favorite_groups')
-    duration =models.IntegerField(choices=DURATION_CHOICES, default=1)
+    duration =models.IntegerField(choices=DURATION_CHOICES, default=0)
 
     def __unicode__(self):
         return "%s" % (self.name)

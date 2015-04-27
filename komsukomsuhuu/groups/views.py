@@ -64,6 +64,9 @@ def new_group(request):
 
             return redirect(reverse('groups'))
 
+        else:
+            return HttpResponse('Form is not valid')
+
     return render_to_response('new_group.html', {
         'form': form
     }, RequestContext(request))

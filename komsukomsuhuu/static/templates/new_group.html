@@ -1,102 +1,101 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="/static/css/new_group.css"/>
-    <title>New Group Page</title>
-</head>
-<body>
 <script>
 function check_temp() {
 
     if(document.getElementById("id_state").value == '2'){
-    document.getElementById("id_duration").style.visibility = "visible";
-    document.getElementById("label_duration").style.visibility = "visible";
+    document.getElementById("duration").style.display = "block";
 
     } else{
-    document.getElementById("id_duration").style.visibility = "hidden";
-    document.getElementById("label_duration").style.visibility = "hidden";
+    document.getElementById("duration").style.display = "none";
     }
-
-
 }
+
 </script>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Create New Group!</h4>
+            </div>
+            <div class="modal-body">
 
+                {% load profiles_extras %}
 
+                <form class="form-horizontal" action="{% url 'new_group' %}" method="post" id="form1">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="id_name" class="col-sm-2 control-label">Name:</label>
 
-    <form class="form-horizontal"  action="{% url 'new_group' %}" method="post" id="form1">
-            {% csrf_token %}
-            <div class="form-group">
-               <label for="id_name" class="col-sm-2 control-label">Name:</label> 
-               <div class="col-sm-10">
-                <input class="form-control" id="id_name" maxlength="100" name="name" type="text" />
-               </div>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="id_name" maxlength="100" name="name" type="text"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_type" class="col-sm-2 control-label">Type:</label>
+
+                        <div class="col-sm-10">
+                            <select class="form-control" id="id_type" name="type">
+                                <option value="1" selected="selected">Public</option>
+                                <option value="2">Private</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_state" class="col-sm-2 control-label">State:</label>
+
+                        <div class="col-sm-10">
+                            <select class="form-control" id="id_state" name="state" onchange="check_temp()">
+                                <option value="1" selected="selected">Permanent</option>
+                                <option value="2">Temporary</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_range" class="col-sm-2 control-label">Range:</label>
+
+                        <div class="col-sm-10">
+                            <select class="form-control" id="id_range" name="range">
+                                {% for i in 5|get_range %}
+                                <option value="{{ i }}" {% if i == 1 %} selected="selected" {% endif %}>{{ i }} km</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="duration" style="display:none">
+                        <label for="id_duration" class="col-sm-2 control-label">Duration:</label>
+
+                        <div class="col-sm-10">
+                            <select class="form-control" id="id_duration" name="duration">
+                                {% for i in 24|get_range %}
+                                <option value="{{ i }}" {% if i == 1 %} selected="selected" {% endif %}>{{ i }} hour</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <div class="checkbox">
+                                <label for="id_isActive">
+                                    <input checked="checked" id="id_isActive" name="isActive" type="checkbox"> IsActive
+                                </label>
+                                <!--<label for="id_isActive">IsActive:</label>-->
+                                <!--<input checked="checked" id="id_isActive" name="isActive" type="checkbox" />    -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="longitude" id="longitude"/>
+                    <input type="hidden" name="latitude" id="latitude"/>
+                </form>
             </div>
-            <div class="form-group">
-               <label for="id_type" class="col-sm-2 control-label">Type:</label> 
-               <div class="col-sm-10">
-                <select class="form-control" id="id_type" name="type">
-                  <option value="1" selected="selected">Public</option>
-                  <option value="2">Private</option>
-                </select>
-               </div>
-            </div>
-            <div class="form-group">
-               <label for="id_state" class="col-sm-2 control-label">State:</label>
-               <div class="col-sm-10">
-                <select class="form-control" id="id_state" name="state" onchange="check_temp()">
-                  <option value="1" selected="selected">Permanent</option>
-                  <option value="2">Temporary</option>
-                </select>
-               </div>
-            </div>
-            <div class="form-group">
-               <label for="id_range" class="col-sm-2 control-label">Range:</label> 
-               <div class="col-sm-10">
-                <select class="form-control" id="id_range" name="range">
-                  <option value="1" selected="selected">1 km</option>
-                  <option value="2">2 km</option>
-                  <option value="3">3 km</option>
-                  <option value="4">4 km</option>
-                  <option value="5">5 km</option>
-                </select>
-               </div>
-            </div>
-        <div class="form-group">
-            <label id="label_duration" for="id_duration" class="col-sm-2 control-label" style="visibility:hidden" >Duration:</label>
-            <div class="col-sm-10">
-                 <select class="form-control" id="id_duration" name="duration" style="visibility:hidden">
-                     <option value="1" selected="selected">1 hour</option>
-                     <option value="2">2 hour</option>
-                     <option value="3">3 hour</option>
-                     <option value="4">4 hour</option>
-                     <option value="5">5 hour</option>
-                     <option value="6">6 hour</option>
-                     <option value="7">7 hour</option>
-                     <option value="8">8 hour</option>
-                     <option value="9">9 hour</option>
-                     <option value="10">10 hour</option>
-                     <option value="11">11 hour</option>
-                     <option value="12">12 hour</option>
-                </select>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Close</button>
+                <button onclick="getLocation();" class="btn btn-success">Create</button>
             </div>
         </div>
-            <div class="form-group">
-               <div class="col-sm-offset-2 col-sm-10" >
-                  <div class="checkbox">
-                    <label for="id_isActive">
-                    <input checked="checked" id="id_isActive" name="isActive" type="checkbox"> IsActive
-                    </label>
-                  <!--<label for="id_isActive">IsActive:</label>-->
-                  <!--<input checked="checked" id="id_isActive" name="isActive" type="checkbox" />    -->             
-                  </div>
-               </div>
-            </div>  
-            
-        <input type="hidden" name="longitude" id="longitude"/>
-        <input type="hidden" name="latitude" id="latitude"/>
-    </form>
+    </div>
+</div>
 
 <script>
 var latitude = document.getElementById("latitude");
@@ -116,6 +115,7 @@ function showPosition(position) {
     longitude.value = position.coords.longitude;
     form.submit();
 }
+
 </script>
-</body>
-</html>
+
+
