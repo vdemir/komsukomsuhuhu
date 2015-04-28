@@ -137,3 +137,21 @@ def mark_as_read(request):
 
     return HttpResponseRedirect(reverse('home'))
 
+@login_required(login_url='/login')
+def show_topics(request):
+    groupList = []
+    topicList = []
+    groups = Group.objects.all()
+    for group in groups:
+        if group.members.filter(username=request.user.username):
+            groupList.append(group)
+    for myGroup in groupList:
+        myTopics =Topic.objects.filter(group=myGroup)
+        if myTopics.exists():
+            for myTopic in myTopics:
+                topicList.append(myTopic)
+    return render_to_response("topics.html", {
+            'mygroups': groupList,
+            'mytopics': topicList,
+        }, RequestContext(request))
+

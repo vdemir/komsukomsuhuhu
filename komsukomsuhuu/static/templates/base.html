@@ -38,9 +38,9 @@
                     <br>
                     <li><a id="maps" href='{% url "maps" %}'><span class="glyphicon glyphicon-map-marker"></span>Map</a></li>
                     <br>
-                    <li><a id="topics" href=#><span class="glyphicon glyphicon-calendar"></span>Topics</a></li>
+                    <li><a id="topics" href='{% url "show_topics" %}'><span class="glyphicon glyphicon-calendar"></span>Topics</a></li>
                     <br>
-                    <li><a id="neighbours" href=#><span class="glyphicon glyphicon-user"></span>Neighbours</a></li>
+                    <li><a id="neighbours" href='{% url "show_neighbours" %}'><span class="glyphicon glyphicon-user"></span>Neighbours</a></li>
 
                     {% block sidebarjs%}
 

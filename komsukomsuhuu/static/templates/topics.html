@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block css %}
+{{ block.super }}
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+{% endblock %}
+
+{% block title %}Topics{% endblock %}
+
+{% block sidebarjs%}
+<script>
+    document.getElementById("topics").style.color="#fff";
+    document.getElementById("topics").style.backgroundColor="#ffbb33";
+    document.getElementById("topicss").style.borderRadius="10px";
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="col-md-9">
+    <div class="main-content">
+    <hr>
+    {% for topic in mytopics %}
+        <li><a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li>
+        {% empty %}
+                <h5>No topics available!</h5>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

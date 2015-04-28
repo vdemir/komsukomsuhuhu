@@ -176,4 +176,22 @@ def favorite_group(request, pk):
     return redirect(reverse('groups'))
     return HttpResponse("You are not member of this group")
 
+@login_required(login_url='/login')
+def show_neighbours(request):
+    groupList = []
+    neighbourList = []
+    groups = Group.objects.all()
+    for group in groups:
+        if group.members.filter(username=request.user.username):
+            groupList.append(group)
+    for myGroup in groupList:
+        myNeighs =myGroup.members.all()
+        if myNeighs.exists():
+            for myNeigh in myNeighs:
+                if not (myNeigh==request.user or myNeigh in neighbourList):
+                    neighbourList.append(myNeigh)
+    return render_to_response("neighbours.html", {
+            'mygroups': groupList,
+            'myneighs': neighbourList,
+        }, RequestContext(request))
 

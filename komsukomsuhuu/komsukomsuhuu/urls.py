@@ -55,6 +55,7 @@ urlpatterns = patterns('',
     url(r'^join_group/(?P<pk>[\d]+)$', groups.views.join_group, name='join_group'),
     url(r'^fav_group/(?P<pk>[\d]+)$', groups.views.favorite_group, name='fav_group'),
     url(r'maps', groups.views.list_groups_on_map, name='maps'),
+    url(r'show_neighbours', groups.views.show_neighbours, name='show_neighbours'),
 
     #entities
 
@@ -62,6 +63,7 @@ urlpatterns = patterns('',
     url(r'^detail_topic/(?P<pk>[\d]+)$', entities.views.detail_topic, name='detail_topic'),
     url(r'^new_post/(?P<pk>[\d]+)$', entities.views.new_post, name='new_post'),
     url(r'^fav_topic/(?P<pk>[\d]+)$', entities.views.favorite_topic, name='fav_topic'),
+    url(r'show_topics', entities.views.show_topics, name='show_topics'),
 
     #messages
 
