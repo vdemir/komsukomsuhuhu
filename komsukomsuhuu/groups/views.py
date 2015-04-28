@@ -8,34 +8,44 @@ from profiles.forms import UserLocationForm
 from entities.models import Topic
 from pymongo import Connection
 from bson import SON
+from groups.tasks import create_temp_group, destroy_temp_group
+from datetime import datetime, timedelta
+from functions.function import info
 
 db = Connection()['komsukomsuhuu']
 
 # Create your views here.
 
-# TODO temporary icin cozum getirilecek
+
 
 @login_required(login_url='/login')
 def list_groups(request):
-    groups = Group.objects.all()
+    groups = Group.objects.filter(isActive=True)
 
     return render_to_response('groups.html', {
+        'favorited_groups': info(request)[0],
+        'favorited_topics': info(request)[1],
+        'notifications': info(request)[2],
+        'inbox_notifications': info(request)[3],
         'groups': groups
     }, RequestContext(request))
 
+
 @login_required(login_url='/login')
 def list_groups_on_map(request):
-    groups = Group.objects.all()
+    groups = Group.objects.filter(isActive=True)
     return render_to_response('maps.html', {
+        'favorited_groups': info(request)[0],
+        'favorited_topics': info(request)[1],
+        'notifications': info(request)[2],
+        'inbox_notifications': info(request)[3],
         'groups': groups,
         'length': len(groups)
     }, RequestContext(request))
 
 
-
 @login_required(login_url='/login')
 def new_group(request):
-    # TODO range set edilecek
     form = GroupForm()
     form_location = GroupLocationForm()
     if request.method == 'POST':
@@ -44,18 +54,31 @@ def new_group(request):
         if form.is_valid() and form_location.is_valid():
             form.instance.manager = request.user
             form.save()
+            # TODO our group names not unique!! get by name fails if there are 2 groups with same name
             group = Group.objects.get(name=form.cleaned_data['name'])
             group.members.add(request.user)
             group.save()
             form_location.instance.group = group
             form_location.save()
-            data = {
-                 'group': group.id,
-                 'type': 'Point',
-                 'coordinates': (float(form_location.cleaned_data['longitude']), float(form_location.cleaned_data['latitude'])),
-            }
-            db.location.insert(data)
+            try:
+                data = {
+                    'group': group.id,
+                    'type': 'Point',
+                    'coordinates': (
+                        float(form_location.cleaned_data['longitude']), float(form_location.cleaned_data['latitude'])),
+                }
+                db.location.insert(data)
+
+                if group.state == 2:
+                    create_temp_group.apply_async(args=[group.id, ],
+                                                  eta=datetime.utcnow() + timedelta(hours=group.duration),
+                                                  link=destroy_temp_group.s())
+            except Exception:
+                return HttpResponse("Something is wrong")
             return redirect(reverse('groups'))
+
+        else:
+            return HttpResponse('Form is not valid')
 
     return render_to_response('new_group.html', {
         'form': form
@@ -64,7 +87,9 @@ def new_group(request):
 
 @login_required(login_url='/login')
 def delete_group(request, pk):
-    Group.objects.filter(id=pk, manager=request.user).delete()
+    group = Group.objects.get(id=pk, manager=request.user)
+    group.isActive = False
+    group.save()
 
     return redirect(reverse('home'))
 
@@ -77,33 +102,39 @@ def detail_group(request, pk):
     if request.method == "POST":
         form = UserLocationForm(request.POST)
         if form.is_valid():
-            longitude = float(form.cleaned_data['longitude'])
-            latitude = float(form.cleaned_data['latitude'])
-            data = {
-                'group': group.id,
-                'coordinates':
-                    SON([('$near', [longitude, latitude]), ('$maxDistance', group.range/111.12)])}
-            if list(db.location.find(data)):
-                group.members.add(request.user)
-                #return redirect(reverse('groups'))
-                return HttpResponse("ekleme gerceklesti.")
-            else:
-                return HttpResponse("ekleyemedik.")
+            try:
+                longitude = float(form.cleaned_data['longitude'])
+                latitude = float(form.cleaned_data['latitude'])
+                data = {
+                    'group': group.id,
+                    'coordinates':
+                        SON([('$near', [longitude, latitude]), ('$maxDistance', group.range / 111.12)])}
+                if list(db.location.find(data)):
+                    group.members.add(request.user)
+                    # return redirect(reverse('groups'))
+                    return HttpResponse("ekleme gerceklesti.")
+                else:
+                    return HttpResponse("ekleyemedik.")
+            except Exception:
+                return HttpResponse("Something is wrong")
 
     unread_notifications = request.user.notifications.unread()
 
     for unread_notification in unread_notifications:
         if unread_notification.target == group:
             unread_notification.mark_as_read()
-            unread_notification.level="info"
+            unread_notification.level = "info"
             unread_notification.save()
 
     return render_to_response('detail_group.html', {
+        'favorited_groups': info(request)[0],
+        'favorited_topics': info(request)[1],
+        'notifications': info(request)[2],
+        'inbox_notifications': info(request)[3],
         'group': group,
         'topics': topics,
         'user': request.user,
     }, RequestContext(request))
-
 
 
 @login_required(login_url='/login')
@@ -123,6 +154,7 @@ def edit_group(request, pk):
         'group': group,
     }, RequestContext(request))
 
+
 @login_required(login_url='/login')
 def join_group(request, pk):
     group = Group.objects.get(id=pk)
@@ -132,15 +164,16 @@ def join_group(request, pk):
         group.members.add(request.user)
     return redirect(reverse('groups'))
 
+
 @login_required(login_url='/login')
 def favorite_group(request, pk):
     group = Group.objects.get(id=pk)
-    if(request.user in group.members.all()):
+    if request.user in group.members.all():
         if Group.objects.filter(id=pk, user_favorited=request.user).exists():
             group.user_favorited.remove(request.user)
         else:
             group.user_favorited.add(request.user)
-        return redirect(reverse('groups'))
+    return redirect(reverse('groups'))
     return HttpResponse("You are not member of this group")
 
 

@@ -127,5 +127,6 @@ def conversation_detail(request, pk):
     return render_to_response("conversation_detail.html", {
         "conversation": conversation,
         "messages": messages,
-        "form": form
+        "form": form,
+        "other_party": recipent,
     }, RequestContext(request))

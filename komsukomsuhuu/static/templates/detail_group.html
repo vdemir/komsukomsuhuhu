@@ -1,203 +1,158 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-       <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
-       <link rel="stylesheet" href="/static/css/bootstrap.min.css"/>
-       <link rel="stylesheet" href="/static/css/navbar.css"/>
-       <link rel="stylesheet" href="/static/css/side-navbar.css"/>
-       <link rel="stylesheet" href="/static/css/detail_group.css"/>
-       <link rel="stylesheet" href="/static/css/members.css"/>
-       <link rel="icon" href="/static/media/icon.png">
-       <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-        <script src="/static/js/members.js"></script>
-        <script src="/static/css/ie8-responsive-file-warning.js"></script>
-    <title>Detail Group Page</title>
-</head>
-<body>
-    {% include 'navbar.html' %}
-    {% load gravatar %}
-    <hr><hr><hr>
-    <div class="container">
-       <div class="row">
-	  <div class="col-md-3">
-              <div class="side-navigation">
-	       
-                  <ul class="options">
-                  <li><a href= '{% url "home" %}'><span class="glyphicon glyphicon-home"></span>Home</a></li> <br>
-                  <li><a style="background-color:#ffbb33;border-radius:10px;color:#fff" href= '{% url "groups" %}'><span class="glyphicon glyphicon-edit"></span>Groups</a></li> <br>
-                  <li><a href= #><span class="glyphicon glyphicon-map-marker"></span>Map</a></li> <br>
-                  <li><a href= #><span class="glyphicon glyphicon-calendar"></span>Topics</a></li> <br>
-                  <li><a href= #><span class="glyphicon glyphicon-user"></span>Neighbours</a></li> 
-                  </ul>
-		  <hr>
-		  
-		  <ul class="groups">
-		  <div class="header"><span class="glyphicon glyphicon-edit"></span>Groups</div>
-		  {% if groups %}
-                  {% for group in groups %}
-                  <li><a href="{% url 'detail_group' group.id %}">{{ group.name }}</a></li>
-                  {% endfor %}
-                  {% else %}
-                 <p>No groups available!</p>
-                  {% endif %}
-		  
-                  <p><a href= '{% url "groups" %}'>+ Create</a> new group!</p>
-		  </ul>
-		  <hr>
-		     
-		  <ul class="events">
-		  <div class="header"><span class="glyphicon glyphicon-calendar"></span>Topics</div>
-                  {% if topics %}
-                 {% for topic in topics %}
-                 <li> <a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li> 
-                 {% endfor %}
-                 {% else %}
-                 <p>No topics available!</p>
-                {% endif %}
-		  <p><a href= "#" >+ Create</a> new topics!</p>
-		  </ul>
-              </div>
-          </div>
-   
+{% extends "base.html" %}
 
-	  <div class="col-md-5">
-              <div class="main-content">
-                 <h1>{{ group.name }}</h1>
-                 <p>Owner: {{ group.manager}}</p>
-                
-                  <hr/> 
-                 <!--<b>Type</b><p>{{ group.type}}</p>-->
-                                
-                 <!-- <b>Members</b>
-                 {% for member in group.members.all %}
-                 <p>{{ member }}</p>
-                 {% endfor %} -->
-                 {% if user in group.members.all  %}
-                 {% include 'new_topic.html' %}
+{% load gravatar %}
 
-                 <hr/>
-                 
-                 <h1>Trending Topics</h1>
-                 {% if topics %}
-                 {% for topic in topics %}
-                 <li> <a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li> 
-                 {% endfor %}
-                 {% else %}
-                 <h5>No topics available!</h5>
-                {% endif %}
-                 
-                 <hr/>
-                 
-                 <div class="buttons">
-                    
-                        <a class="btn btn-danger btn-sm" href="{% url 'delete_group' group.id %}">Delete Group</a>
-                        
-                        
-                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal">Edit Group</button>                       
-                        <!-- Modal -->
-                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                         <div class="modal-dialog">
-                          <div class="modal-content">
-                           <div class="modal-header">
-                           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                           <h4 class="modal-title" id="myModalLabel">Edit Group!</h4>
-                           </div>
-                           <div class="modal-body">
-			    {% include 'edit_group.html' %}                           
-                           </div>                           
-                          </div>
-                         </div>
-                        </div>
-                        
-                        <a class="btn btn-success btn-sm" href="{% url 'fav_group' group.id %}">Favourites</a>
-                        {% endif %}
-                        {% if not user in group.members.all  %}
-                        <button type="button" class="btn btn-primary btn-sm" onclick="getLocation();">Join Group</button>
-                        {% endif %}
-                     <form action="{% url 'detail_group' group.id %}" method="POST" id="form1">
-                          {% csrf_token %}
-                          <input type="hidden" name="latitude" id="latitude"/>
-                          <input type="hidden" name="longitude" id="longitude"/>
-                     </form>
+{% block css %}
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/static/css/navbar.css"/>
+    <link rel="stylesheet" href="/static/css/side-navbar.css"/>
+    <link rel="stylesheet" href="/static/css/detail_group.css"/>
+    <link rel="stylesheet" href="/static/css/members.css"/>
+    <link rel="icon" href="/static/media/icon.png">
+{% endblock %}
 
-                        <script>
-                        var latitude = document.getElementById("latitude");
-                        var longitude = document.getElementById("longitude");
-                        var form = document.getElementById("form1");
-                        function getLocation() {
-                        if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(showPosition);
-                        } else {
-                        x.innerHTML = "Geolocation is not supported by this browser.";
-                        }
-                       }
-                        function showPosition(position) {
-                        latitude.value = position.coords.latitude;
-                        longitude.value = position.coords.longitude;
-                        form.submit();
-                        }
-                       </script>
-                        
-                 </div>
-                 
+{% block js %}
+    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="/static/js/members.js"></script>
+    <script src="/static/css/ie8-responsive-file-warning.js"></script>
 
-                 
-                </div>            
-          </div>
-           {% if user in group.members.all  %}
-           <div class="col-md-4">
-            <div class="members">
-            <div class="row">
-            <div class="col-xs-12 col-sm-offset-3 col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading c-list">
-
-                    <span class="title">Members</span>
-                    <ul class="pull-right c-controls">                       
-                        <li><a href="#" style="color:#fff;" class="hide-search" data-command="toggle-search" data-toggle="tooltip" data-placement="top" title="Toggle Search"><i class="fa fa-ellipsis-v"></i></a></li>
-                    </ul>
-                </div>
-                
-                <div class="row" style="display: none;">
-                    <div class="col-xs-12">
-                        <div class="input-group c-search">
-                            <input type="text" class="form-control" placeholder="Search" id="contact-list-search">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search text-muted"></span></button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <ul class="list-group" id="contact-list">
-                    {% for member in group.members.all %}
-                    <li class="list-group-item">
-                        <div class="col-xs-12 col-sm-3">
-                            <img src="{% gravatar_url member.email 100 %}" alt="" class="img-responsive img-circle"/>
-                        </div>
-
-                        <div class="col-xs-12 col-sm-9">
-                            <span class="name"><a href="{% url 'users' member.username %}"> {{ member.get_full_name }}</a></span><br/>
-                            <span class="glyphicon glyphicon-map-marker text-muted c-info"data-toggle="tooltip" title='{{ member.customuser.address }}'></span>
-                            <span class="visible-xs"> <span class="text-muted"></span><br/></span>
-                            <span class="fa fa-comments text-muted c-info" data-toggle="tooltip" title="{{ member.email }}"></span>
-                            <span class="visible-xs"> <span class="text-muted">{{ member.email }}</span><br/></span>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endif %}
-        </div>
-	</div>
-            </div>
-           </div>
-       </div>
-    </div>
-    </div>
 <script src="/static/js/jquery.min.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
-</body>
-</html>
+{% endblock %}
+
+
+{% block title %}Detail Group Page{% endblock %}
+
+{% load gravatar %}
+
+{% block sidebarjs%}
+<script>
+    document.getElementById("groups").style.color="#fff";
+    document.getElementById("groups").style.backgroundColor="#ffbb33";
+    document.getElementById("groups").style.borderRadius="10px";
+</script>
+{% endblock %}
+
+{% block content %}
+        <div class="col-md-5">
+            <div class="main-content">
+                <h1>{{ group.name }}</h1>
+
+                <p>Owner: {{ group.manager}}</p>
+
+                <hr/>
+
+                {% if user in group.members.all %}
+
+                <button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#ModalNewTopic"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Create New Topic</button>
+
+                {% include 'new_topic.html' %}
+
+                <hr/>
+
+                <h1>Trending Topics</h1>
+                {% for topic in topics %}
+                <li><a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li>
+                {% empty %}
+                <h5>No topics available!</h5>
+                {% endfor %}
+
+                <hr/>
+
+                <div class="buttons">
+
+                    <a class="btn btn-danger btn-sm" href="{% url 'delete_group' group.id %}">Delete Group</a>
+
+                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ModalEditGroup">Edit Group</button>
+
+                    {% include 'edit_group.html' %}
+
+                    <a class="btn btn-success btn-sm" href="{% url 'fav_group' group.id %}">Favourites</a>
+
+                    {% else %}
+                    <button type="button" class="btn btn-primary btn-sm" onclick="getLocation();">Join Group</button>
+
+                    {% endif %}
+
+                    <form action="{% url 'detail_group' group.id %}" method="POST" id="form1">
+                        {% csrf_token %}
+                        <input type="hidden" name="latitude" id="latitude"/>
+                        <input type="hidden" name="longitude" id="longitude"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% if user in group.members.all %}
+        <div class="col-md-4">
+            <div class="members">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-offset-3 col-sm-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading c-list">
+
+                                <span class="title">Members</span>
+                                <ul class="pull-right c-controls">
+                                    <li><a href="#" style="color:#fff;" class="hide-search" data-command="toggle-search" data-toggle="tooltip" data-placement="top" title="Toggle Search"><i class="fa fa-ellipsis-v"></i></a></li>
+                                </ul>
+                            </div>
+
+                            <div class="row" style="display: none;">
+                                <div class="col-xs-12">
+                                    <div class="input-group c-search">
+                                        <input type="text" class="form-control" placeholder="Search" id="contact-list-search">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search text-muted"></span></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <ul class="list-group" id="contact-list">
+                                {% for member in group.members.all %}
+                                <li class="list-group-item">
+                                    <div class="col-xs-12 col-sm-3">
+                                        <img src="{% gravatar_url member.email 100 %}" alt="" class="img-responsive img-circle"/>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-9">
+                                        <span class="name"><a href="{% url 'users' member.username %}">{{member.get_full_name }}</a></span><br/>
+                                        <span class="glyphicon glyphicon-map-marker text-muted c-info" data-toggle="tooltip" title='{{ member.customuser.address }}'></span>
+                                        <span class="visible-xs"> <span class="text-muted"></span><br/></span>
+                                        <span class="fa fa-comments text-muted c-info" data-toggle="tooltip" title="{{ member.email }}"></span>
+                                        <span class="visible-xs"> <span class="text-muted">{{ member.email }}</span><br/></span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var latitude = document.getElementById("latitude");
+    var longitude = document.getElementById("longitude");
+    var form = document.getElementById("form1");
+
+    function getLocation() {
+         if (navigator.geolocation) {
+                 navigator.geolocation.getCurrentPosition(showPosition);
+         } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+         }
+    }
+
+    function showPosition(position) {
+        latitude.value = position.coords.latitude;
+        longitude.value = position.coords.longitude;
+        form.submit();
+    }
+
+</script>
+
+{% endblock %}
