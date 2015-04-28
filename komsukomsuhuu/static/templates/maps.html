@@ -12,6 +12,17 @@
     <script type="text/javascript">
 
     var map;
+    var customIcons = {
+      temporary: {
+        icon: '{% static "media/icons/temp.png" %}'
+      },
+      public: {
+        icon: '{% static "media/icons/public.png" %}'
+      },
+      private: {
+        icon: '{% static "media/icons/private.png" %}'
+      }
+    };
   function initialize() {
     var mapDiv = document.getElementById('map-canvas');
     map = new google.maps.Map(mapDiv, {
@@ -31,20 +42,25 @@
         var state= {{ mark.state }};
         if( type == 1){
             type="Public"
+            var icontype="public";
         }else {
             type="Private"
+            var icontype="private";
         }
         if( state == 1){
             state="Permanent"
         }else {
             state="Temporary"
+            var icontype="temporary";
         }
-
-            var marker = new google.maps.Marker({
+        var icon = customIcons[icontype] || {};
+        var marker = new google.maps.Marker({
             position: point,
+            icon: icon.icon,
             map: map,
             title: '{{ mark.id }}'
         });
+
              marker['infowindow']  = new google.maps.InfoWindow({
                      content: "<h1>{{mark.name}}</h1> <br> Manager: {{ mark.manager }} <br> Type:"+type+"<br> State:"+state+" <p> <a href=\"detail_group\/{{ mark.id }}\"> Details</a>"
         });
