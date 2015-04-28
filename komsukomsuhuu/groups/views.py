@@ -35,6 +35,10 @@ def list_groups(request):
 def list_groups_on_map(request):
     groups = Group.objects.filter(isActive=True)
     return render_to_response('maps.html', {
+        'favorited_groups': info(request)[0],
+        'favorited_topics': info(request)[1],
+        'notifications': info(request)[2],
+        'inbox_notifications': info(request)[3],
         'groups': groups,
         'length': len(groups)
     }, RequestContext(request))
