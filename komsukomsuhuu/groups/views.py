@@ -56,19 +56,21 @@ def new_group(request):
             group.save()
             form_location.instance.group = group
             form_location.save()
-            data = {
-                'group': group.id,
-                'type': 'Point',
-                'coordinates': (
-                float(form_location.cleaned_data['longitude']), float(form_location.cleaned_data['latitude'])),
-            }
-            db.location.insert(data)
+            try:
+                data = {
+                    'group': group.id,
+                    'type': 'Point',
+                    'coordinates': (
+                        float(form_location.cleaned_data['longitude']), float(form_location.cleaned_data['latitude'])),
+                }
+                db.location.insert(data)
 
-            if group.state == 2:
-                create_temp_group.apply_async(args=[group.id, ],
-                                              eta=datetime.utcnow() + timedelta(hours=group.duration),
-                                              link=destroy_temp_group.s())
-
+                if group.state == 2:
+                    create_temp_group.apply_async(args=[group.id, ],
+                                                  eta=datetime.utcnow() + timedelta(hours=group.duration),
+                                                  link=destroy_temp_group.s())
+            except Exception:
+                return HttpResponse("Something is wrong")
             return redirect(reverse('groups'))
 
         else:
@@ -94,18 +96,21 @@ def detail_group(request, pk):
     if request.method == "POST":
         form = UserLocationForm(request.POST)
         if form.is_valid():
-            longitude = float(form.cleaned_data['longitude'])
-            latitude = float(form.cleaned_data['latitude'])
-            data = {
-                'group': group.id,
-                'coordinates':
-                    SON([('$near', [longitude, latitude]), ('$maxDistance', group.range / 111.12)])}
-            if list(db.location.find(data)):
-                group.members.add(request.user)
-                # return redirect(reverse('groups'))
-                return HttpResponse("ekleme gerceklesti.")
-            else:
-                return HttpResponse("ekleyemedik.")
+            try:
+                longitude = float(form.cleaned_data['longitude'])
+                latitude = float(form.cleaned_data['latitude'])
+                data = {
+                    'group': group.id,
+                    'coordinates':
+                        SON([('$near', [longitude, latitude]), ('$maxDistance', group.range / 111.12)])}
+                if list(db.location.find(data)):
+                    group.members.add(request.user)
+                    # return redirect(reverse('groups'))
+                    return HttpResponse("ekleme gerceklesti.")
+                else:
+                    return HttpResponse("ekleyemedik.")
+            except Exception:
+                return HttpResponse("Something is wrong")
 
     unread_notifications = request.user.notifications.unread()
 

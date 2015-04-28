@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, HttpResponseRedirect, redirect, get_object_or_404, get_list_or_404, render
+from django.shortcuts import render_to_response, HttpResponseRedirect, redirect, get_object_or_404, get_list_or_404, render, HttpResponse
 from django.template import RequestContext
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from profiles.forms import LoginForm, AdvancedRegistrationForm
@@ -105,16 +105,19 @@ def user_profile(request):
 
 
 def search(request):
-    q = request.GET['q']
-    value = es.search(index='komsukomsuhuu', q=q)
-    if value['hits']['total']:
-        data = User.objects.get(username=value['hits']['hits'][0]['_source']['username'])
-        return render_to_response("result.html", {
-            "data": data
-        }, RequestContext(request))
-    else:
-         return render_to_response("result.html", {
-        }, RequestContext(request))
+    try:
+        q = request.GET['q']
+        value = es.search(index='komsukomsuhuu', q=q)
+        if value['hits']['total']:
+            data = User.objects.get(username=value['hits']['hits'][0]['_source']['username'])
+            return render_to_response("result.html", {
+                "data": data
+            }, RequestContext(request))
+        else:
+             return render_to_response("result.html", {
+            }, RequestContext(request))
+    except Exception:
+        return HttpResponse("Something is wrong!")
 
 
 def notifications(request):
