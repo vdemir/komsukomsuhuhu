@@ -11,37 +11,21 @@ from entities.models import Topic
 from django.contrib.auth.models import User
 from elasticsearch import Elasticsearch
 from django.core.urlresolvers import reverse
+from functions.function import info
 from django.contrib.auth.views import password_reset, password_reset_confirm
 
 
 es = Elasticsearch()
 
+
 @login_required(login_url='/login')
 def home(request):
-    favorited_groups = list(Group.objects.filter(user_favorited=request.user))
-    favorited_topics = list(Topic.objects.filter(user_favorited=request.user))
-    inbox_notifications = []
-    other_notifications = []
-
-    unread_notifications = request.user.notifications.unread()
-
-    for notification in unread_notifications:
-        notification.level = "warning"
-        notification.save()
-
-    notifications = request.user.notifications.order_by('-timestamp')
-
-    for notification in notifications:
-        if notification.verb in ('sent new message to you','created new conversation'):
-            inbox_notifications.append(notification)
-        else:
-            other_notifications.append(notification)
 
     return render_to_response('home.html', {
-        'notifications': other_notifications,
-        'inbox_notifications': inbox_notifications,
-        'favorited_groups': favorited_groups,
-        'favorited_topics': favorited_topics,
+        'favorited_groups': info(request)[0],
+        'favorited_topics': info(request)[1],
+        'notifications': info(request)[2],
+        'inbox_notifications': info(request)[3],
     }, RequestContext(request))
 
 def register(request):

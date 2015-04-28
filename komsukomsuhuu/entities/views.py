@@ -6,11 +6,11 @@ from models import Topic, Post
 from forms import TopicForm, PostForm
 from groups.models import Group
 from notifications import notify
+from functions.function import info
 # Create your views here.
 
 
 def send_notification(sender, recipient_usernames, verb, target):
-
     if recipient_usernames:
         for recipient_username in recipient_usernames:
             if recipient_username != sender:
@@ -24,14 +24,14 @@ def send_notification(sender, recipient_usernames, verb, target):
 
 @login_required(login_url='/login')
 def list_topics(request, pk):
-
     topics = Topic.objects.get(id=pk)
-    group = topics.group;
+    group = topics.group
     if request.user in group.members.all():
         return render_to_response("detail_group.html", {
             'topics': topics
         }, RequestContext(request))
     return HttpResponse("You are not member of this group")
+
 
 @login_required(login_url='/login')
 def new_topic(request, pk):
@@ -63,7 +63,7 @@ def new_topic(request, pk):
 def new_post(request, pk):
     form = PostForm()
     topic = Topic.objects.get(id=pk)
-    group = topic.group;
+    group = topic.group
     if request.user in group.members.all():
         recipient_usernames = topic.user_favorited.all()
 
@@ -85,7 +85,7 @@ def new_post(request, pk):
 @login_required(login_url='/login')
 def detail_topic(request, pk):
     topic = get_object_or_404(Topic, id=pk)
-    group = topic.group;
+    group = topic.group
     if request.user in group.members.all():
         posts = Post.objects.filter(topic=pk).order_by('-date_created')
 
@@ -103,19 +103,24 @@ def detail_topic(request, pk):
         for unread_notification in unread_notifications:
             if unread_notification.target == topic:
                 unread_notification.mark_as_read()
-                unread_notification.level="info"
+                unread_notification.level = "info"
                 unread_notification.save()
 
         return render_to_response('detail_topic.html', {
+            'favorited_groups': info(request)[0],
+            'favorited_topics': info(request)[1],
+            'notifications': info(request)[2],
+            'inbox_notifications': info(request)[3],
             'topic': topic,
             'posts': posts
         }, RequestContext(request))
     return HttpResponse("You are not member of this group")
 
+
 @login_required(login_url='/login')
 def favorite_topic(request, pk):
     topic = Topic.objects.get(id=pk)
-    group = topic.group;
+    group = topic.group
     if request.user in group.members.all():
         if Topic.objects.filter(id=pk, user_favorited=request.user).exists():
             topic.user_favorited.remove(request.user)
@@ -126,10 +131,8 @@ def favorite_topic(request, pk):
     return HttpResponse("You are not member of this group")
 
 
-
 @login_required
 def mark_as_read(request):
-
     request.user.notifications.unread().mark_all_as_read()
 
     return HttpResponseRedirect(reverse('home'))
