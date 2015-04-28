@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block css %}
 {{ block.super }}
@@ -14,6 +15,7 @@
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
 <script type="text/javascript">
     var map;
+    var customIcons = {
 
       temporary: {
         icon: '{% static "media/icons/temp.png" %}'
