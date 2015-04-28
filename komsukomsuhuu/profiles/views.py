@@ -1,4 +1,5 @@
-from django.shortcuts import render_to_response, HttpResponseRedirect, redirect, get_object_or_404, get_list_or_404, render, HttpResponse
+from django.shortcuts import render_to_response, HttpResponseRedirect, redirect, get_object_or_404, get_list_or_404, \
+    render, HttpResponse
 from django.template import RequestContext
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from profiles.forms import LoginForm, AdvancedRegistrationForm
@@ -20,13 +21,13 @@ es = Elasticsearch()
 
 @login_required(login_url='/login')
 def home(request):
-
     return render_to_response('home.html', {
         'favorited_groups': info(request)[0],
         'favorited_topics': info(request)[1],
         'notifications': info(request)[2],
         'inbox_notifications': info(request)[3],
     }, RequestContext(request))
+
 
 def register(request):
     if request.method == 'POST':
@@ -59,7 +60,8 @@ def login(request):
 
     return render_to_response("login.html", {
         "form": form
-    },  RequestContext(request))
+    }, RequestContext(request))
+
 
 @login_required(login_url='/login')
 def edit_profile(request):
@@ -73,6 +75,7 @@ def edit_profile(request):
     return render_to_response('edit_profile.html', {
         'form': form,
     }, RequestContext(request))
+
 
 @login_required(login_url='/login')
 def logout(request):
@@ -91,7 +94,6 @@ def users(request, username):
 
 
 def user_profile(request):
-
     fav_groups = list(Group.objects.filter(user_favorited=request.user))
     fav_topics = list(Topic.objects.filter(user_favorited=request.user))
     my_groups = list(Group.objects.filter(members=request.user))
@@ -111,10 +113,14 @@ def search(request):
         if value['hits']['total']:
             data = User.objects.get(username=value['hits']['hits'][0]['_source']['username'])
             return render_to_response("result.html", {
+                'favorited_groups': info(request)[0],
+                'favorited_topics': info(request)[1],
+                'notifications': info(request)[2],
+                'inbox_notifications': info(request)[3],
                 "data": data
             }, RequestContext(request))
         else:
-             return render_to_response("result.html", {
+            return render_to_response("result.html", {
             }, RequestContext(request))
     except Exception:
         return HttpResponse("Something is wrong!")
@@ -125,13 +131,13 @@ def notifications(request):
     unread_notifications = request.user.notifications.unread()
 
     for notification in unread_notifications:
-        notification.level="warning"
+        notification.level = "warning"
         notification.save()
 
     all_notifications = request.user.notifications.order_by('-timestamp')
 
     for notification in all_notifications:
-        if notification.verb not in ('sent new message to you','created new conversation'):
+        if notification.verb not in ('sent new message to you', 'created new conversation'):
             notifications.append(notification)
 
     return render_to_response('notifications.html', {
