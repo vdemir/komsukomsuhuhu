@@ -83,7 +83,9 @@ def new_group(request):
 
 @login_required(login_url='/login')
 def delete_group(request, pk):
-    Group.objects.filter(id=pk, manager=request.user).isActive = False
+    group = Group.objects.get(id=pk, manager=request.user)
+    group.isActive = False
+    group.save()
 
     return redirect(reverse('home'))
 
