@@ -158,10 +158,17 @@ def edit_group(request, pk):
 @login_required(login_url='/login')
 def join_group(request, pk):
     group = Group.objects.get(id=pk)
-    if Group.objects.filter(id=pk, members=request.user).exists():
-        group.members.remove(request.user)
-    else:
+    if request.user not in group.members.all():
         group.members.add(request.user)
+
+    return redirect(reverse('groups'))
+
+
+def leave_group(request, pk):
+    group = Group.objects.get(id=pk)
+    if request.user in group.members.all():
+        group.members.remove(request.user)
+
     return redirect(reverse('groups'))
 
 

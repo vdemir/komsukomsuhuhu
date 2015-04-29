@@ -47,16 +47,21 @@
 
                 <div class="buttons">
 
+                    {% if user == group.manager %}
                     <a class="btn btn-danger btn-sm" href="{% url 'delete_group' group.id %}">Delete Group</a>
 
                     <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ModalEditGroup">Edit Group</button>
+
+                    {% endif %}
 
                     {% include 'edit_group.html' %}
 
                     <a class="btn btn-success btn-sm" href="{% url 'fav_group' group.id %}">Favourites</a>
 
+                    <a class="btn btn-danger btn-sm"  href="{% url 'leave_group' group.id %}">Leave Group</a>
+
                     {% else %}
-                    <button type="button" class="btn btn-primary btn-sm" onclick="getLocation();">Join Group</button>
+                    <button class="btn btn-primary btn-sm" onclick="getLocation();">Join Group</button>
 
                     {% endif %}
 
