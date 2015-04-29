@@ -111,11 +111,7 @@
 {% block title %}Maps{% endblock %}
 
 {% block sidebarjs%}
-<script>
-    document.getElementById("maps").style.color="#fff";
-    document.getElementById("maps").style.backgroundColor="#ffbb33";
-    document.getElementById("maps").style.borderRadius="10px";
-</script>
+<script>document.getElementById("maps").style.cssText = "color: #fff;background-color: #ffbb33;border-radius: 10px;";</script>
 {% endblock %}
 
 {% block content %}

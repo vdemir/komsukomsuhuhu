@@ -11,13 +11,8 @@
 {% block title %}Notifications{% endblock %}
 
 {% block sidebarjs%}
-<script>
-    document.getElementById("home").style.color="#fff";
-    document.getElementById("home").style.backgroundColor="#ffbb33";
-    document.getElementById("home").style.borderRadius="10px";
-</script>
+<script>document.getElementById("home").style.cssText = "color: #fff;background-color: #ffbb33;border-radius: 10px;";</script>
 {% endblock %}
-
 
 {% block content %}
 	  <div class="col-md-9">

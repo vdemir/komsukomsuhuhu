@@ -15,11 +15,7 @@
 {% block title %}Groups Page{% endblock %}
 
 {% block sidebarjs%}
-<script>
-    document.getElementById("groups").style.color="#fff";
-    document.getElementById("groups").style.backgroundColor="#ffbb33";
-    document.getElementById("groups").style.borderRadius="10px";
-</script>
+<script>document.getElementById("groups").style.cssText = "color: #fff;background-color: #ffbb33;border-radius: 10px;";</script>
 {% endblock %}
 
 {% block content %}
