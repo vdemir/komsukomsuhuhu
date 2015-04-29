@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from models import Group
-from forms import GroupForm, GroupLocationForm
+from forms import GroupForm, GroupLocationForm, EditGroupForm
 from profiles.forms import UserLocationForm
 from entities.models import Topic
 from pymongo import Connection
@@ -47,7 +47,6 @@ def list_groups_on_map(request):
 @login_required(login_url='/login')
 def new_group(request):
     form = GroupForm()
-    form_location = GroupLocationForm()
     if request.method == 'POST':
         form = GroupForm(request.POST)
         form_location = GroupLocationForm(request.POST)
@@ -98,7 +97,6 @@ def delete_group(request, pk):
 def detail_group(request, pk):
     group = get_object_or_404(Group, id=pk)
     topics = Topic.objects.filter(group=pk)
-    form = UserLocationForm()
     if request.method == "POST":
         form = UserLocationForm(request.POST)
         if form.is_valid():
@@ -139,21 +137,23 @@ def detail_group(request, pk):
 
 @login_required(login_url='/login')
 def edit_group(request, pk):
-    if Group.objects.get(id=pk).manager != request.user:
+    group = Group.objects.get(id=pk)
+    if group.manager != request.user:
         return HttpResponse("Only owner can edit")
-    group = Group.objects.get(id=pk, manager=request.user)
-    form = GroupForm(instance=group)
-    if request.method == 'POST':
-        form = GroupForm(request.POST, instance=group)
-        if form.is_valid():
-            form.save()
-            return redirect(reverse('groups'))
+    else:
+        form = EditGroupForm(instance=group)
+        if request.method == 'POST':
+            form = EditGroupForm(request.POST, instance=group)
+            if form.is_valid():
+                form.save()
+                return redirect(reverse('groups'))
+            else:
+                HttpResponse("Something is wrong")
 
     return render_to_response('edit_group.html', {
         'form': form,
         'group': group,
     }, RequestContext(request))
-
 
 @login_required(login_url='/login')
 def join_group(request, pk):
@@ -179,24 +179,24 @@ def favorite_group(request, pk):
 
 @login_required(login_url='/login')
 def show_neighbours(request):
-    groupList = []
-    neighbourList = []
+    group_list = []
+    neighbour_list = []
     groups = Group.objects.all()
     for group in groups:
         if group.members.filter(username=request.user.username):
-            groupList.append(group)
-    for myGroup in groupList:
-        myNeighs = myGroup.members.all()
-        if myNeighs.exists():
-            for myNeigh in myNeighs:
-                if not (myNeigh == request.user or myNeigh in neighbourList):
-                    neighbourList.append(myNeigh)
+            group_list.append(group)
+    for my_group in group_list:
+        my_neighs = my_group.members.all()
+        if my_neighs.exists():
+            for myNeigh in my_neighs:
+                if not (myNeigh == request.user or myNeigh in neighbour_list):
+                    neighbour_list.append(myNeigh)
     return render_to_response("neighbours.html", {
         'favorited_groups': info(request)[0],
         'favorited_topics': info(request)[1],
         'notifications': info(request)[2],
         'inbox_notifications': info(request)[3],
-        'mygroups': groupList,
-        'myneighs': neighbourList,
+        'my_group': group_list,
+        'my_neighs': neighbour_list,
     }, RequestContext(request))
 
