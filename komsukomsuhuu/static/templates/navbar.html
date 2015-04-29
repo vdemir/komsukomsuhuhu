@@ -59,10 +59,29 @@
                         <li><a href="{% url 'notifications' %}" class="text-center">View All</a></li>
                     </ul>
                 </li>
-		
-                <li class="dropdown2"><a href="{% url 'inbox' %}"></span>
+
+                <li class="dropdown2"><a href="#" class="dropdown-toggle" data-toggle="dropdown"></span>
+
                     <span class="glyphicon glyphicon-envelope"></span>Inbox <span class="label label-success">{{message_count}}</span>
-                </a>                    
+                </a>
+                    <ul class="dropdown-menu">
+
+                        {% for notification in inbox_notifications|slice:":5" %}
+                        <li>
+                            <a href="{% url 'conversation_detail' notification.target.id %}">
+                                {% if notification.level == 'warning' %}
+                                 <span class="label label-success">{{ notification.timestamp }}</span>
+                                 {% elif notification.level == 'info' %}
+                                 <span class="label label-warning">{{ notification.timestamp }}</span>
+                                 {% endif %}
+                            {{ notification.actor|default:"" }}
+                            {{ notification.verb|default:"" }}</a></li>
+                        {% empty %}
+                         <li><span class="label label-success" >Nothing to notify</span></li>
+                        {% endfor %}
+                        <li class="divider"></li>
+                        <li><a href="{% url 'inbox' %}" class="text-center">View All</a></li>
+                    </ul>
                 </li>
 
                 <li class="dropdown3"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
@@ -80,78 +99,4 @@
       </div><!-- /.container -->
     </nav><!-- /.navbar -->
  </div>   
-<!--<div class="container">
-    <div class="fix">
-    {% load notifications_tags %}
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-	<div class="menu-content">
-        <div class="navbar-header">
-            <a class="navbar-brand" href='{% url "home" %}'>Komsu Komsu Hu Hu</a>
-        </div>
-        
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <ul class="nav navbar-right">
-		        <div class="search-box">
-                  <form class="navbar-form" role="q" method="get" action="{% url 'search' %}">
-                    <div class="input-group">
-                     <input type="text" class="form-control" placeholder="Search" name="q">
-                      <div class="input-group-btn">
-                      <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                </ul>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
 
-            {% notifications_unread as unread_count %}
-                <li class="dropdown1"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                    class="glyphicon glyphicon-bell"></span>Notifications <span class="label label-success">{{ unread_count }}</span>
-                </a>
-                    <ul class="dropdown-menu">
-
-                        {% for notification in notifications|slice:":5" %}
-                        <li>
-                            {% if notification.verb == 'posted on'%}
-                            <a href="{% url 'detail_topic' notification.target.id %}">
-                            {% elif notification.verb == 'created new topic on'%}
-                             <a href="{% url 'detail_group' notification.target.id %}">
-                            {% endif %}
-                                 {% if notification.level == 'warning' %}
-                                 <span class="label label-success">{{ notification.timestamp }}</span>
-                                 {% elif notification.level == 'info' %}
-                                 <span class="label label-warning">{{ notification.timestamp }}</span>
-                                 {% endif %}
-                            {{ notification.actor|default:"" }}
-                            {{ notification.verb|default:"" }}
-                            {{ notification.target|default:"" }}</a></li>
-                        {% empty %}
-                         <li><span class="label label-success" >Nothing to notify</span></li>
-                        {% endfor %}
-                        <li class="divider"></li>
-                        <li><a href="{% url 'notifications' %}" class="text-center">View All</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown2"><a href="{% url 'inbox' %}"></span>
-                    <span class="glyphicon glyphicon-envelope"></span>Inbox <span class="label label-success">{{message_count}}</span>
-                </a>
-                    
-                </li>
-                <li class="dropdown3"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                    class="glyphicon glyphicon-user"></span>{{user.get_full_name}}<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-cog"></span>Settings</a></li>
-                        <li class="divider"></li>
-                        <li><a href='{% url "logout" %}'><span class="glyphicon glyphicon-off"></span>Logout</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-	</div>
-       
-    </nav>
-    </div>
-</div> -->
