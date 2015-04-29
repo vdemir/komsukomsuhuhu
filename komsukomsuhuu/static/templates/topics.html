@@ -14,7 +14,7 @@
 <script>
     document.getElementById("topics").style.color="#fff";
     document.getElementById("topics").style.backgroundColor="#ffbb33";
-    document.getElementById("topicss").style.borderRadius="10px";
+    document.getElementById("topics").style.borderRadius="10px";
 </script>
 {% endblock %}
 
@@ -23,8 +23,8 @@
 <div class="col-md-9">
     <div class="main-content">
     <hr>
-    {% for topic in mytopics %}
-        <li><a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li>
+        {% for topic in mytopics %}
+           <li><a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li>
         {% empty %}
                 <h5>No topics available!</h5>
         {% endfor %}
