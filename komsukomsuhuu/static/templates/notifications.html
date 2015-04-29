@@ -15,29 +15,29 @@
 {% endblock %}
 
 {% block content %}
-	  <div class="col-md-9">
-              <div class="main-content">
-                 <h3>Notifications</h3>
-                  {% for notification in notifications %}
-                            {% if notification.verb == 'posted on'%}
-                            <a href="{% url 'detail_topic' notification.target.id %}">
-                            {% elif notification.verb == 'created new topic on'%}
-                             <a href="{% url 'detail_group' notification.target.id %}">
-                            {% endif %}
-                                 {% if notification.level == 'warning' %}
-                                 <span class="label label-success">{{ notification.timestamp }}</span>
-                                 {% elif notification.level == 'info' %}
-                                 <span class="label label-warning">{{ notification.timestamp }}</span>
-                                 {% endif %}
-                            {{ notification.actor|default:"" }}
-                            {{ notification.verb|default:"" }}
-                            {{ notification.target|default:"" }}<br>
-                             </a>
-                        {% empty %}
-                         <span class="label label-success" >Nothing to notify</span>
-                        {% endfor %}
-                            </a>
-             </div>
-         </div>
+<div class="col-md-9">
+    <div class="main-content">
+        <h3>Notifications</h3>
+        {% for notification in notifications %}
+        {% if notification.verb == 'posted on'%}
+        <a href="{% url 'detail_topic' notification.target.id %}">
+            {% elif notification.verb == 'created new topic on'%}
+            <a href="{% url 'detail_group' notification.target.id %}">
+                {% endif %}
+                {% if notification.level == 'warning' %}
+                <span class="label label-success">{{ notification.timestamp }}</span>
+                {% elif notification.level == 'info' %}
+                <span class="label label-warning">{{ notification.timestamp }}</span>
+                {% endif %}
+                {{ notification.actor|default:"" }}
+                {{ notification.verb|default:"" }}
+                {{ notification.target|default:"" }}<br>
+            </a>
+            {% empty %}
+            <span class="label label-success">Nothing to notify</span>
+            {% endfor %}
+        </a>
+    </div>
+</div>
 
 {% endblock %}

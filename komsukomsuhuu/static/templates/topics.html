@@ -18,11 +18,11 @@
 
 <div class="col-md-9">
     <div class="main-content">
-    <hr>
+        <hr>
         {% for topic in my_topics %}
-           <li><a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li>
+        <li><a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li>
         {% empty %}
-                <h5>No topics available!</h5>
+        <h5>No topics available!</h5>
         {% endfor %}
     </div>
 </div>

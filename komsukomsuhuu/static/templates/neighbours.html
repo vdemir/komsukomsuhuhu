@@ -18,11 +18,11 @@
 
 <div class="col-md-9">
     <div class="main-content">
-    <hr>
-    {% for neigh in my_neighs %}
+        <hr>
+        {% for neigh in my_neighs %}
         <li><a href="{% url 'users' neigh.username %}">{{neigh.get_full_name }}</a></li>
         {% empty %}
-                <h5>No neighbours available!</h5>
+        <h5>No neighbours available!</h5>
         {% endfor %}
     </div>
 </div>
