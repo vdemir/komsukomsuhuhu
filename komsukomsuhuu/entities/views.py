@@ -61,7 +61,6 @@ def new_topic(request, pk):
 
 @login_required(login_url='/login')
 def new_post(request, pk):
-    form = PostForm()
     topic = Topic.objects.get(id=pk)
     group = topic.group
     if request.user in group.members.all():
@@ -140,23 +139,23 @@ def mark_as_read(request):
 
 @login_required(login_url='/login')
 def show_topics(request):
-    groupList = []
-    topicList = []
+    group_list = []
+    topic_list = []
     groups = Group.objects.all()
     for group in groups:
         if group.members.filter(username=request.user.username):
-            groupList.append(group)
-    for myGroup in groupList:
-        myTopics = Topic.objects.filter(group=myGroup)
-        if myTopics.exists():
-            for myTopic in myTopics:
-                topicList.append(myTopic)
+            group_list.append(group)
+    for my_group in group_list:
+        my_topics = Topic.objects.filter(group=my_group)
+        if my_topics.exists():
+            for my_topic in my_topics:
+                topic_list.append(my_topic)
     return render_to_response("topics.html", {
         'favorited_groups': info(request)[0],
         'favorited_topics': info(request)[1],
         'notifications': info(request)[2],
         'inbox_notifications': info(request)[3],
-        'mygroups': groupList,
-        'mytopics': topicList,
+        'my_groups': group_list,
+        'my_topics': topic_list,
     }, RequestContext(request))
 
