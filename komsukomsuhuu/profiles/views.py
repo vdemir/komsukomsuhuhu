@@ -107,17 +107,19 @@ def user_profile(request):
 
 
 def search(request):
+    users = []
     try:
         q = request.GET['q']
         value = es.search(index='komsukomsuhuu', q=q)
         if value['hits']['total']:
-            data = User.objects.get(username=value['hits']['hits'][0]['_source']['username'])
+            for user in value['hits']['hits']:
+                users.append(User.objects.get(username=user['_source']['username']))
             return render_to_response("result.html", {
                 'favorited_groups': info(request)[0],
                 'favorited_topics': info(request)[1],
                 'notifications': info(request)[2],
                 'inbox_notifications': info(request)[3],
-                "data": data
+                'users': users
             }, RequestContext(request))
         else:
             return render_to_response("result.html", {

@@ -25,13 +25,13 @@
     <div class="main-content">
         <div class="row">
             <div class="span4 well" style="padding-bottom:0">
-                {% if data %}
-                <a href="{% url 'users' data.username %}">
-                    <img src="{% gravatar_url data.email 100 %}" class="img-responsive img-circle" alt=""/>{{data.get_full_name }}
+                {% for user in users %}
+                <a href="{% url 'users' user.username %}">
+                    <img src="{% gravatar_url user.email 100 %}" class="img-responsive img-circle" alt=""/>&nbsp;&nbsp;&nbsp;{{user.get_full_name }}
                 </a>
-                {% else %}
+                {% empty %}
                 <p>No result found.</p>
-                {% endif %}
+                {% endfor %}
             </div>
         </div>
     </div>
