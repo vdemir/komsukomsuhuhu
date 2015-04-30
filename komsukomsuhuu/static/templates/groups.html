@@ -19,6 +19,17 @@
 {% endblock %}
 
 {% block content %}
+{% if error %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="span2 well">
+
+            <b>Please check your field. Group name is unique.</b>
+
+        </div>
+    </div>
+</div>
+{% endif %}
 {% if create_group %}
 <div class="col-md-5">
     <div class="main-content">

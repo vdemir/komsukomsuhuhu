@@ -24,6 +24,7 @@ def list_groups(request):
     leave_group = request.GET.get("leave_group")
     create_group = request.GET.get("create_group")
     join_group = request.GET.get("join_group")
+    error = request.GET.get("error")
     return render_to_response('groups.html', {
         'favorited_groups': info(request)[0],
         'favorited_topics': info(request)[1],
@@ -33,7 +34,8 @@ def list_groups(request):
         'create_group': create_group,
         'join_group': join_group,
         'leave_group': leave_group,
-        'delete_group': delete_group
+        'delete_group': delete_group,
+        'error': error
     }, RequestContext(request))
 
 
@@ -59,7 +61,6 @@ def new_group(request):
         if form.is_valid() and form_location.is_valid():
             form.instance.manager = request.user
             form.save()
-            # TODO our group names not unique!! get by name fails if there are 2 groups with same name
             group = Group.objects.get(name=form.cleaned_data['name'])
             group.members.add(request.user)
             group.save()
@@ -86,7 +87,10 @@ def new_group(request):
             return redirect(redirect_to)
 
         else:
-            return HttpResponse('Form is not valid')
+            redirect_to = "%(path)s?error=true" % {
+                "path": reverse("groups")
+            }
+            return redirect(redirect_to)
 
     return render_to_response('new_group.html', {
         'form': form
