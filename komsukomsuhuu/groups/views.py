@@ -17,17 +17,23 @@ db = Connection()['komsukomsuhuu']
 # Create your views here.
 
 
-
 @login_required(login_url='/login')
 def list_groups(request):
     groups = Group.objects.filter(isActive=True)
-
+    delete_group = request.GET.get("delete_group")
+    leave_group = request.GET.get("leave_group")
+    create_group = request.GET.get("create_group")
+    join_group = request.GET.get("join_group")
     return render_to_response('groups.html', {
         'favorited_groups': info(request)[0],
         'favorited_topics': info(request)[1],
         'notifications': info(request)[2],
         'inbox_notifications': info(request)[3],
-        'groups': groups
+        'groups': groups,
+        'create_group': create_group,
+        'join_group': join_group,
+        'leave_group': leave_group,
+        'delete_group': delete_group
     }, RequestContext(request))
 
 
@@ -74,7 +80,10 @@ def new_group(request):
                                                   link=destroy_temp_group.s())
             except Exception:
                 return HttpResponse("Something is wrong")
-            return redirect(reverse('groups'))
+            redirect_to = "%(path)s?create_group=true" % {
+                "path": reverse("groups")
+            }
+            return redirect(redirect_to)
 
         else:
             return HttpResponse('Form is not valid')
@@ -89,14 +98,24 @@ def delete_group(request, pk):
     group = Group.objects.get(id=pk, manager=request.user)
     group.isActive = False
     group.save()
+    redirect_to = "%(path)s?delete_group=true" % {
+        "path": reverse("groups")
+    }
+    return redirect(redirect_to)
 
-    return redirect(reverse('home'))
 
 
 @login_required(login_url='/login')
 def detail_group(request, pk):
+    already_favorited = ''
+    favorite_group = request.GET.get("favorite_group")
+    edit_group = request.GET.get("edit_group")
+    join_group = request.GET.get("join_group")
+    create_topic = request.GET.get("create_topic")
     group = get_object_or_404(Group, id=pk)
     topics = Topic.objects.filter(group=pk)
+    if request.user in group.user_favorited.all():
+        already_favorited = True
     if request.method == "POST":
         form = UserLocationForm(request.POST)
         if form.is_valid():
@@ -110,9 +129,15 @@ def detail_group(request, pk):
                 if list(db.location.find(data)):
                     group.members.add(request.user)
                     # return redirect(reverse('groups'))
-                    return HttpResponse("ekleme gerceklesti.")
+                    redirect_to = "%(path)s?join_group=true" % {
+                        "path": reverse("detail_group", args=[pk])
+                    }
+                    return redirect(redirect_to)
                 else:
-                    return HttpResponse("ekleyemedik.")
+                    redirect_to = "%(path)s?join_group=true" % {
+                        "path": reverse("groups")
+                    }
+                    return redirect(redirect_to)
             except Exception:
                 return HttpResponse("Something is wrong")
 
@@ -132,6 +157,11 @@ def detail_group(request, pk):
         'group': group,
         'topics': topics,
         'user': request.user,
+        'create_topic': create_topic,
+        'join_group': join_group,
+        'edit_group': edit_group,
+        'favorite_group': favorite_group,
+        'already_favorited': already_favorited
     }, RequestContext(request))
 
 
@@ -139,37 +169,41 @@ def detail_group(request, pk):
 def edit_group(request, pk):
     group = Group.objects.get(id=pk)
     if group.manager != request.user:
-        return HttpResponse("Only owner can edit")
+        redirect_to = "%(path)s?edit_group=no-permission" % {
+            "path": reverse("detail_group", args=[pk])
+        }
+        return redirect(redirect_to)
     else:
         form = EditGroupForm(instance=group)
         if request.method == 'POST':
             form = EditGroupForm(request.POST, instance=group)
             if form.is_valid():
                 form.save()
-                return redirect(reverse('groups'))
+                redirect_to = "%(path)s?edit_group=permission" % {
+                    "path": reverse("detail_group", args=[pk])
+                }
+                return redirect(redirect_to)
+
             else:
                 HttpResponse("Something is wrong")
 
     return render_to_response('edit_group.html', {
         'form': form,
-        'group': group,
+        'group': group
     }, RequestContext(request))
 
+
 @login_required(login_url='/login')
-def join_group(request, pk):
-    group = Group.objects.get(id=pk)
-    if request.user not in group.members.all():
-        group.members.add(request.user)
-
-    return redirect(reverse('groups'))
-
-
 def leave_group(request, pk):
     group = Group.objects.get(id=pk)
     if request.user in group.members.all():
         group.members.remove(request.user)
 
-    return redirect(reverse('groups'))
+    redirect_to = "%(path)s?leave_group=true" % {
+        "path": reverse("groups")
+    }
+    return redirect(redirect_to)
+
 
 
 @login_required(login_url='/login')
@@ -178,10 +212,21 @@ def favorite_group(request, pk):
     if request.user in group.members.all():
         if Group.objects.filter(id=pk, user_favorited=request.user).exists():
             group.user_favorited.remove(request.user)
+            redirect_to = "%(path)s?favorite_group=leave-success" % {
+                "path": reverse("detail_group", args=[pk])
+            }
+            return redirect(redirect_to)
         else:
             group.user_favorited.add(request.user)
-    return redirect(reverse('groups'))
-    return HttpResponse("You are not member of this group")
+            redirect_to = "%(path)s?favorite_group=success" % {
+                "path": reverse("detail_group", args=[pk])
+            }
+            return redirect(redirect_to)
+
+    redirect_to = "%(path)s?favorite_group=no-members" % {
+        "path": reverse("detail_group", args=[pk])
+    }
+    return redirect(redirect_to)
 
 
 @login_required(login_url='/login')

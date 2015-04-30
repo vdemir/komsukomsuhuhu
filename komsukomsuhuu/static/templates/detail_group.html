@@ -4,13 +4,13 @@
 
 {% block css %}
 {{ block.super }}
-    <link rel="stylesheet" href="/static/css/detail_group.css"/>
-    <link rel="stylesheet" href="/static/css/members.css"/>
+<link rel="stylesheet" href="/static/css/detail_group.css"/>
+<link rel="stylesheet" href="/static/css/members.css"/>
 {% endblock %}
 
 {% block js %}
 {{ block.super }}
-    <script src="/static/js/members.js"></script>>
+<script src="/static/js/members.js"></script>>
 {% endblock %}
 
 {% block title %}Detail Group Page{% endblock %}
@@ -20,109 +20,195 @@
 {% endblock %}
 
 {% block content %}
-        <div class="col-md-5">
-            <div class="main-content">
-                <h1>{{ group.name }}</h1>
+{% if create_topic %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="span2 well">
 
-                <p>Owner: {{ group.manager}}</p>
+            <b>Topic created successfully</b>
 
-                <hr/>
-
-                {% if user in group.members.all %}
-
-                <button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#ModalNewTopic"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Create New Topic</button>
-
-                {% include 'new_topic.html' %}
-
-                <hr/>
-
-                <h1>Trending Topics</h1>
-                {% for topic in topics %}
-                <li><a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li>
-                {% empty %}
-                <h5>No topics available!</h5>
-                {% endfor %}
-
-                <hr/>
-
-                <div class="buttons">
-
-                    {% if user == group.manager %}
-                    <a class="btn btn-danger btn-sm" href="{% url 'delete_group' group.id %}">Delete Group</a>
-
-                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ModalEditGroup">Edit Group</button>
-
-                    {% endif %}
-
-                    {% include 'edit_group.html' %}
-
-                    <a class="btn btn-success btn-sm" href="{% url 'fav_group' group.id %}">Favourites</a>
-
-                    <a class="btn btn-danger btn-sm"  href="{% url 'leave_group' group.id %}">Leave Group</a>
-
-                    {% else %}
-                    <button class="btn btn-primary btn-sm" onclick="getLocation();">Join Group</button>
-
-                    {% endif %}
-
-                    <form action="{% url 'detail_group' group.id %}" method="POST" id="form1">
-                        {% csrf_token %}
-                        <input type="hidden" name="latitude" id="latitude"/>
-                        <input type="hidden" name="longitude" id="longitude"/>
-                    </form>
-                </div>
-            </div>
         </div>
+    </div>
+</div>
+{% endif %}
+
+{% if join_group %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="span2 well">
+
+            <b>You join successfully</b>
+
+        </div>
+    </div>
+</div>
+{% endif %}
+{% if edit_group == "permission" %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="span2 well">
+
+            <b>Editing group successful</b>
+
+        </div>
+    </div>
+</div>
+{% elif edit_group == "no-permission" %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="span2 well">
+
+            <b>Only owner can edit</b>
+
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if favorite_group == "success" %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="span2 well">
+            <b>You favorite group successfully</b>
+        </div>
+    </div>
+</div>
+{% elif favorite_group == "leave-success" %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="span2 well">
+            <b>You unfavorite group successfully</b>
+        </div>
+    </div>
+</div>
+
+{% elif favorite_group == "no-members" %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="span2 well">
+            <b>You are not member of this group</b>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
+<div class="col-md-5">
+    <div class="main-content">
+        <h1>{{ group.name }}</h1>
+
+        <p>Owner: {{ group.manager}}</p>
+
+        <hr/>
+
         {% if user in group.members.all %}
-        <div class="col-md-4">
-            <div class="members">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-offset-3 col-sm-6">
-                        <div class="panel panel-default">
-                            <div class="panel-heading c-list">
 
-                                <span class="title">Members</span>
-                                <ul class="pull-right c-controls">
-                                    <li><a href="#" style="color:#fff;" class="hide-search" data-command="toggle-search" data-toggle="tooltip" data-placement="top" title="Toggle Search"><i class="fa fa-ellipsis-v"></i></a></li>
-                                </ul>
-                            </div>
+        <button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#ModalNewTopic"><span
+                class="glyphicon glyphicon-plus" aria-hidden="true"></span>Create New Topic
+        </button>
 
-                            <div class="row" style="display: none;">
-                                <div class="col-xs-12">
-                                    <div class="input-group c-search">
-                                        <input type="text" class="form-control" placeholder="Search" id="contact-list-search">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search text-muted"></span></button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
+        {% include 'new_topic.html' %}
 
-                            <ul class="list-group" id="contact-list">
-                                {% for member in group.members.all %}
-                                <li class="list-group-item">
-                                    <div class="col-xs-12 col-sm-3">
-                                        <img src="{% gravatar_url member.email 100 %}" alt="" class="img-responsive img-circle"/>
-                                    </div>
+        <hr/>
 
-                                    <div class="col-xs-12 col-sm-9">
-                                        <span class="name"><a href="{% url 'users' member.username %}">{{member.get_full_name }}</a></span><br/>
-                                        <span class="glyphicon glyphicon-map-marker text-muted c-info" data-toggle="tooltip" title='{{ member.customuser.address }}'></span>
-                                        <span class="visible-xs"> <span class="text-muted"></span><br/></span>
-                                        <span class="fa fa-comments text-muted c-info" data-toggle="tooltip" title="{{ member.email }}"></span>
-                                        <span class="visible-xs"> <span class="text-muted">{{ member.email }}</span><br/></span>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        {% endif %}
+        <h1>Trending Topics</h1>
+        {% for topic in topics %}
+        <li><a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li>
+        {% empty %}
+        <h5>No topics available!</h5>
+        {% endfor %}
+
+        <hr/>
+
+        <div class="buttons">
+
+            {% if user == group.manager %}
+            <a class="btn btn-danger btn-sm" href="{% url 'delete_group' group.id %}">Delete Group</a>
+
+            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ModalEditGroup">Edit
+                Group
+            </button>
+
+            {% endif %}
+
+            {% include 'edit_group.html' %}
+            {% if already_favorited %}
+            <a class="btn btn-danger btn-sm" href="{% url 'fav_group' group.id %}">Unfavourite</a>
+            {% else %}
+            <a class="btn btn-success btn-sm" href="{% url 'fav_group' group.id %}">Favourites</a>
+            {% endif %}
+
+            <a class="btn btn-danger btn-sm" href="{% url 'leave_group' group.id %}">Leave Group</a>
+
+            {% else %}
+            <button class="btn btn-primary btn-sm" onclick="getLocation();">Join Group</button>
+
+            {% endif %}
+
+            <form action="{% url 'detail_group' group.id %}" method="POST" id="form1">
+                {% csrf_token %}
+                <input type="hidden" name="latitude" id="latitude"/>
+                <input type="hidden" name="longitude" id="longitude"/>
+            </form>
+        </div>
+    </div>
+</div>
+{% if user in group.members.all %}
+<div class="col-md-4">
+    <div class="members">
+        <div class="row">
+            <div class="col-xs-12 col-sm-offset-3 col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading c-list">
+
+                        <span class="title">Members</span>
+                        <ul class="pull-right c-controls">
+                            <li><a href="#" style="color:#fff;" class="hide-search" data-command="toggle-search"
+                                   data-toggle="tooltip" data-placement="top" title="Toggle Search"><i
+                                    class="fa fa-ellipsis-v"></i></a></li>
+                        </ul>
                     </div>
+
+                    <div class="row" style="display: none;">
+                        <div class="col-xs-12">
+                            <div class="input-group c-search">
+                                <input type="text" class="form-control" placeholder="Search" id="contact-list-search">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button"><span
+                                                    class="glyphicon glyphicon-search text-muted"></span></button>
+                                        </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="list-group" id="contact-list">
+                        {% for member in group.members.all %}
+                        <li class="list-group-item">
+                            <div class="col-xs-12 col-sm-3">
+                                <img src="{% gravatar_url member.email 100 %}" alt=""
+                                     class="img-responsive img-circle"/>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-9">
+                                <span class="name"><a href="{% url 'users' member.username %}">{{member.get_full_name}}</a></span><br/>
+                                <span class="glyphicon glyphicon-map-marker text-muted c-info" data-toggle="tooltip"
+                                      title='{{ member.customuser.address }}'></span>
+                                <span class="visible-xs"> <span class="text-muted"></span><br/></span>
+                                <span class="fa fa-comments text-muted c-info" data-toggle="tooltip"
+                                      title="{{ member.email }}"></span>
+                                <span class="visible-xs"> <span class="text-muted">{{ member.email }}</span><br/></span>
+                            </div>
+                            <div class="clearfix"></div>
+                        </li>
+                        {% endfor %}
+                    </ul>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>
+</div>
+</div>
 </div>
 <script>
     var latitude = document.getElementById("latitude");
@@ -130,11 +216,11 @@
     var form = document.getElementById("form1");
 
     function getLocation() {
-         if (navigator.geolocation) {
-                 navigator.geolocation.getCurrentPosition(showPosition);
-         } else {
-                x.innerHTML = "Geolocation is not supported by this browser.";
-         }
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
     }
 
     function showPosition(position) {

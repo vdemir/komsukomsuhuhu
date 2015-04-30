@@ -19,6 +19,51 @@
 {% endblock %}
 
 {% block content %}
+{% if create_group %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="span2 well">
+
+            <b>Group created successfully</b>
+
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if join_group %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="span2 well">
+
+            <b>Your range is not suitable for this group!</b>
+
+        </div>
+    </div>
+</div>
+{% endif %}
+{% if leave_group %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="span2 well">
+
+            <b>You leave from group successfully.</b>
+
+        </div>
+    </div>
+</div>
+{% endif %}
+{% if delete_group %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="span2 well">
+
+            <b>Group delete successfully.</b>
+
+        </div>
+    </div>
+</div>
+{% endif %}
 
 <div class="col-md-9">
     <div class="main-content">

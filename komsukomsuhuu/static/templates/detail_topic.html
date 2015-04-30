@@ -23,7 +23,32 @@
 
 
 {% block content %}
+{% if favorite_topic == "success" %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="span2 well">
+            <b>You favorite topic successfully</b>
+        </div>
+    </div>
+</div>
+{% elif favorite_topic == "leave-success" %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="span2 well">
+            <b>You unfavorite topic successfully</b>
+        </div>
+    </div>
+</div>
 
+{% elif favorite_topic == "no-members" %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="span2 well">
+            <b>You are not member of this group</b>
+        </div>
+    </div>
+</div>
+{% endif %}
 <div class="col-md-9">
     <div class="main-content">
         <form action="{% url 'new_post' topic.id %}" method="POST">
@@ -35,13 +60,20 @@
                             </span>
 
                     <ul class="dropdown-menu" role="menu">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'fav_topic' topic.id %}">Favourite Topic</a></li>
+                        {% if already_favorited %}
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'fav_topic' topic.id %}">Unfavourite
+                            Topic</a></li>
+                        {% else %}
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'fav_topic' topic.id %}">Favourite
+                            Topic</a></li>
+                        {% endif %}
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Delete Topic</a></li>
                     </ul>
                 </div>
 
                 <div class="panel-heading">
-                    <img class="[ img-circle pull-left ]" src="{% gravatar_url topic.owner.email 100 %}" alt="Mouse0270"/>
+                    <img class="[ img-circle pull-left ]" src="{% gravatar_url topic.owner.email 100 %}"
+                         alt="Mouse0270"/>
 
                     <h3>{{ user.get_full_name }}</h3>
                     <h5><span>Shared publicly</span> - <span class="glyphicon glyphicon-calendar"></span><span>{{ topic.date_created }}</span>
@@ -63,12 +95,14 @@
                 </div>
 
                 <div class="panel-google-plus-comment">
-                    <img class="img-circle" src="https://lh3.googleusercontent.com/uFp_tsTJboUY7kue5XAsGA=s46" alt="User Image"/>
+                    <img class="img-circle" src="https://lh3.googleusercontent.com/uFp_tsTJboUY7kue5XAsGA=s46"
+                         alt="User Image"/>
 
                     <div class="panel-google-plus-textarea">
 
                         <textarea type="text" name="content" rows="4"></textarea>
-                        <button type="submit" value="Add Post" class="[ btn btn-success disabled ]">Post comment</button>
+                        <button type="submit" value="Add Post" class="[ btn btn-success disabled ]">Post comment
+                        </button>
                         <button type="reset" class="[ btn btn-default ]">Cancel</button>
 
                     </div>
@@ -83,7 +117,8 @@
                         <div class="message-head clearfix">
                             <div class="avatar pull-left">
                                 <a href="./index.php?qa=user&qa_1=amiya">
-                                    <img src="{% gravatar_url post.owner.email 100 %}" alt="" class="img-responsive img-circle"/>
+                                    <img src="{% gravatar_url post.owner.email 100 %}" alt=""
+                                         class="img-responsive img-circle"/>
                                 </a>
                             </div>
                             <div class="user-detail">
