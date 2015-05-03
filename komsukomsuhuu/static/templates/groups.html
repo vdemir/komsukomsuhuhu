@@ -4,8 +4,8 @@
 
 {% block css %}
 {{ block.super }}
-    <link rel="stylesheet" href="/static/css/groups.css"/>
-    <!--<link rel="stylesheet" href="/static/css/bootstrap-theme.min.css"/>-->
+<link rel="stylesheet" href="/static/css/groups.css"/>
+<!--<link rel="stylesheet" href="/static/css/bootstrap-theme.min.css"/>-->
 {% endblock %}
 
 {% block js %}
@@ -15,54 +15,107 @@
 {% block title %}Groups Page{% endblock %}
 
 {% block sidebarjs%}
-<script>
-    document.getElementById("groups").style.color="#fff";
-    document.getElementById("groups").style.backgroundColor="#ffbb33";
-    document.getElementById("groups").style.borderRadius="10px";
-</script>
+<script>document.getElementById("groups").style.cssText = "color: #fff;background-color: #ffbb33;border-radius: 10px;";</script>
 {% endblock %}
 
 {% block content %}
+{% if error %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="span2 well">
 
-        <div class="col-md-9">
-            <div class="main-content">
+            <b>Please check your field. Group name is unique.</b>
 
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#ModalNewGroup"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Create New Group</button>
-                {% include 'new_group.html' %}
+        </div>
+    </div>
+</div>
+{% endif %}
+{% if create_group %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="span2 well">
 
-                {% for group in groups %}
-                <section class="comment-list">
-                    <!--<article class="row">  -->
-                    <!-- <div class="col-md-2 col-sm-2 hidden-xs">
-                  <figure class="thumbnail">
-                        <img class="img-responsive" src="http://www.keita-gaming.com/assets/profile/default-avatar-c5d8ec086224cb6fc4e395f4ba3018c2.jpg" />
-                      </figure>
-                     </div> -->
-                    <div class="col-md-10 col-sm-10">
-                        <div class="panel panel-default arrow left">
-                            <div class="panel-body">
-                                <div class="comment-post">
-                                    <p><a href="{% url 'detail_group' group.id %}">{{ group.name }}</a></p>
+            <b>Group created successfully</b>
 
-                                    <header class="text-left">
-                                        <div class="comment-user"><img src="{% gravatar_url member.email 100 %}" alt="" class="img-circle" style="width:14px;height:14px;*margin-right:.3em;line-height:14px;vertical-align:text-top;}"/>
-                                            By <a href="{% url 'users' group.manager.username %}">{{ group.manager}}</a>
-                                        </div>
-                                        <time class="comment-date" datetime="{{ group.date_created }}">
-                                            <span class="glyphicon glyphicon-time"></span>{{ group.date_created }}
-                                        </time>
-                                    </header>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if join_group %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="span2 well">
+
+            <b>Your range is not suitable for this group!</b>
+
+        </div>
+    </div>
+</div>
+{% endif %}
+{% if leave_group %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="span2 well">
+
+            <b>You leave from group successfully.</b>
+
+        </div>
+    </div>
+</div>
+{% endif %}
+{% if delete_group %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="span2 well">
+
+            <b>Group delete successfully.</b>
+
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="col-md-9">
+    <div class="main-content">
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#ModalNewGroup"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Create New Group</button>
+
+        {% include 'new_group.html' %}
+
+        {% for group in groups %}
+        <section class="comment-list">
+            <!--<article class="row">  -->
+            <!-- <div class="col-md-2 col-sm-2 hidden-xs">
+          <figure class="thumbnail">
+                <img class="img-responsive" src="http://www.keita-gaming.com/assets/profile/default-avatar-c5d8ec086224cb6fc4e395f4ba3018c2.jpg" />
+              </figure>
+             </div> -->
+            <div class="col-md-10 col-sm-10">
+                <div class="panel panel-default arrow left">
+                    <div class="panel-body">
+                        <div class="comment-post">
+                            <p><a href="{% url 'detail_group' group.id %}">{{ group.name }}</a></p>
+
+                            <header class="text-left">
+                                <div class="comment-user"><img src="{% gravatar_url member.email 100 %}" alt="" class="img-circle" style="width:14px;height:14px;*margin-right:.3em;line-height:14px;vertical-align:text-top;}"/>
+                                    By <a href="{% url 'users' group.manager.username %}">{{ group.manager}}</a>
                                 </div>
-                            </div>
+                                <time class="comment-date" datetime="{{ group.date_created }}">
+                                    <span class="glyphicon glyphicon-time"></span>{{ group.date_created }}
+                                </time>
+                            </header>
                         </div>
                     </div>
-                    <!--</article>-->
-                </section>
-                {% empty %}
-                <h1>No groups available!</h1>
-                {% endfor %}
+                </div>
             </div>
-        </div>
+            <!--</article>-->
+        </section>
+        {% empty %}
+        <h1>No groups available!</h1>
+        {% endfor %}
+    </div>
+</div>
 
 {% endblock %}

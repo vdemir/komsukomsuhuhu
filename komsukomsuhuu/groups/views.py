@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from models import Group
-from forms import GroupForm, GroupLocationForm
+from forms import GroupForm, GroupLocationForm, EditGroupForm
 from profiles.forms import UserLocationForm
 from entities.models import Topic
 from pymongo import Connection
@@ -17,17 +17,25 @@ db = Connection()['komsukomsuhuu']
 # Create your views here.
 
 
-
 @login_required(login_url='/login')
 def list_groups(request):
     groups = Group.objects.filter(isActive=True)
-
+    delete_group = request.GET.get("delete_group")
+    leave_group = request.GET.get("leave_group")
+    create_group = request.GET.get("create_group")
+    join_group = request.GET.get("join_group")
+    error = request.GET.get("error")
     return render_to_response('groups.html', {
         'favorited_groups': info(request)[0],
         'favorited_topics': info(request)[1],
         'notifications': info(request)[2],
         'inbox_notifications': info(request)[3],
-        'groups': groups
+        'groups': groups,
+        'create_group': create_group,
+        'join_group': join_group,
+        'leave_group': leave_group,
+        'delete_group': delete_group,
+        'error': error
     }, RequestContext(request))
 
 
@@ -47,14 +55,12 @@ def list_groups_on_map(request):
 @login_required(login_url='/login')
 def new_group(request):
     form = GroupForm()
-    form_location = GroupLocationForm()
     if request.method == 'POST':
         form = GroupForm(request.POST)
         form_location = GroupLocationForm(request.POST)
         if form.is_valid() and form_location.is_valid():
             form.instance.manager = request.user
             form.save()
-            # TODO our group names not unique!! get by name fails if there are 2 groups with same name
             group = Group.objects.get(name=form.cleaned_data['name'])
             group.members.add(request.user)
             group.save()
@@ -75,10 +81,16 @@ def new_group(request):
                                                   link=destroy_temp_group.s())
             except Exception:
                 return HttpResponse("Something is wrong")
-            return redirect(reverse('groups'))
+            redirect_to = "%(path)s?create_group=true" % {
+                "path": reverse("groups")
+            }
+            return redirect(redirect_to)
 
         else:
-            return HttpResponse('Form is not valid')
+            redirect_to = "%(path)s?error=true" % {
+                "path": reverse("groups")
+            }
+            return redirect(redirect_to)
 
     return render_to_response('new_group.html', {
         'form': form
@@ -90,15 +102,24 @@ def delete_group(request, pk):
     group = Group.objects.get(id=pk, manager=request.user)
     group.isActive = False
     group.save()
+    redirect_to = "%(path)s?delete_group=true" % {
+        "path": reverse("groups")
+    }
+    return redirect(redirect_to)
 
-    return redirect(reverse('home'))
 
 
 @login_required(login_url='/login')
 def detail_group(request, pk):
+    already_favorited = ''
+    favorite_group = request.GET.get("favorite_group")
+    edit_group = request.GET.get("edit_group")
+    join_group = request.GET.get("join_group")
+    create_topic = request.GET.get("create_topic")
     group = get_object_or_404(Group, id=pk)
     topics = Topic.objects.filter(group=pk)
-    form = UserLocationForm()
+    if request.user in group.user_favorited.all():
+        already_favorited = True
     if request.method == "POST":
         form = UserLocationForm(request.POST)
         if form.is_valid():
@@ -112,9 +133,15 @@ def detail_group(request, pk):
                 if list(db.location.find(data)):
                     group.members.add(request.user)
                     # return redirect(reverse('groups'))
-                    return HttpResponse("ekleme gerceklesti.")
+                    redirect_to = "%(path)s?join_group=true" % {
+                        "path": reverse("detail_group", args=[pk])
+                    }
+                    return redirect(redirect_to)
                 else:
-                    return HttpResponse("ekleyemedik.")
+                    redirect_to = "%(path)s?join_group=true" % {
+                        "path": reverse("groups")
+                    }
+                    return redirect(redirect_to)
             except Exception:
                 return HttpResponse("Something is wrong")
 
@@ -134,35 +161,53 @@ def detail_group(request, pk):
         'group': group,
         'topics': topics,
         'user': request.user,
+        'create_topic': create_topic,
+        'join_group': join_group,
+        'edit_group': edit_group,
+        'favorite_group': favorite_group,
+        'already_favorited': already_favorited
     }, RequestContext(request))
 
 
 @login_required(login_url='/login')
 def edit_group(request, pk):
-    if Group.objects.get(id=pk).manager != request.user:
-        return HttpResponse("Only owner can edit")
-    group = Group.objects.get(id=pk, manager=request.user)
-    form = GroupForm(instance=group)
-    if request.method == 'POST':
-        form = GroupForm(request.POST, instance=group)
-        if form.is_valid():
-            form.save()
-            return redirect(reverse('groups'))
+    group = Group.objects.get(id=pk)
+    if group.manager != request.user:
+        redirect_to = "%(path)s?edit_group=no-permission" % {
+            "path": reverse("detail_group", args=[pk])
+        }
+        return redirect(redirect_to)
+    else:
+        form = EditGroupForm(instance=group)
+        if request.method == 'POST':
+            form = EditGroupForm(request.POST, instance=group)
+            if form.is_valid():
+                form.save()
+                redirect_to = "%(path)s?edit_group=permission" % {
+                    "path": reverse("detail_group", args=[pk])
+                }
+                return redirect(redirect_to)
+
+            else:
+                HttpResponse("Something is wrong")
 
     return render_to_response('edit_group.html', {
         'form': form,
-        'group': group,
+        'group': group
     }, RequestContext(request))
 
 
 @login_required(login_url='/login')
-def join_group(request, pk):
+def leave_group(request, pk):
     group = Group.objects.get(id=pk)
-    if Group.objects.filter(id=pk, members=request.user).exists():
+    if request.user in group.members.all():
         group.members.remove(request.user)
-    else:
-        group.members.add(request.user)
-    return redirect(reverse('groups'))
+
+    redirect_to = "%(path)s?leave_group=true" % {
+        "path": reverse("groups")
+    }
+    return redirect(redirect_to)
+
 
 
 @login_required(login_url='/login')
@@ -171,27 +216,43 @@ def favorite_group(request, pk):
     if request.user in group.members.all():
         if Group.objects.filter(id=pk, user_favorited=request.user).exists():
             group.user_favorited.remove(request.user)
+            redirect_to = "%(path)s?favorite_group=leave-success" % {
+                "path": reverse("detail_group", args=[pk])
+            }
+            return redirect(redirect_to)
         else:
             group.user_favorited.add(request.user)
-    return redirect(reverse('groups'))
-    return HttpResponse("You are not member of this group")
+            redirect_to = "%(path)s?favorite_group=success" % {
+                "path": reverse("detail_group", args=[pk])
+            }
+            return redirect(redirect_to)
+
+    redirect_to = "%(path)s?favorite_group=no-members" % {
+        "path": reverse("detail_group", args=[pk])
+    }
+    return redirect(redirect_to)
+
 
 @login_required(login_url='/login')
 def show_neighbours(request):
-    groupList = []
-    neighbourList = []
+    group_list = []
+    neighbour_list = []
     groups = Group.objects.all()
     for group in groups:
         if group.members.filter(username=request.user.username):
-            groupList.append(group)
-    for myGroup in groupList:
-        myNeighs =myGroup.members.all()
-        if myNeighs.exists():
-            for myNeigh in myNeighs:
-                if not (myNeigh==request.user or myNeigh in neighbourList):
-                    neighbourList.append(myNeigh)
+            group_list.append(group)
+    for my_group in group_list:
+        my_neighs = my_group.members.all()
+        if my_neighs.exists():
+            for myNeigh in my_neighs:
+                if not (myNeigh == request.user or myNeigh in neighbour_list):
+                    neighbour_list.append(myNeigh)
     return render_to_response("neighbours.html", {
-            'mygroups': groupList,
-            'myneighs': neighbourList,
-        }, RequestContext(request))
+        'favorited_groups': info(request)[0],
+        'favorited_topics': info(request)[1],
+        'notifications': info(request)[2],
+        'inbox_notifications': info(request)[3],
+        'my_group': group_list,
+        'my_neighs': neighbour_list,
+    }, RequestContext(request))
 

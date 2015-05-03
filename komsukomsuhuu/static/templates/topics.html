@@ -36,11 +36,9 @@
 {% block title %}Topics{% endblock %}
 
 {% block sidebarjs%}
-<script>
-    document.getElementById("topics").style.color="#fff";
-    document.getElementById("topics").style.backgroundColor="#ffbb33";
-    document.getElementById("topics").style.borderRadius="10px";
-</script>
+<script>document.getElementById("topics").style.cssText = "color: #fff;background-color: #ffbb33;border-radius: 10px;";</script>
+
+
 {% endblock %}
 
 {% block content %}
@@ -57,11 +55,6 @@
             {% endfor %}
 
         </select>
-
-
-
-
-
     <p id="p1"></p>
     </form>
     </div>

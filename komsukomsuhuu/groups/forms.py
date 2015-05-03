@@ -7,7 +7,14 @@ from models import Group, GroupLocation
 class GroupForm(forms.ModelForm):
 
     class Meta:
-        fields = ['name', 'type', 'state', 'range', 'isActive', 'duration']
+        fields = ['name', 'type', 'state', 'range', 'duration']
+        model = Group
+
+
+class EditGroupForm(forms.ModelForm):
+
+    class Meta:
+        fields = ['name', 'type', 'range',]
         model = Group
 
 

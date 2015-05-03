@@ -4,12 +4,13 @@
 
 {% block css %}
 {{ block.super }}
-    <link rel="stylesheet" href="/static/css/home.css"/>
-    <!--<link rel="stylesheet" href="/static/css/bootstrap-combined.min.css"/>-->
+<link rel="stylesheet" href="/static/css/home.css"/>
+<!--<link rel="stylesheet" href="/static/css/bootstrap-combined.min.css"/>-->
 {% endblock %}
 
 {% block js %}
 {{ block.super }}
+<script>document.getElementById("home").style.cssText = "color: #fff;background-color: #ffbb33;border-radius: 10px;";</script>
 {% endblock %}
 
 {% block title %}Home{% endblock %}
@@ -19,20 +20,21 @@
 {% endblock %}
 
 {% block content %}
-        <div class="col-md-9">
-            <div class="main-content">
-                <div class="row">
-                    <div class="span4 well" style="padding-bottom:0">
-                        {% if data %}
-                        <a href="{% url 'users' data.username %}">
-                            <img src="{% gravatar_url data.email 100 %}" class="img-responsive img-circle" alt=""/>
-                            {{data.get_full_name }}
-                        </a>
-                        {% else %}
-                        <p>No result found.</p>
-                        {% endif %}
-                    </div>
-                </div>
+
+<div class="col-md-9">
+    <div class="main-content">
+        <div class="row">
+            <div class="span4 well" style="padding-bottom:0">
+                {% for user in users %}
+                <a href="{% url 'users' user.username %}">
+                    <img src="{% gravatar_url user.email 100 %}" class="img-responsive img-circle" alt=""/>&nbsp;&nbsp;&nbsp;{{user.get_full_name }}
+                </a>
+                {% empty %}
+                <p>No result found.</p>
+                {% endfor %}
             </div>
         </div>
+    </div>
+</div>
+
 {% endblock %}

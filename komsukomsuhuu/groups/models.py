@@ -48,7 +48,7 @@ class Group(models.Model):
         (23, '23 hour'),
         (24, '24 hour'),
     )
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     type = models.IntegerField(choices=TYPE_CHOICES, default=1)
     state = models.IntegerField(choices=STATE_CHOICES, default=1)
     range = models.IntegerField(choices=RANGE_CHOICES, default=1)
