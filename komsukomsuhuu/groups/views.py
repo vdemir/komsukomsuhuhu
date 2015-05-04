@@ -51,7 +51,7 @@ def list_groups_on_map(request):
         'length': len(groups)
     }, RequestContext(request))
 
-
+# TODO Private group icin enrollment key mekanizmasi
 @login_required(login_url='/login')
 def new_group(request):
     form = GroupForm()
