@@ -237,7 +237,7 @@ def favorite_group(request, pk):
 def show_neighbours(request):
     group_list = []
     neighbour_list = []
-    groups = Group.objects.all()
+    groups = Group.objects.filter(isActive=True)
     for group in groups:
         if group.members.filter(username=request.user.username):
             group_list.append(group)
@@ -252,7 +252,7 @@ def show_neighbours(request):
         'favorited_topics': info(request)[1],
         'notifications': info(request)[2],
         'inbox_notifications': info(request)[3],
-        'my_group': group_list,
+        'my_groups': group_list,
         'my_neighs': neighbour_list,
     }, RequestContext(request))
 

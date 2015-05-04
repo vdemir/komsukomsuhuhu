@@ -160,7 +160,7 @@ def mark_as_read(request):
 def show_topics(request):
     group_list = []
     topic_list = []
-    groups = Group.objects.all()
+    groups = Group.objects.filter(isActive=True)
     for group in groups:
         if group.members.filter(username=request.user.username):
             group_list.append(group)
