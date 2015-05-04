@@ -6,24 +6,57 @@
 
 {% block js %}
 {{ block.super }}
+    <script>
+     var check=0;
+     function check_group() {
+         check=document.getElementById("id_state").value;
+         loadImage();
+     }
+     function loadImage() {
+     var output=""
+         if (check==0){
+             {% for topic in mytopics %}
+                 output+="<li><a href=\"{% url 'detail_topic' topic.id %}\">{{ topic.group }}-{{ topic.title }}</a></li>";
+             {% endfor %}
+         }else{
+             {% for topic in mytopics %}
+                 if(check=={{ topic.group.id }}){
+                    output+="<li><a href=\"{% url 'detail_topic' topic.id %}\">{{ topic.title }}</a></li>";
+                 }
+             {% endfor %}
+         }
+         if(output=="")
+             output="<h5>No topics available!</h5>";
+         document.getElementById("p1").innerHTML = output;
+     }
+    window.onload =loadImage;
+    </script>
 {% endblock %}
 
 {% block title %}Topics{% endblock %}
 
 {% block sidebarjs%}
 <script>document.getElementById("topics").style.cssText = "color: #fff;background-color: #ffbb33;border-radius: 10px;";</script>
+
+
 {% endblock %}
 
 {% block content %}
 
 <div class="col-md-9">
     <div class="main-content">
-        <hr>
-        {% for topic in my_topics %}
-        <li><a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li>
-        {% empty %}
-        <h5>No topics available!</h5>
-        {% endfor %}
+
+    <form>
+
+        <select class="form-control" id="id_state" name="state" onchange="check_group()">
+            <option value="0" selected="selected">All groups</option>
+            {% for group in mygroups %}
+                <option value="{{ group.id }}">{{ group.id }}-{{ group.name }}</option>
+            {% endfor %}
+
+        </select>
+    <p id="p1"></p>
+    </form>
     </div>
 </div>
 
