@@ -17,14 +17,17 @@
     var map;
     var customIcons = {
 
-      temporary: {
+      temporary_public: {
         icon: '{% static "media/icons/temp.png" %}'
       },
-      public: {
+      permanent_public: {
         icon: '{% static "media/icons/public.png" %}'
       },
-      private: {
+      permanent_private: {
         icon: '{% static "media/icons/private.png" %}'
+      },
+      temporary_private: {
+        icon: '{% static "media/icons/private_temp.png" %}'
       }
     };
     function initialize() {
@@ -60,18 +63,23 @@
         var point = new google.maps.LatLng({{mark.grouplocation.latitude}},{{mark.grouplocation.longitude}});
         var type= {{ mark.type }};
         var state= {{ mark.state }};
-        if( type == 1){
-            type="Public"
-            var icontype="public";
+        var icontype = "";
+        if( type == 1 ){
+            if( state == 1){
+                state="Permanent Public";
+                icontype="permanent_public";
+            }else {
+                state = "Temporary Public"
+                icontype="temporary_public";
+            }
         }else {
-            type="Private"
-            var icontype="private";
-        }
-        if( state == 1){
-            state="Permanent"
-        }else {
-            state="Temporary"
-            var icontype="temporary";
+            if( state == 1){
+                state="Permanent Private";
+                icontype="permanent_private";
+            }else {
+                state = "Temporary Private"
+                icontype="temporary_private";
+            }
         }
         var icon = customIcons[icontype] || {};
         var marker = new google.maps.Marker({
