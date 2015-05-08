@@ -20,6 +20,17 @@
 {% endblock %}
 
 {% block content %}
+{% if password_fail %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="span2 well">
+
+            <b>Password is not correct!</b>
+
+        </div>
+    </div>
+</div>
+{% endif %}
 {% if create_topic %}
 <div class="col-md-5">
     <div class="main-content">
@@ -141,33 +152,27 @@
             <a class="btn btn-danger btn-sm" href="{% url 'leave_group' group.id %}">Leave Group</a>
 
             {% else %}
-            {% if group.type == 2 %}
-                {{ group.enrollment_key }}
-                <form class="form-horizontal" action="{% url 'detail_group' group.id %}" method="post" id="form2">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="id_name" class="col-sm-2 control-label">Key:</label>
 
-                        <div class="col-sm-10">
-                            <input class="form-control" id="id_key" maxlength="100" name="key" type="password"/>
-                        </div>
-                    </div>
-                <button type="button" class="btn btn-primary btn-sm" onclick="getLocation();">Join Group</button>
-                </form>
-
-            {% else %}
-                <button type="button" class="btn btn-primary btn-sm" onclick="getLocation();">Join Group</button>
-            {% endif %}
-
-
-
-            {% endif %}
-
-            <form action="{% url 'detail_group' group.id %}" method="POST" id="form1">
+             <form action="{% url 'detail_group' group.id %}" method="POST" id="form1">
                 {% csrf_token %}
+                {% if group.type == 2 %}
+                <div class="form-group">
+                    <label for="id_name" class="col-sm-2 control-label">Key:</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="id_key" maxlength="100" name="key" type="password"/>
+                    </div>
+                </div>
+                {% endif %}
                 <input type="hidden" name="latitude" id="latitude"/>
                 <input type="hidden" name="longitude" id="longitude"/>
             </form>
+            <button type="button" class="btn btn-primary btn-sm" onclick="getLocation();">Join Group</button>
+
+            {% endif %}
+
+
+
         </div>
     </div>
 </div>
@@ -208,7 +213,8 @@
                             </div>
 
                             <div class="col-xs-12 col-sm-9">
-                                <span class="name"><a href="{% url 'users' member.username %}">{{member.get_full_name}}</a></span><br/>
+                                <span class="name"><a
+                                        href="{% url 'users' member.username %}">{{member.get_full_name}}</a></span><br/>
                                 <span class="glyphicon glyphicon-map-marker text-muted c-info" data-toggle="tooltip"
                                       title='{{ member.customuser.address }}'></span>
                                 <span class="visible-xs"> <span class="text-muted"></span><br/></span>
@@ -232,7 +238,6 @@
     var latitude = document.getElementById("latitude");
     var longitude = document.getElementById("longitude");
     var form = document.getElementById("form1");
-    var form2 = document.getElementById("form2");
 
     function getLocation() {
         if (navigator.geolocation) {
@@ -246,7 +251,6 @@
         latitude.value = position.coords.latitude;
         longitude.value = position.coords.longitude;
         form.submit();
-        form2.submit();
     }
 
 </script>

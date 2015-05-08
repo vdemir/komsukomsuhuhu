@@ -117,6 +117,8 @@ def delete_group(request, pk):
 @login_required(login_url='/login')
 def detail_group(request, pk):
     already_favorited = ''
+    key = request.POST.get("key")
+    password_fail = request.GET.get("password_fail")
     favorite_group = request.GET.get("favorite_group")
     edit_group = request.GET.get("edit_group")
     join_group = request.GET.get("join_group")
@@ -137,12 +139,19 @@ def detail_group(request, pk):
                     'coordinates':
                         SON([('$near', [longitude, latitude]), ('$maxDistance', group.range / 111.12)])}
                 if list(db.location.find(data)):
-                    group.members.add(request.user)
-                    # return redirect(reverse('groups'))
-                    redirect_to = "%(path)s?join_group=true" % {
-                        "path": reverse("detail_group", args=[pk])
-                    }
-                    return redirect(redirect_to)
+                    if group.type == 1 or key == group.enrollment_key:
+                        group.members.add(request.user)
+                        # return redirect(reverse('groups'))
+
+                        redirect_to = "%(path)s?join_group=true" % {
+                            "path": reverse("detail_group", args=[pk])
+                        }
+                        return redirect(redirect_to)
+                    else:
+                        redirect_to = "%(path)s?password_fail=true" % {
+                            "path": reverse("detail_group", args=[pk])
+                        }
+                        return redirect(redirect_to)
                 else:
                     redirect_to = "%(path)s?join_group=true" % {
                         "path": reverse("groups")
@@ -171,7 +180,8 @@ def detail_group(request, pk):
         'join_group': join_group,
         'edit_group': edit_group,
         'favorite_group': favorite_group,
-        'already_favorited': already_favorited
+        'already_favorited': already_favorited,
+        'password_fail': password_fail,
     }, RequestContext(request))
 
 
@@ -261,7 +271,3 @@ def show_neighbours(request):
         'my_groups': group_list,
         'my_neighs': neighbour_list,
     }, RequestContext(request))
-
-@login_required(login_url='/login')
-def check_enrollment(request, pk):
-    form = CheckEnrollmentKey()
