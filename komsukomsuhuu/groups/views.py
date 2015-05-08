@@ -59,33 +59,38 @@ def new_group(request):
         form = GroupForm(request.POST)
         form_location = GroupLocationForm(request.POST)
         if form.is_valid() and form_location.is_valid():
-            form.instance.manager = request.user
-            form.save()
-            group = Group.objects.get(name=form.cleaned_data['name'])
-            group.members.add(request.user)
-            group.save()
-            form_location.instance.group = group
-            form_location.save()
-            try:
-                data = {
-                    'group': group.id,
-                    'type': 'Point',
-                    'coordinates': (
-                        float(form_location.cleaned_data['longitude']), float(form_location.cleaned_data['latitude'])),
+            if not (form.cleaned_data['type'] == 2 and form.cleaned_data['enrollment_key'] == ""):
+                form.instance.manager = request.user
+                form.save()
+                group = Group.objects.get(name=form.cleaned_data['name'])
+                group.members.add(request.user)
+                group.save()
+                form_location.instance.group = group
+                form_location.save()
+                try:
+                    data = {
+                        'group': group.id,
+                        'type': 'Point',
+                        'coordinates': (
+                            float(form_location.cleaned_data['longitude']), float(form_location.cleaned_data['latitude'])),
+                    }
+                    db.location.insert(data)
+
+                    if group.state == 2:
+                        create_temp_group.apply_async(args=[group.id, ],
+                                                      eta=datetime.utcnow() + timedelta(hours=group.duration),
+                                                      link=destroy_temp_group.s())
+                except Exception:
+                    return HttpResponse("Something is wrong")
+                redirect_to = "%(path)s?create_group=true" % {
+                    "path": reverse("groups")
                 }
-                db.location.insert(data)
-
-                if group.state == 2:
-                    create_temp_group.apply_async(args=[group.id, ],
-                                                  eta=datetime.utcnow() + timedelta(hours=group.duration),
-                                                  link=destroy_temp_group.s())
-            except Exception:
-                return HttpResponse("Something is wrong")
-            redirect_to = "%(path)s?create_group=true" % {
-                "path": reverse("groups")
-            }
-            return redirect(redirect_to)
-
+                return redirect(redirect_to)
+            else:
+                redirect_to = "%(path)s?error=true" % {
+                    "path": reverse("groups")
+                }
+                return redirect(redirect_to)
         else:
             redirect_to = "%(path)s?error=true" % {
                 "path": reverse("groups")
@@ -118,6 +123,7 @@ def detail_group(request, pk):
     create_topic = request.GET.get("create_topic")
     group = get_object_or_404(Group, id=pk)
     topics = Topic.objects.filter(group=pk)
+
     if request.user in group.user_favorited.all():
         already_favorited = True
     if request.method == "POST":
@@ -256,3 +262,6 @@ def show_neighbours(request):
         'my_neighs': neighbour_list,
     }, RequestContext(request))
 
+@login_required(login_url='/login')
+def check_enrollment(request, pk):
+    form = CheckEnrollmentKey()
