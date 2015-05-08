@@ -1,6 +1,6 @@
 .navbar.navbar-brand {position: relative; z-index: 2;}
 .navbar{background-color: #ffbb33;}
-.navbar .navbar-collapse { position: relative; }
+/*.navbar .navbar-collapse { position: relative; }*/
 .navbar .nav-collapse { position: absolute; z-index: 1; top: 0; left: 0; right: 0; bottom: 0; margin: 0; padding-right: 120px; padding-left: 80px; width: 100%; }
 .navbar.navbar-default .nav-collapse { background-color: #f8f8f8; }
 .navbar.navbar-inverse .nav-collapse { background-color: #222;}
