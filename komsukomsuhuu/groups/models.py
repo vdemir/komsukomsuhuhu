@@ -58,8 +58,8 @@ class Group(models.Model):
     date_created = models.DateTimeField(default=timezone.now)
     date_modified = models.DateField(auto_now=True)
     user_favorited = models.ManyToManyField(User, related_name='favorite_groups')
-    duration =models.IntegerField(choices=DURATION_CHOICES, default=0)
-    enrollment_key = models.CharField(max_length=20, default="")
+    duration = models.IntegerField(choices=DURATION_CHOICES, default=0)
+    enrollment_key = models.CharField(max_length=20, blank=True)
 
     def __unicode__(self):
         return "%s" % (self.name)
