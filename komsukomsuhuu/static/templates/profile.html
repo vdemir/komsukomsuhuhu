@@ -23,39 +23,6 @@
 <div class="col-md-9">
     <div class="main-content">
 
-<!--<p><b>{{ user.get_full_name }}</b></p>
-
-<p><b>Email:</b>{{ user.email }}</p>
-
-<p><b>Date joined:</b>{{ user.date_joined }}</p>
-<button onclick="location.href = '{% url 'edit_profile' %}'">Edit Profile</button>
-
-<h3>Favorited Groups</h3>
-<ul>
-    {% for group in fav_groups %}
-    <li><a href="{% url 'detail_group' group.id %}">{{ group.name }}</a></li>
-    {% empty %}
-    <li>You didn't favorite any group.. yet :D</li>
-    {% endfor %}
-</ul>
-<h3>Favorited Topic</h3>
-<ul>
-    {% for topic in fav_topics %}
-    <li><a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li>
-    {% empty %}
-    <li>You didn't topic any group.. yet :D</li>
-    {% endfor %}
-</ul>
-<h3>My Groups</h3>
-<ul>
-    {% for group in my_groups %}
-    <li><a href="{% url 'detail_group' group.id %}">{{ group.name }}</a></li>
-    {% empty %}
-    <li>You didn't join any group.. yet :D</li>
-    {% endfor %}
-</ul> -->
-     
-     
      
      
      <div class="row">
@@ -66,7 +33,7 @@
             </div>
             <div class="panel-body">
               <div class="row">
-                <div class="col-md-3 col-lg-3 " align="center"> <img style="border: 1px solid #ffbb33;" src="{% gravatar_url member.email 100 %}" style="width:100px;" alt="" class="img-circle" /> </div>
+                <div class="col-md-3 col-lg-3 " align="center"> <img style="border: 1px solid #ffbb33;" src="{% gravatar_url user.email 100 %}" style="width:100px;" alt="" class="img-circle" /> </div>
                 
                 <div class=" col-md-9 col-lg-9 "> 
                   <table class="table table-user-information">
