@@ -19,7 +19,7 @@ db = Connection()['komsukomsuhuu']
 
 @login_required(login_url='/login')
 def list_groups(request):
-    groups = Group.objects.filter(isActive=True)
+    groups = Group.objects.filter(isActive=True).order_by('-date_created')
     delete_group = request.GET.get("delete_group")
     leave_group = request.GET.get("leave_group")
     create_group = request.GET.get("create_group")
