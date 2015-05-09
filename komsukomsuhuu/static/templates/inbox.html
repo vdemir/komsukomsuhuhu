@@ -19,47 +19,79 @@
 {% endblock %}
 
 {% block content %}
+{% if message_sent == "success" %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="row">
+            <div class="col-sm-6 col-md-6">
+                <div class="alert alert-success" style="width:400px;">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                        &times;</button>
+                    <span class="glyphicon glyphicon-ok"></span> <strong>Success Message</strong>
+                    <hr class="message-inner-separator">
+                    <p>
+                        Message sent successfully!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+
+{% elif message_sent == "error" %}
+<div class="col-md-5">
+    <div class="main-content">
+        <div class="row">
+            <div class="col-sm-6 col-md-6">
+                <div class="alert alert-danger" style="width:420px;">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                        &times;</button>
+                    <span class="glyphicon glyphicon-hand-right"></span> <strong>Success Message</strong>
+                    <hr class="message-inner-separator">
+                    <p>
+                        Message sent failed!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 <div class="col-md-9">
     <div class="main-content">
 
 
 
-<!--{% for conversation in conversations %}
-<img src="{% gravatar_url conversation.messages.last.sender.email 100 %}" alt=""/>
-<strong>{{conversation.messages.last.sender.username }} says:</strong>
-<p><a href="{% url 'conversation_detail' conversation.id %}">{{ conversation.messages.last.text|truncatechars:50 }}</a></p>
-{% empty %}
-Your inbox is empty.
-{% endfor %}-->
+        <h1> Messages </h1>
 
 
-    <h1> Messages </h1>
-
-    
-            <div class="row">
-                <div class="col-md-8">
-                    {% for conversation in conversations %}
-                  <div class="page-header">
-                  </div> 
-                   <div class="comments-list">
-                       <div class="media">
-                           <p style="color:#ccc;" class="pull-right" ><small>{{ conversation.date_created }}</small></p>
-                            <div class="media-left" >
-                              <img class="img-circle" style="width:60px; border: 1px solid #ffbb33;" src="{% gravatar_url conversation.messages.last.sender.email 100 %}" alt=""/>
-                            </div>
-                            <div class="media-body">             
-                              <h4 class="media-heading user_name">{{conversation.messages.last.sender.username }}</h4>
-                              <p><a style="color:#949494;" href="{% url 'conversation_detail' conversation.id %}">{{ conversation.messages.last.text|truncatechars:50 }}</a></p>
-                            </div>
-                          </div>
-                    
+        <div class="row">
+            <div class="col-md-8">
+                {% for conversation in conversations %}
+                <div class="page-header">
                 </div>
-                   {% endfor %}
+                <div class="comments-list">
+                    <div class="media">
+                        <p style="color:#ccc;" class="pull-right">
+                            <small>{{ conversation.date_created }}</small>
+                        </p>
+                        <div class="media-left">
+                            <img class="img-circle" style="width:60px; border: 1px solid #ffbb33;"
+                                 src="{% gravatar_url conversation.messages.last.sender.email 100 %}" alt=""/>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading user_name">{{conversation.messages.last.sender.username }}</h4>
+
+                            <p><a style="color:#949494;" href="{% url 'conversation_detail' conversation.id %}">
+                                {{conversation.messages.last.text|truncatechars:50 }}</a></p>
+                        </div>
+                    </div>
+
+                </div>
+                {% endfor %}
             </div>
-            </div>
+        </div>
     </div>
 </div>
-    
-   
+
+
 {% endblock %}
