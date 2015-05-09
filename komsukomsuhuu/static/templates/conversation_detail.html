@@ -35,7 +35,7 @@
                     <ul class="chat">
                         {% for message in messages %}
                         <li class="left clearfix"><span class="chat-img pull-left">
-                            <img src="{% gravatar_url member.email 100 %}" style="width:55px;" alt="" class="img-circle" />
+                            <img src="{% gravatar_url message.sender.email 100 %}" style="width:55px;" alt="" class="img-circle" />
                         </span>
                             <div class="chat-body clearfix">
                                 
@@ -71,24 +71,5 @@
 </div>
 </div>
 
-<!--   <h3>Conversation with {{ other_party }}</h3>
-
-{% for message in messages %}
-<div class="conversation-item">
-    <strong>{{ message.sender.username }}:</strong>
-    <p>{{ message.text }}</p>
-</div>
-{% endfor %}
-
-<div class="contact">
-    <form action="{% url 'conversation_detail' conversation.id %}" method="post">
-        {% csrf_token %}
-        <h3>Reply</h3>
-        <textarea cols="40" id="id_text" name="text" rows="10">
-</textarea>
-
-        <input type="submit" value="Send"/>
-    </form>
-</div> -->
 
 {% endblock %}
