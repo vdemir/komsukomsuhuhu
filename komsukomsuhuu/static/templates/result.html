@@ -23,14 +23,18 @@
 <div class="col-md-9">
     <div class="main-content">
         <div class="row">
-            <div class="span4 well" style="padding-bottom:0; border-color: #ffbb33; width:70%; background-color: #fff; margin-bottom:10px;">
+            <div class="span4 well"
+                 style="padding-bottom:0; border-color: #ffbb33; width:70%; background-color: #fff; margin-bottom:10px;">
                 {% for user in users %}
                 <a href="{% url 'users' user.username %}">
                     <div class="row">
-                   <div class="col-md-2"> <img src="{% gravatar_url data.email 100 %}" class="img-responsive img-circle" alt=""/></div>
-                   <div class="col-md-10"><div class="span1"><span class=" badge badge-warning">{{data.get_full_name }}</span></div></div>
-                   </div>
-                </a>                
+                        <div class="col-md-2"><img src="{% gravatar_url user.email 100 %}"
+                                                   class="img-responsive img-circle" alt=""/></div>
+                        <div class="col-md-10">
+                            <div class="span1"><span class=" badge badge-warning">{{user.get_full_name }}</span></div>
+                        </div>
+                    </div>
+                </a>
                 {% empty %}
                 <p>No result found.</p>
                 {% endfor %}

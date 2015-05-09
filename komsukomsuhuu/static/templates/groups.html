@@ -36,7 +36,7 @@
         </div>
     </div>
   </div>
- </div> 
+ </div>
 {% endif %}
 {% if create_group %}
 <div class="col-md-5">
@@ -54,7 +54,7 @@
         </div>
     </div>
   </div>
- </div> 
+ </div>
 {% endif %}
 
 {% if join_group %}
@@ -73,7 +73,7 @@
         </div>
     </div>
   </div>
- </div> 
+ </div>
 {% endif %}
 {% if leave_group %}
 <div class="col-md-5">
@@ -91,7 +91,7 @@
         </div>
     </div>
   </div>
- </div> 
+ </div>
 {% endif %}
 {% if delete_group %}
 <div class="col-md-5">
@@ -109,7 +109,7 @@
         </div>
     </div>
   </div>
- </div> 
+ </div>
 {% endif %}
 
 <div class="col-md-9">
@@ -135,7 +135,7 @@
                             <p><a href="{% url 'detail_group' group.id %}">{{ group.name }}</a></p>
 
                             <header class="text-left">
-                                <div class="comment-user"><img src="{% gravatar_url member.email 100 %}" alt="" class="img-circle" style="width:14px;height:14px;*margin-right:.3em;line-height:14px;vertical-align:text-top;}"/>
+                                <div class="comment-user"><img src="{% gravatar_url group.manager.email 100 %}" alt="" class="img-circle" style="width:14px;height:14px;*margin-right:.3em;line-height:14px;vertical-align:text-top;}"/>
                                     By <a href="{% url 'users' group.manager.username %}">{{ group.manager}}</a>
                                 </div>
                                 <time class="comment-date" datetime="{{ group.date_created }}">
