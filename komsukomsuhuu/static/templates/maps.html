@@ -53,6 +53,17 @@
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
 
+    var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(lat, lng),
+        map: map,
+    });
+
+    var infowindow = new google.maps.InfoWindow({
+      content: 'You are here'
+    });
+    
+    infowindow.open(map,marker);
+
     google.maps.event.addListenerOnce(map, 'tilesloaded', addMarkers);
 
     }
