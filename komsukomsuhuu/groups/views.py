@@ -51,6 +51,7 @@ def list_groups_on_map(request):
         'length': len(groups)
     }, RequestContext(request))
 
+
 # TODO Private group icin enrollment key mekanizmasi
 @login_required(login_url='/login')
 def new_group(request):
@@ -59,43 +60,38 @@ def new_group(request):
         form = GroupForm(request.POST)
         form_location = GroupLocationForm(request.POST)
         if form.is_valid() and form_location.is_valid():
-            if not (form.cleaned_data['type'] == 2 and form.cleaned_data['enrollment_key'] == ""):
-                form.instance.manager = request.user
-                form.save()
-                group = Group.objects.get(name=form.cleaned_data['name'])
-                group.members.add(request.user)
-                group.save()
-                form_location.instance.group = group
-                form_location.save()
-                try:
-                    data = {
-                        'group': group.id,
-                        'type': 'Point',
-                        'coordinates': (
-                            float(form_location.cleaned_data['longitude']), float(form_location.cleaned_data['latitude'])),
-                    }
-                    db.location.insert(data)
+            form.instance.manager = request.user
+            form.save()
+            group = Group.objects.get(name=form.cleaned_data['name'])
+            group.members.add(request.user)
+            group.save()
+            form_location.instance.group = group
+            form_location.save()
+            try:
+                data = {
+                    'group': group.id,
+                    'type': 'Point',
+                    'coordinates': (
+                        float(form_location.cleaned_data['longitude']), float(form_location.cleaned_data['latitude'])),
+                }
+                db.location.insert(data)
 
-                    if group.state == 2:
-                        create_temp_group.apply_async(args=[group.id, ],
-                                                      eta=datetime.utcnow() + timedelta(hours=group.duration),
-                                                      link=destroy_temp_group.s())
-                except Exception:
-                    return HttpResponse("Something is wrong")
-                redirect_to = "%(path)s?create_group=true" % {
-                    "path": reverse("groups")
-                }
-                return redirect(redirect_to)
-            else:
-                redirect_to = "%(path)s?error=true" % {
-                    "path": reverse("groups")
-                }
-                return redirect(redirect_to)
+                if group.state == 2:
+                    create_temp_group.apply_async(args=[group.id, ],
+                                                  eta=datetime.utcnow() + timedelta(hours=group.duration),
+                                                  link=destroy_temp_group.s())
+            except Exception:
+                return HttpResponse("Something is wrong")
+            redirect_to = "%(path)s?create_group=true" % {
+                "path": reverse("groups")
+            }
+            return redirect(redirect_to)
+
         else:
             redirect_to = "%(path)s?error=true" % {
                 "path": reverse("groups")
             }
-            return redirect(redirect_to)
+            return HttpResponse("Hata var")
 
     return render_to_response('new_group.html', {
         'form': form
@@ -111,7 +107,6 @@ def delete_group(request, pk):
         "path": reverse("groups")
     }
     return redirect(redirect_to)
-
 
 
 @login_required(login_url='/login')
@@ -223,7 +218,6 @@ def leave_group(request, pk):
         "path": reverse("groups")
     }
     return redirect(redirect_to)
-
 
 
 @login_required(login_url='/login')
