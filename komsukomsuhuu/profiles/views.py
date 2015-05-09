@@ -99,6 +99,10 @@ def user_profile(request):
     my_groups = list(Group.objects.filter(members=request.user))
 
     return render_to_response("profile.html", {
+        'favorited_groups': info(request)[0],
+        'favorited_topics': info(request)[1],
+        'notifications': info(request)[2],
+        'inbox_notifications': info(request)[3],
         'user': request.user,
         'fav_groups': fav_groups,
         'my_groups': my_groups,
@@ -143,6 +147,10 @@ def notifications(request):
             notifications.append(notification)
 
     return render_to_response('notifications.html', {
+        'favorited_groups': info(request)[0],
+        'favorited_topics': info(request)[1],
+        'notifications': info(request)[2],
+        'inbox_notifications': info(request)[3],
         'notifications': notifications
     }, RequestContext(request))
 

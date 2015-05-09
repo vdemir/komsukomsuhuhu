@@ -8,6 +8,7 @@ from messages.forms import NewMessageForm
 from messages.models import Conversation, Message
 from django.contrib.auth.decorators import login_required
 from notifications import notify
+from functions.function import info
 
 
 def send_notification(sender, recipient_username, verb, target):
@@ -69,6 +70,10 @@ def inbox(request):
     )
 
     return render_to_response("inbox.html", {
+        'favorited_groups': info(request)[0],
+        'favorited_topics': info(request)[1],
+        'notifications': info(request)[2],
+        'inbox_notifications': info(request)[3],
         "conversations": conversations
     }, RequestContext(request))
 
@@ -125,6 +130,10 @@ def conversation_detail(request, pk):
 
 
     return render_to_response("conversation_detail.html", {
+        'favorited_groups': info(request)[0],
+        'favorited_topics': info(request)[1],
+        'notifications': info(request)[2],
+        'inbox_notifications': info(request)[3],
         "conversation": conversation,
         "messages": messages,
         "form": form,
