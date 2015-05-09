@@ -88,7 +88,7 @@ def users(request, username):
     form = NewMessageForm()
 
     return render_to_response("users.html", {
-        'user': user,
+        'users': user,
         'form': form,
     }, RequestContext(request))
 
