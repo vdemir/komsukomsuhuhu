@@ -1,0 +1,53 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:400,700);
+body
+{
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    }
+.profile
+{
+    background-color:#fff;
+    min-height: 250px;
+    height:270px;
+    width:480px;
+    display: inline-block;
+    border:1px solid #ffbb33;
+    }
+    .h2, h2{
+        margin-top: -2px;
+        margin-bottom: 20px;
+    }
+    
+.text-center>figure{
+    
+    width:170px;
+    margin-left:-65px;
+    margin-bottom: 10px;
+    margin-top:-10px;
+    }    
+.img-circle{
+    border:1px solid #ffbb33;
+}
+.divider 
+{
+    border-top:1px solid #ffbb33;
+    }
+.emphasis 
+{
+    margin-left:102px;
+    padding-top:16px;
+    width:200px;
+    border-top: 4px solid transparent;
+    }
+.emphasis:hover 
+{
+    border-top: 4px solid #ffbb33 ;
+
+    }
+.emphasis h2
+{
+    margin-bottom:0;
+    }
+
+.form-control { width: 100%; }
+

@@ -5,6 +5,7 @@
 {% block css %}
 {{ block.super }}
 <link rel="stylesheet" href="/static/css/groups.css"/>
+<link rel="stylesheet" href="/static/css/new_group.css"/>
 <!--<link rel="stylesheet" href="/static/css/bootstrap-theme.min.css"/>-->
 {% endblock %}
 
@@ -22,58 +23,93 @@
 {% if error %}
 <div class="col-md-5">
     <div class="main-content">
-        <div class="span2 well">
-
-            <b>Please check your field. Group name is unique.</b>
-
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div class="alert alert-danger" style="width:420px;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    &times;</button>
+               <span class="glyphicon glyphicon-hand-right"></span> <strong>Success Message</strong>
+                <hr class="message-inner-separator">
+                <p>
+                    Please check your field! Group name is unique!</p>
+            </div>
         </div>
     </div>
-</div>
+  </div>
+ </div> 
 {% endif %}
 {% if create_group %}
 <div class="col-md-5">
     <div class="main-content">
-        <div class="span2 well">
-
-            <b>Group created successfully</b>
-
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div class="alert alert-success" style="width:400px;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    &times;</button>
+               <span class="glyphicon glyphicon-ok"></span> <strong>Success Message</strong>
+                <hr class="message-inner-separator">
+                <p>
+                    You successfully created the group!</p>
+            </div>
         </div>
     </div>
-</div>
+  </div>
+ </div> 
 {% endif %}
 
 {% if join_group %}
 <div class="col-md-5">
     <div class="main-content">
-        <div class="span2 well">
-
-            <b>Your range is not suitable for this group!</b>
-
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div class="alert alert-danger" style="width:400px;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    &times;</button>
+               <span class="glyphicon glyphicon-hand-right"></span> <strong>Success Message</strong>
+                <hr class="message-inner-separator">
+                <p>
+                    The range is not suitable for this group!</p>
+            </div>
         </div>
     </div>
-</div>
+  </div>
+ </div> 
 {% endif %}
 {% if leave_group %}
 <div class="col-md-5">
     <div class="main-content">
-        <div class="span2 well">
-
-            <b>You leave from group successfully.</b>
-
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div class="alert alert-success" style="width:400px;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    &times;</button>
+               <span class="glyphicon glyphicon-ok"></span> <strong>Success Message</strong>
+                <hr class="message-inner-separator">
+                <p>
+                    You successfully left the group!</p>
+            </div>
         </div>
     </div>
-</div>
+  </div>
+ </div> 
 {% endif %}
 {% if delete_group %}
 <div class="col-md-5">
     <div class="main-content">
-        <div class="span2 well">
-
-            <b>Group delete successfully.</b>
-
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div class="alert alert-success" style="width:400px;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    &times;</button>
+               <span class="glyphicon glyphicon-ok"></span> <strong>Success Message</strong>
+                <hr class="message-inner-separator">
+                <p>
+                    You successfully deleted the group!</p>
+            </div>
         </div>
     </div>
-</div>
+  </div>
+ </div> 
 {% endif %}
 
 <div class="col-md-9">

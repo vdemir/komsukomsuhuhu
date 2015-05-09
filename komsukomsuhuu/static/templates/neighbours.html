@@ -2,6 +2,7 @@
 
 {% block css %}
 {{ block.super }}
+<link rel="stylesheet" href="/static/css/neighbours.css"/>
 {% endblock %}
 
 {% block js %}
@@ -18,7 +19,8 @@
 
 <div class="col-md-9">
     <div class="main-content">
-        <hr>
+        
+        <h1>Neighbours</h1>
         {% for neigh in my_neighs %}
         <li><a href="{% url 'users' neigh.username %}">{{neigh.get_full_name }}</a></li>
         {% empty %}

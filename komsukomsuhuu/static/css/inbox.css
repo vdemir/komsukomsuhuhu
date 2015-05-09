@@ -1,0 +1,19 @@
+.h1, h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-size:30px;
+    font-weight: 500;
+    margin-top:-5px;
+    margin-bottom: -20px;
+    }
+.page-header{
+    border-bottom: 1px solid #ffbb33;
+}
+.user_name{
+    font-size:14px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+}
+.comments-list .media{
+    border-bottom: 1px dotted #fff;
+    margin-bottom:-38px;
+}

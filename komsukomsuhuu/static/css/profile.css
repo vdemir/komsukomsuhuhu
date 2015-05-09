@@ -1,0 +1,65 @@
+.user-row {
+    margin-bottom: 14px;
+}
+
+.user-row:last-child {
+    margin-bottom: 0;
+}
+
+.dropdown-user {
+    margin: 13px 0;
+    padding: 5px;
+    height: 100%;
+}
+
+.panel{
+
+    width:580px;
+    border-color:#ffbb33;
+}
+
+.panel-info .panel-heading{
+    background-color: #ffbb33;
+    border-color:#ffbb33;
+}
+
+.table-user-information > body > tr {
+    border-top: 1px solid rgb(221, 221, 221);
+}
+
+.table-user-information > body > tr:first-child {
+    border-top: 0;
+}
+
+
+.table-user-information > body > tr > td {
+    border-top: 0;
+}
+
+li{
+     list-style-type: none;
+    
+}
+
+a{
+    padding: 2px;
+    }
+    
+a:hover{
+    color: #fff;
+    border-radius: 10px;
+    background-color: #ffbb33;
+    text-decoration: none;
+}
+
+.panel-footer{
+    margin-top:-20px;
+}
+
+.panel-footer .btn:hover{
+    border-radius:3px;
+}
+
+.form-control {
+  margin-top: 0px;
+}

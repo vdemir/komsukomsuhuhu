@@ -1,0 +1,26 @@
+.img-circle{
+    width:60px;
+   margin-top:-8.5px;
+   margin-bottom:10px;
+   border: 1px solid #ffbb33;
+}
+
+.badge{
+    padding: 3px;
+    border: 1px solid #ffbb33;
+    border-radius: 10px;
+    background-color:#fff;
+    color: #333;
+    overflow:hidden;
+    font-size: 19px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    margin-top:8px;
+    margin-left:-10px;
+}
+
+.badge:hover{
+    background-color: #ffbb33;
+    color:#fff;
+}
+

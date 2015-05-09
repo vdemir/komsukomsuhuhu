@@ -1,12 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
+{% extends "base.html" %}
 
-<body>
-<p><b>{{ user.get_full_name }}</b></p>
+{% load gravatar %}
+
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" href="/static/css/profile.css"/>
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+<script>document.getElementById("home").style.cssText = "color: #fff;background-color: #ffbb33;border-radius: 10px;";</script>
+{% endblock %}
+
+{% block title %}Profile{% endblock %}
+
+{% block sidebarjs%}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="col-md-9">
+    <div class="main-content">
+
+<!--<p><b>{{ user.get_full_name }}</b></p>
 
 <p><b>Email:</b>{{ user.email }}</p>
 
@@ -36,7 +53,84 @@
     {% empty %}
     <li>You didn't join any group.. yet :D</li>
     {% endfor %}
-</ul>
+</ul> -->
+     
+     
+     
+     
+     <div class="row">
+    
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 style="color:#fff;" class="panel-title">{{ user.get_full_name }}</h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-3 col-lg-3 " align="center"> <img style="border: 1px solid #ffbb33;" src="{% gravatar_url member.email 100 %}" style="width:100px;" alt="" class="img-circle" /> </div>
+                
+                <div class=" col-md-9 col-lg-9 "> 
+                  <table class="table table-user-information">
+                    <body>
+                      <tr>
+                        <td style="font-weight: 700;">Email:</td>
+                        <td>{{ user.email }}</td>
+                      </tr>
+                      <tr>
+                        <td style="font-weight: 700;">Date joined:</td>
+                        <td>{{ user.date_joined }}</td>
+                      </tr>
+                      
+                      <tr>
+                        <td style="font-weight: 700;">Favourited Groups:</td>
+                        
+                        <td>{% for group in fav_groups %}<li><a href="{% url 'detail_group' group.id %}">{{ group.name }}</a></li>
+                        {% empty %}
+                        <li>You don't have any favorite groups!</li>
+                        {% endfor %}
+                        </td>
+                       
+                      </tr>
+                       
+                      <tr>
+                        <td style="font-weight: 700;">Favourited Topics:</td>
+                        <td>{% for topic in fav_topics %}
+                        <li><a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li>
+                        {% empty %}
+                        <li>You don't have any favourite topics!</li>
+                            {% endfor %}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="font-weight: 700;">My Groups:</td>
+                        <td>{% for group in my_groups %}
+                        <li><a href="{% url 'detail_group' group.id %}">{{ group.name }}</a></li>
+                        {% empty %}
+                        <li>You didn't join any groups yet!</li>
+                        {% endfor %}
+                        </td>
+                      </tr>
+                     
+                    </body>
+                  </table>
+                  
+                  
+                </div>
+              </div>
+            </div>
+                <div class="panel-footer ">
+                 <a onclick="location" style="margin-left:400px; width:140px" data-toggle="modal" data-target="#ModalNewGroup" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i>Edit Profile</a>
+                {% include 'edit_profile.html' %}
+                </div>
+            
+          </div>
+        </div>
+      
+     
+     
+     
 
-</body>
-</html>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,10 +1,62 @@
-<form action="{% url 'edit_profile' %}" method="post">
+<!--<form action="{% url 'edit_profile' %}" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <p><label for="id_address">Address:</label> <input id="id_address" maxlength="100" name="address" type="text" value="Beylikduzu, Istanbul" /></p>
+<p><label for="id_phone">Phone:</label> <input id="id_phone" maxlength="10" name="phone" type="text" value="3818256" /></p>
+<p><label for="id_birthDay">Date of Birth:</label> <input id="id_birthDay" name="birthDay" type="text" value="1993-05-07" /> <span class="helptext">This field must be 'YYYY-MM-DD' format</span></p>
+
     <input type="submit" value="Submit"/>
-</form>
+</form>-->
 
 
 
-
+<div class="modal fade" id="ModalNewGroup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Edit Profile!</h4>
+                             </div>
+                          
+                           <div class="modal-body">
+                          <form class="form-horizontal" action="{% url 'edit_profile' %}" method="post">
+                            {% csrf_token %}
+                         
+                                                           
+                    <div class="form-group">
+                        <label for="id_address" class="col-sm-2 control-label">Address:</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="id_address" maxlength="100" name="address" type="text"/>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="form-group">
+                        <label for="id_phone" class="col-sm-2 control-label">Phone:</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="id_phone" maxlength="10" name="phone" type="text"/>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="form-group">
+                        <label for="id_birthDay" class="col-sm-2 control-label">Birthday:</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="id_birthDay" name="birthDay" type="text"/>
+                            <span class="helptext">This field must be of 'YYYY-MM-DD' format</span>
+                        </div>
+                    </div>
+                                 
+                               
+                            <div class="modal-footer">
+                              <button class="btn btn-default" data-dismiss="modal">Close</button>
+                              <input type="submit" value="Submit" class="btn btn-success"/>
+                             <!--<button type="submit" value="Send a message" class="btn btn-success"></button>-->
+                             </div>
+                           </form>
+                           </div>
+                           
+                         </div>
+                     </div>
+                </div>
 

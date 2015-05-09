@@ -26,28 +26,54 @@
 {% if favorite_topic == "success" %}
 <div class="col-md-5">
     <div class="main-content">
-        <div class="span2 well">
-            <b>You favorite topic successfully</b>
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div class="alert alert-success" style="width:400px;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    &times;</button>
+               <span class="glyphicon glyphicon-ok"></span> <strong>Success Message</strong>
+                <hr class="message-inner-separator">
+                <p>
+                    Topic successfully added to favourites!</p>
+            </div>
         </div>
     </div>
-</div>
+  </div>
+ </div> 
 {% elif favorite_topic == "leave-success" %}
 <div class="col-md-5">
     <div class="main-content">
-        <div class="span2 well">
-            <b>You unfavorite topic successfully</b>
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div class="alert alert-success" style="width:400px;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    &times;</button>
+               <span class="glyphicon glyphicon-ok"></span> <strong>Success Message</strong>
+                <hr class="message-inner-separator">
+                <p>
+                    Topic successfully removed from favourites!</p>
+            </div>
         </div>
     </div>
-</div>
-
+  </div>
+ </div> 
 {% elif favorite_topic == "no-members" %}
 <div class="col-md-5">
     <div class="main-content">
-        <div class="span2 well">
-            <b>You are not member of this group</b>
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div class="alert alert-danger" style="width:400px;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    &times;</button>
+               <span class="glyphicon glyphicon-hand-right"></span> <strong>Success Message</strong>
+                <hr class="message-inner-separator">
+                <p>
+                    You are not a member of this group!</p>
+            </div>
         </div>
     </div>
-</div>
+  </div>
+ </div> 
 {% endif %}
 <div class="col-md-9">
     <div class="main-content">

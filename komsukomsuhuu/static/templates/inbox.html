@@ -1,20 +1,65 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>Inbox Page</title>
-</head>
-<body>
-{% load gravatar %}
-<h3>Inbox</h3>
+{% extends "base.html" %}
 
-{% for conversation in conversations %}
+{% load gravatar %}
+
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" href="/static/css/inbox.css"/>
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+<script>document.getElementById("home").style.cssText = "color: #fff;background-color: #ffbb33;border-radius: 10px;";</script>
+{% endblock %}
+
+{% block title %}Inbox{% endblock %}
+
+{% block sidebarjs%}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="col-md-9">
+    <div class="main-content">
+
+
+
+<!--{% for conversation in conversations %}
 <img src="{% gravatar_url conversation.messages.last.sender.email 100 %}" alt=""/>
 <strong>{{conversation.messages.last.sender.username }} says:</strong>
 <p><a href="{% url 'conversation_detail' conversation.id %}">{{ conversation.messages.last.text|truncatechars:50 }}</a></p>
 {% empty %}
 Your inbox is empty.
-{% endfor %}
+{% endfor %}-->
 
-</body>
-</html>
+
+    <h1> Messages </h1>
+
+    
+            <div class="row">
+                <div class="col-md-8">
+                    {% for conversation in conversations %}
+                  <div class="page-header">
+                  </div> 
+                   <div class="comments-list">
+                       <div class="media">
+                           <p style="color:#ccc;" class="pull-right" ><small>{{ conversation.date_created }}</small></p>
+                            <div class="media-left" >
+                              <img class="img-circle" style="width:60px; border: 1px solid #ffbb33;" src="{% gravatar_url conversation.messages.last.sender.email 100 %}" alt=""/>
+                            </div>
+                            <div class="media-body">             
+                              <h4 class="media-heading user_name">{{conversation.messages.last.sender.username }}</h4>
+                              <p><a style="color:#949494;" href="{% url 'conversation_detail' conversation.id %}">{{ conversation.messages.last.text|truncatechars:50 }}</a></p>
+                            </div>
+                          </div>
+                    
+                </div>
+                   {% endfor %}
+            </div>
+            </div>
+    </div>
+</div>
+    
+   
+{% endblock %}

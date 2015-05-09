@@ -2,6 +2,7 @@
 
 {% block css %}
 {{ block.super }}
+<link rel="stylesheet" href="/static/css/topics.css"/>
 {% endblock %}
 
 {% block js %}
@@ -18,7 +19,8 @@
 
 <div class="col-md-9">
     <div class="main-content">
-        <hr>
+        
+        <h1>Favourite Topics</h1>
         {% for topic in my_topics %}
         <li><a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li>
         {% empty %}

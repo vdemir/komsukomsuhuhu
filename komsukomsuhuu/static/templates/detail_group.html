@@ -6,6 +6,8 @@
 {{ block.super }}
 <link rel="stylesheet" href="/static/css/detail_group.css"/>
 <link rel="stylesheet" href="/static/css/members.css"/>
+<link rel="stylesheet" href="/static/css/new_topic.css"/>
+<link rel="stylesheet" href="/static/css/edit_group.css"/>
 {% endblock %}
 
 {% block js %}
@@ -21,80 +23,136 @@
 
 {% block content %}
 {% if create_topic %}
-<div class="col-md-5">
+  <div class="col-md-5">
     <div class="main-content">
-        <div class="span2 well">
-
-            <b>Topic created successfully</b>
-
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div class="alert alert-success" style="width:400px;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    &times;</button>
+               <span class="glyphicon glyphicon-ok"></span> <strong>Success Message</strong>
+                <hr class="message-inner-separator">
+                <p>
+                    You successfully created a topic!</p>
+            </div>
         </div>
     </div>
-</div>
+  </div>
+ </div>   
 {% endif %}
 
 {% if join_group %}
 <div class="col-md-5">
     <div class="main-content">
-        <div class="span2 well">
-
-            <b>You join successfully</b>
-
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div class="alert alert-success" style="width:400px;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    &times;</button>
+               <span class="glyphicon glyphicon-ok"></span> <strong>Success Message</strong>
+                <hr class="message-inner-separator">
+                <p>
+                    You successfully joined the group!</p>
+            </div>
         </div>
     </div>
-</div>
+  </div>
+ </div> 
 {% endif %}
 {% if edit_group == "permission" %}
 <div class="col-md-5">
     <div class="main-content">
-        <div class="span2 well">
-
-            <b>Editing group successful</b>
-
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div class="alert alert-success" style="width:400px;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    &times;</button>
+               <span class="glyphicon glyphicon-ok"></span> <strong>Success Message</strong>
+                <hr class="message-inner-separator">
+                <p>
+                    You successfully edited the group!</p>
+            </div>
         </div>
     </div>
-</div>
+  </div>
+ </div> 
 {% elif edit_group == "no-permission" %}
 <div class="col-md-5">
     <div class="main-content">
-        <div class="span2 well">
-
-            <b>Only owner can edit</b>
-
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div class="alert alert-danger" style="width:400px;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    &times;</button>
+               <span class="glyphicon glyphicon-hand-right"></span> <strong>Success Message</strong>
+                <hr class="message-inner-separator">
+                <p>
+                    Only owner can edit the group!</p>
+            </div>
         </div>
     </div>
-</div>
+  </div>
+ </div> 
 {% endif %}
 
 {% if favorite_group == "success" %}
 <div class="col-md-5">
     <div class="main-content">
-        <div class="span2 well">
-            <b>You favorite group successfully</b>
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div class="alert alert-success" style="width:400px;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    &times;</button>
+               <span class="glyphicon glyphicon-ok"></span> <strong>Success Message</strong>
+                <hr class="message-inner-separator">
+                <p>
+                    You added this group to favourites!</p>
+            </div>
         </div>
     </div>
-</div>
+  </div>
+ </div> 
 {% elif favorite_group == "leave-success" %}
 <div class="col-md-5">
     <div class="main-content">
-        <div class="span2 well">
-            <b>You unfavorite group successfully</b>
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div class="alert alert-success" style="width:400px;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    &times;</button>
+               <span class="glyphicon glyphicon-ok"></span> <strong>Success Message</strong>
+                <hr class="message-inner-separator">
+                <p>
+                    This group is no longer in your favourites!</p>
+            </div>
         </div>
     </div>
-</div>
+  </div>
+ </div> 
 
 {% elif favorite_group == "no-members" %}
 <div class="col-md-5">
     <div class="main-content">
-        <div class="span2 well">
-            <b>You are not member of this group</b>
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div class="alert alert-danger" style="width:400px;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    &times;</button>
+               <span class="glyphicon glyphicon-hand-right"></span> <strong>Success Message</strong>
+                <hr class="message-inner-separator">
+                <p>
+                    You are not a member of this group yet!</p>
+            </div>
         </div>
     </div>
-</div>
+  </div>
+ </div> 
 {% endif %}
 
 
 <div class="col-md-5">
     <div class="main-content">
+        
         <h1>{{ group.name }}</h1>
 
         <p>Owner: {{ group.manager}}</p>
@@ -102,10 +160,6 @@
         <hr/>
 
         {% if user in group.members.all %}
-
-        <button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#ModalNewTopic"><span
-                class="glyphicon glyphicon-plus" aria-hidden="true"></span>Create New Topic
-        </button>
 
         {% include 'new_topic.html' %}
 

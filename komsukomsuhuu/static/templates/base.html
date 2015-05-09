@@ -50,7 +50,7 @@
                 <hr>
 
                 <ul class="groups">
-                    <div class="header"><span class="glyphicon glyphicon-edit"></span>Groups</div>
+                    <div class="header"><span class="glyphicon glyphicon-edit"></span>Favourite Groups</div>
                     {% for group in favorited_groups|slice:":5" %}
                     <li><a href="{% url 'detail_group' group.id %}">{{ group.name }}</a></li>
                     {% empty %}
@@ -62,13 +62,13 @@
                 <hr>
 
                 <ul class="events">
-                    <div class="header"><span class="glyphicon glyphicon-calendar"></span>Topics</div>
+                    <div class="header"><span class="glyphicon glyphicon-calendar"></span>Favourite Topics</div>
                     {% for topic in favorited_topics|slice:":5" %}
                     <li><a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li>
                     {% empty %}
                     <p>No topics available!</p>
                     {% endfor %}
-                    <p><a href="#">+ Create</a> new topics!</p>
+                    <p><a href='{% url "groups" %}'>+ Create</a> new topics!</p>
                 </ul>
             </div>
         </div>
