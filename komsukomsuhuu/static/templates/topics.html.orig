@@ -46,6 +46,15 @@
 
 <div class="col-md-9">
     <div class="main-content">
+<<<<<<< HEAD
+        
+        <h1>Favourite Topics</h1>
+        {% for topic in my_topics %}
+        <li><a href="{% url 'detail_topic' topic.id %}">{{ topic.title }}</a></li>
+        {% empty %}
+        <h5>No topics available!</h5>
+        {% endfor %}
+=======
 
     <form>
 
@@ -58,6 +67,7 @@
         </select>
     <p id="p1"></p>
     </form>
+>>>>>>> 01c7f5c6eb5ac307cd4cd5cc91c4857a91962678
     </div>
 </div>
 

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" href="/static/css/neighbours.css"/>
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+{% endblock %}
+
+{% block title %}Neighbours{% endblock %}
+
+{% block sidebarjs%}
+<script>document.getElementById("neighbours").style.cssText = "color: #fff;background-color: #ffbb33;border-radius: 10px;";</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="col-md-9">
+    <div class="main-content">
+        
+        <h1>Neighbours</h1>
+        {% for neigh in my_neighs %}
+        <li><a href="{% url 'users' neigh.username %}">{{neigh.get_full_name }}</a></li>
+        {% empty %}
+        <h5>No neighbours available!</h5>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

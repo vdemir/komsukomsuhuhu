@@ -23,15 +23,24 @@
 <div class="col-md-9">
     <div class="main-content">
         <div class="row">
+<<<<<<< HEAD
             <div class="span4 well" style="padding-bottom:0; border-color: #ffbb33; width:70%; background-color: #fff; margin-bottom:10px;">
-                {% for user in users %}
-                <a href="{% url 'users' user.username %}">
+                {% if data %}
+                <a href="{% url 'users' data.username %}">
                     <div class="row">
                    <div class="col-md-2"> <img src="{% gravatar_url data.email 100 %}" class="img-responsive img-circle" alt=""/></div>
                    <div class="col-md-10"><div class="span1"><span class=" badge badge-warning">{{data.get_full_name }}</span></div></div>
                    </div>
                 </a>                
+                {% else %}
+=======
+            <div class="span4 well" style="padding-bottom:0">
+                {% for user in users %}
+                <a href="{% url 'users' user.username %}">
+                    <img src="{% gravatar_url user.email 100 %}" class="img-responsive img-circle" alt=""/>&nbsp;&nbsp;&nbsp;{{user.get_full_name }}
+                </a>
                 {% empty %}
+>>>>>>> 01c7f5c6eb5ac307cd4cd5cc91c4857a91962678
                 <p>No result found.</p>
                 {% endfor %}
             </div>

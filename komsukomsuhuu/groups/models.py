@@ -59,6 +59,7 @@ class Group(models.Model):
     date_modified = models.DateField(auto_now=True)
     user_favorited = models.ManyToManyField(User, related_name='favorite_groups')
     duration =models.IntegerField(choices=DURATION_CHOICES, default=0)
+    enrollment_key = models.CharField(max_length=20, default="")
 
     def __unicode__(self):
         return "%s" % (self.name)

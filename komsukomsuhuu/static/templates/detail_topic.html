@@ -101,7 +101,7 @@
                     <img class="[ img-circle pull-left ]" src="{% gravatar_url topic.owner.email 100 %}"
                          alt="Mouse0270"/>
 
-                    <h3>{{ user.get_full_name }}</h3>
+                    <h3>{{ topic.owner.get_full_name }}</h3>
                     <h5><span>Shared publicly</span> - <span class="glyphicon glyphicon-calendar"></span><span>{{ topic.date_created }}</span>
                     </h5>
 

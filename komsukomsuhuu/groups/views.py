@@ -51,7 +51,7 @@ def list_groups_on_map(request):
         'length': len(groups)
     }, RequestContext(request))
 
-
+# TODO Private group icin enrollment key mekanizmasi
 @login_required(login_url='/login')
 def new_group(request):
     form = GroupForm()
@@ -59,33 +59,38 @@ def new_group(request):
         form = GroupForm(request.POST)
         form_location = GroupLocationForm(request.POST)
         if form.is_valid() and form_location.is_valid():
-            form.instance.manager = request.user
-            form.save()
-            group = Group.objects.get(name=form.cleaned_data['name'])
-            group.members.add(request.user)
-            group.save()
-            form_location.instance.group = group
-            form_location.save()
-            try:
-                data = {
-                    'group': group.id,
-                    'type': 'Point',
-                    'coordinates': (
-                        float(form_location.cleaned_data['longitude']), float(form_location.cleaned_data['latitude'])),
+            if not (form.cleaned_data['type'] == 2 and form.cleaned_data['enrollment_key'] == ""):
+                form.instance.manager = request.user
+                form.save()
+                group = Group.objects.get(name=form.cleaned_data['name'])
+                group.members.add(request.user)
+                group.save()
+                form_location.instance.group = group
+                form_location.save()
+                try:
+                    data = {
+                        'group': group.id,
+                        'type': 'Point',
+                        'coordinates': (
+                            float(form_location.cleaned_data['longitude']), float(form_location.cleaned_data['latitude'])),
+                    }
+                    db.location.insert(data)
+
+                    if group.state == 2:
+                        create_temp_group.apply_async(args=[group.id, ],
+                                                      eta=datetime.utcnow() + timedelta(hours=group.duration),
+                                                      link=destroy_temp_group.s())
+                except Exception:
+                    return HttpResponse("Something is wrong")
+                redirect_to = "%(path)s?create_group=true" % {
+                    "path": reverse("groups")
                 }
-                db.location.insert(data)
-
-                if group.state == 2:
-                    create_temp_group.apply_async(args=[group.id, ],
-                                                  eta=datetime.utcnow() + timedelta(hours=group.duration),
-                                                  link=destroy_temp_group.s())
-            except Exception:
-                return HttpResponse("Something is wrong")
-            redirect_to = "%(path)s?create_group=true" % {
-                "path": reverse("groups")
-            }
-            return redirect(redirect_to)
-
+                return redirect(redirect_to)
+            else:
+                redirect_to = "%(path)s?error=true" % {
+                    "path": reverse("groups")
+                }
+                return redirect(redirect_to)
         else:
             redirect_to = "%(path)s?error=true" % {
                 "path": reverse("groups")
@@ -112,12 +117,15 @@ def delete_group(request, pk):
 @login_required(login_url='/login')
 def detail_group(request, pk):
     already_favorited = ''
+    key = request.POST.get("key")
+    password_fail = request.GET.get("password_fail")
     favorite_group = request.GET.get("favorite_group")
     edit_group = request.GET.get("edit_group")
     join_group = request.GET.get("join_group")
     create_topic = request.GET.get("create_topic")
     group = get_object_or_404(Group, id=pk)
     topics = Topic.objects.filter(group=pk)
+
     if request.user in group.user_favorited.all():
         already_favorited = True
     if request.method == "POST":
@@ -131,12 +139,19 @@ def detail_group(request, pk):
                     'coordinates':
                         SON([('$near', [longitude, latitude]), ('$maxDistance', group.range / 111.12)])}
                 if list(db.location.find(data)):
-                    group.members.add(request.user)
-                    # return redirect(reverse('groups'))
-                    redirect_to = "%(path)s?join_group=true" % {
-                        "path": reverse("detail_group", args=[pk])
-                    }
-                    return redirect(redirect_to)
+                    if group.type == 1 or key == group.enrollment_key:
+                        group.members.add(request.user)
+                        # return redirect(reverse('groups'))
+
+                        redirect_to = "%(path)s?join_group=true" % {
+                            "path": reverse("detail_group", args=[pk])
+                        }
+                        return redirect(redirect_to)
+                    else:
+                        redirect_to = "%(path)s?password_fail=true" % {
+                            "path": reverse("detail_group", args=[pk])
+                        }
+                        return redirect(redirect_to)
                 else:
                     redirect_to = "%(path)s?join_group=true" % {
                         "path": reverse("groups")
@@ -165,7 +180,8 @@ def detail_group(request, pk):
         'join_group': join_group,
         'edit_group': edit_group,
         'favorite_group': favorite_group,
-        'already_favorited': already_favorited
+        'already_favorited': already_favorited,
+        'password_fail': password_fail,
     }, RequestContext(request))
 
 
@@ -237,7 +253,7 @@ def favorite_group(request, pk):
 def show_neighbours(request):
     group_list = []
     neighbour_list = []
-    groups = Group.objects.all()
+    groups = Group.objects.filter(isActive=True)
     for group in groups:
         if group.members.filter(username=request.user.username):
             group_list.append(group)
@@ -252,7 +268,6 @@ def show_neighbours(request):
         'favorited_topics': info(request)[1],
         'notifications': info(request)[2],
         'inbox_notifications': info(request)[3],
-        'my_group': group_list,
+        'my_groups': group_list,
         'my_neighs': neighbour_list,
     }, RequestContext(request))
-
