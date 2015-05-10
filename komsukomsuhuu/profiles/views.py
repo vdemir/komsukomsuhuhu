@@ -127,6 +127,10 @@ def search(request):
             }, RequestContext(request))
         else:
             return render_to_response("result.html", {
+                'favorited_groups': info(request)[0],
+                'favorited_topics': info(request)[1],
+                'notifications': info(request)[2],
+                'inbox_notifications': info(request)[3],
             }, RequestContext(request))
     except Exception:
         return HttpResponse("Something is wrong!")
