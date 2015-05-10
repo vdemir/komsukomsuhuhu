@@ -9,9 +9,6 @@ class CustomUser(models.Model):
     birthDay = models.DateField(verbose_name="Date of Birth", blank=True, null=True, help_text="This field must be 'YYYY-MM-DD' format")
     user = models.OneToOneField(User)
 
-    def __unicode__(self):
-        return "%s " % self.name
-
 
 class UserLocation(models.Model):
     longitude = models.CharField(max_length=50)
