@@ -5,7 +5,7 @@ from models import Group
 
 
 class GroupAdmin(admin.ModelAdmin):
-    list_display = ['name', 'manager', 'type', 'isActive']
+    list_display = ['name', 'manager', 'type', 'state', 'isActive']
 
 
 admin.site.register(Group, GroupAdmin)
