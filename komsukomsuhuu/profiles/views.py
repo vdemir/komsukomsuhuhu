@@ -14,6 +14,7 @@ from elasticsearch import Elasticsearch
 from django.core.urlresolvers import reverse
 from functions.function import info
 from django.contrib.auth.views import password_reset, password_reset_confirm
+from django.core.mail import send_mail
 
 
 es = Elasticsearch()
@@ -41,6 +42,7 @@ def register(request):
                 'name': created_user.get_full_name(),
                 'username': created_user.username
             })
+            send_mail('Thanks to registration', 'thanks', 'huhukomsukomsu@gmail.com',['bunyamin.atik1@gmail.com'], fail_silently=False)
             return HttpResponseRedirect("/../login")
     else:
         form = AdvancedRegistrationForm()
@@ -83,6 +85,7 @@ def logout(request):
     return HttpResponseRedirect("/../login")
 
 
+@login_required(login_url='/login')
 def users(request, username):
     user = get_object_or_404(User, username=username)
     form = NewMessageForm()
@@ -97,6 +100,7 @@ def users(request, username):
     }, RequestContext(request))
 
 
+@login_required(login_url='/login')
 def user_profile(request):
     fav_groups = list(Group.objects.filter(user_favorited=request.user))
     fav_topics = list(Topic.objects.filter(user_favorited=request.user))
@@ -114,6 +118,7 @@ def user_profile(request):
     }, RequestContext(request))
 
 
+@login_required(login_url='/login')
 def search(request):
     users = []
     try:
@@ -140,6 +145,7 @@ def search(request):
         return HttpResponse("Something is wrong!")
 
 
+@login_required(login_url='/login')
 def notifications(request):
     notifications = []
     unread_notifications = request.user.notifications.unread()
