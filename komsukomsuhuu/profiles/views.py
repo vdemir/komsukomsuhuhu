@@ -13,9 +13,10 @@ from django.contrib.auth.models import User
 from elasticsearch import Elasticsearch
 from django.core.urlresolvers import reverse
 from functions.function import info
-from django.contrib.auth.views import password_reset, password_reset_confirm
-from django.core.mail import send_mail
-
+from django.core.mail import EmailMultiAlternatives
+from komsukomsuhuu import settings
+from django.template.loader import get_template
+from django.template import Context
 
 es = Elasticsearch()
 
@@ -31,6 +32,7 @@ def home(request):
 
 
 def register(request):
+
     if request.method == 'POST':
         form = AdvancedRegistrationForm(request.POST)
         if form.is_valid():
@@ -42,7 +44,17 @@ def register(request):
                 'name': created_user.get_full_name(),
                 'username': created_user.username
             })
-            send_mail('Thanks to registration', 'thanks', 'huhukomsukomsu@gmail.com',['bunyamin.atik1@gmail.com'], fail_silently=False)
+            plaintext = get_template('registration_email.txt')
+            html_template = get_template('registration_email.html')
+            d = Context({ 'full_name': created_user.get_full_name() })
+            subject='Welcome to KomsuKomsuHuu'
+            from_email=settings.DEFAULT_FROM_EMAIL
+            to =created_user.email
+            text_content = plaintext.render(d)
+            html_content = html_template.render(d)
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
             return HttpResponseRedirect("/../login")
     else:
         form = AdvancedRegistrationForm()
