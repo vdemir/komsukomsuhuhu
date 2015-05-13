@@ -179,13 +179,13 @@
 
     function getLocation1() {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
+            navigator.geolocation.getCurrentPosition(showPosition1);
         } else {
             x.innerHTML = "Geolocation is not supported by this browser.";
         }
     }
 
-    function showPosition(position) {
+    function showPosition1(position) {
         latitude1.value = position.coords.latitude;
         longitude1.value = position.coords.longitude;
         form1.submit();
