@@ -96,7 +96,7 @@ function check_private() {
             </div>
             <div class="modal-footer">
                 <button class="btn btn-default" data-dismiss="modal">Close</button>
-                <button onclick="getLocation();" class="btn btn-success">Create</button>
+                <button onclick="getLocation5();" class="btn btn-success">Create</button>
             </div>
         </div>
     </div>
@@ -107,15 +107,15 @@ var latitude = document.getElementById("latitude");
 var longitude = document.getElementById("longitude");
 var form = document.getElementById("form1");
 
-function getLocation() {
+function getLocation5() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
+        navigator.geolocation.getCurrentPosition(showPosition5);
     } else {
         x.innerHTML = "Geolocation is not supported by this browser.";
     }
 }
 
-function showPosition(position) {
+function showPosition5(position) {
     latitude.value = position.coords.latitude;
     longitude.value = position.coords.longitude;
     form.submit();
