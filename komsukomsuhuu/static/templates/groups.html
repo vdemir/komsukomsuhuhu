@@ -135,6 +135,7 @@
                             <p><a href="{% url 'detail_group' group.id %}">{{ group.name }}</a></p>
 
                             <header class="text-left">
+
                                 <div class="comment-user"><img src="{% gravatar_url group.manager.email 100 %}" alt="" class="img-circle" style="width:14px;height:14px;*margin-right:.3em;line-height:14px;vertical-align:text-top;}"/>
                                     By <a href="{% url 'users' group.manager.username %}">{{ group.manager}}</a>
                                 </div>
@@ -142,8 +143,23 @@
                                     <span class="glyphicon glyphicon-time"></span>{{ group.date_created }}
                                 </time>
                                 {% if user in group.members.all %}
-                                    <div class="comment-post"><img src="/static/media/tick.png" class="img-circle" style="width:14px;height:14px;*margin-right:.3em;line-height:14px;vertical-align:text-top;}"/><b><font color="green"> Already Joined</font></b></div>
+                                    <div class="comment-user"><img src="/media/tick.png" class="img-circle" style="width:14px;height:14px;*margin-right:.3em;line-height:14px;vertical-align:text-top;}"/><b><font color="green"> Already Joined</font></b></div>
+                                {% else %}
+                                <div class="comment-user">
+                                <form class="form-horizontal" action="/detail_group/{{ group.id }}" method="POST" id="form2">
+                                        {% csrf_token %}
+
+                                        <input type="hidden" name="longitude" id="longitude1"/>
+                                        <input type="hidden" name="latitude" id="latitude1"/>
+                                        {% if group.type == 2 %}
+                                            <input class="form-control" id="id_key" maxlength="100" name="key" type="password" placeholder="password"/>
+                                        {% endif %}
+                                </form>
+                                </div>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="getLocation1();">Join Group</button>
                                 {% endif %}
+
+
                             </header>
                         </div>
                     </div>
@@ -156,5 +172,25 @@
         {% endfor %}
     </div>
 </div>
+<script>
+    var latitude1 = document.getElementById("latitude1");
+    var longitude1 = document.getElementById("longitude1");
+    var form1 = document.getElementById("form2");
+
+    function getLocation1() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+        latitude1.value = position.coords.latitude;
+        longitude1.value = position.coords.longitude;
+        form1.submit();
+    }
+
+</script>
 
 {% endblock %}
