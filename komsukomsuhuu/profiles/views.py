@@ -32,7 +32,7 @@ def home(request):
 
 
 def register(request):
-
+    register_fail = request.GET.get('register_fail')
     if request.method == 'POST':
         form = AdvancedRegistrationForm(request.POST)
         if form.is_valid():
@@ -46,24 +46,35 @@ def register(request):
             })
             plaintext = get_template('registration_email.txt')
             html_template = get_template('registration_email.html')
-            d = Context({ 'full_name': created_user.get_full_name() })
-            subject='Welcome to KomsuKomsuHuu'
-            from_email=settings.DEFAULT_FROM_EMAIL
-            to =created_user.email
+            d = Context({'full_name': created_user.get_full_name()})
+            subject = 'Welcome to KomsuKomsuHuu'
+            from_email = settings.DEFAULT_FROM_EMAIL
+            to = created_user.email
             text_content = plaintext.render(d)
             html_content = html_template.render(d)
             msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
             msg.attach_alternative(html_content, "text/html")
             msg.send()
-            return HttpResponseRedirect("/../login")
+            redirect_to = "%(path)s?register_success=true" % {
+                "path": reverse("login")
+            }
+
+            return redirect(redirect_to)
+        else:
+            redirect_to = "%(path)s?register_fail=true" % {
+                "path": reverse("register")
+            }
+            return redirect(redirect_to)
     else:
         form = AdvancedRegistrationForm()
     return render_to_response("register.html", {
         "form": form,
+        "register_fail": register_fail
     }, RequestContext(request))
 
 
 def login(request):
+    register_success = request.GET.get('register_success')
     form = LoginForm()
 
     if request.method == "POST":
@@ -73,7 +84,8 @@ def login(request):
             return redirect(reverse("home"))
 
     return render_to_response("login.html", {
-        "form": form
+        "form": form,
+        "register_success": register_success,
     }, RequestContext(request))
 
 
