@@ -143,7 +143,7 @@
                                     <span class="glyphicon glyphicon-time"></span>{{ group.date_created }}
                                 </time>
                                 {% if user in group.members.all %}
-                                    <div class="comment-user"><img src="/media/tick.png" class="img-circle" style="width:14px;height:14px;*margin-right:.3em;line-height:14px;vertical-align:text-top;}"/><b><font color="green"> Already Joined</font></b></div>
+                                    <div class="comment-user"><img src="/static/media/tick.png" class="img-circle" style="width:14px;height:14px;*margin-right:.3em;line-height:14px;vertical-align:text-top;}"/><b><font color="green"> Already Joined</font></b></div>
                                 {% else %}
                                 <div class="comment-user">
                                 <form class="form-horizontal" action="/detail_group/{{ group.id }}" method="POST" id="form2">
