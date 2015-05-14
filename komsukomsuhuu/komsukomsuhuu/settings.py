@@ -20,11 +20,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'qkpqh1ovl)n8k7%gi_x&erp26icb(e)o10xo!x=h)jr3b30m*r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Email Set-up
 EMAIL_HOST = 'smtp.gmail.com'
@@ -121,15 +121,11 @@ STATICFILES_DIRS = (
 
 #Template direction
 TEMPLATE_DIRS = (
-     os.path.join(BASE_DIR, "static", "templates"),
+    os.path.join(BASE_DIR, "static", "templates"),
 )
 
-if DEBUG:
-    MEDIA_URL = '/media/'
-    #STATIC_ROOT = os.path.join(BASE_DIR, "static", "static-only")
-    MEDIA_ROOT =  os.path.join(BASE_DIR, "static", "media")
-    STATICFILES_DIRS = (
-         os.path.join(BASE_DIR, "static"),
-    )
+MEDIA_URL = '/media/'
+#STATIC_ROOT = os.path.join(BASE_DIR, "static", "static-only")
+MEDIA_ROOT =  os.path.join(BASE_DIR, "static", "media")
 
 
