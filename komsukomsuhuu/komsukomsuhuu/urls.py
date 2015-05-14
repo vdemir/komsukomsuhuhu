@@ -17,12 +17,12 @@ urlpatterns = patterns('',
     url(r'', include('user_sessions.urls', 'user_sessions')),
 
     # profile processes
-    url(r'^register', profiles.views.register, name='register'),
-    url(r'^login', profiles.views.login, name='login'),
-    url(r'^logout', profiles.views.logout, name='logout'),
-    url(r'^edit_profile', profiles.views.edit_profile, name='edit_profile'),
+    url(r'^register$', profiles.views.register, name='register'),
+    url(r'^login$', profiles.views.login, name='login'),
+    url(r'^logout$', profiles.views.logout, name='logout'),
+    url(r'^edit_profile$', profiles.views.edit_profile, name='edit_profile'),
     url(r'^mark_as_read/$', entities.views.mark_as_read, name='mark_as_read'),
-    url(r'^notifications', profiles.views.notifications, name='notifications'),
+    url(r'^notifications$', profiles.views.notifications, name='notifications'),
     #password reset
     url(r'^password/reset/$',
         'django.contrib.auth.views.password_reset',
@@ -44,11 +44,11 @@ urlpatterns = patterns('',
     # other
     url(r'^$', 'profiles.views.home', name='home'),
     url(r'^users/(?P<username>[\w\._-]+)$', profiles.views.users, name='users'),
-    url(r'^profile/', profiles.views.user_profile, name='profile'),
+    url(r'^profile$', profiles.views.user_profile, name='profile'),
 
     #group processes
-    url(r'groups', groups.views.list_groups, name='groups'),
-    url(r'new_group', groups.views.new_group, name='new_group'),
+    url(r'groups$', groups.views.list_groups, name='groups'),
+    url(r'new_group$', groups.views.new_group, name='new_group'),
     url(r'^delete_group/(?P<pk>[\d]+)$', groups.views.delete_group, name='delete_group'),
     url(r'^detail_group/(?P<pk>[\d]+)$', groups.views.detail_group, name='detail_group'),
     url(r'^edit_group/(?P<pk>[\d]+)$', groups.views.edit_group, name='edit_group'),
