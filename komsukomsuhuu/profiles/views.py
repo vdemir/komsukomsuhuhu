@@ -23,11 +23,20 @@ es = Elasticsearch()
 
 @login_required(login_url='/login')
 def home(request):
+    latest_post = []
+    groups = request.user.members.all()
+    for group in groups:
+        for topic in group.group.all():
+            for post in topic.topic.all():
+                latest_post.append(post)
+
+    latest_post = latest_post[::-1]
     return render_to_response('home.html', {
         'favorited_groups': info(request)[0],
         'favorited_topics': info(request)[1],
         'notifications': info(request)[2],
         'inbox_notifications': info(request)[3],
+        'lates_post': latest_post
     }, RequestContext(request))
 
 
