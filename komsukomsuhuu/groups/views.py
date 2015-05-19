@@ -213,6 +213,13 @@ def leave_group(request, pk):
     group = Group.objects.get(id=pk)
     if request.user in group.members.all():
         group.members.remove(request.user)
+        group.save()
+        if request.user == group.manager:
+            if group.members.count():
+                group.manager = group.members.earliest(field_name='date_joined')
+                group.save()
+
+
 
     redirect_to = "%(path)s?leave_group=true" % {
         "path": reverse("groups")
