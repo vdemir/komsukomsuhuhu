@@ -12,7 +12,7 @@ class GroupForm(forms.ModelForm):
 
 class EditGroupForm(forms.ModelForm):
     class Meta:
-        fields = ['name', 'type', 'range']
+        fields = ['name', 'type', 'range', 'enrollment_key']
         model = Group
 
 
