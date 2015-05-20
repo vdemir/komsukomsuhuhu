@@ -82,11 +82,14 @@
                       </tr>
                       <tr>
                         <td style="font-weight: 700;">My Groups:</td>
-                        <td>{% for group in my_groups %}
-                        <li><a href="{% url 'detail_group' group.id %}">{{ group.name }}</a></li>
-                        {% empty %}
-                        <li>You didn't join any groups yet!</li>
-                        {% endfor %}
+                        <td>
+                            {% for group in my_groups %}
+                                 {% if group.isActive == True%}
+                                     <li><a href="{% url 'detail_group' group.id %}">{{ group.name }}</a></li>
+                                 {% endif %}
+                            {% empty %}
+                                <li>You didn't join any groups yet!</li>
+                            {% endfor %}
                         </td>
                       </tr>
                      
