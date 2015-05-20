@@ -12,7 +12,7 @@
 
 {% block js %}
 {{ block.super }}
-<script src="/static/js/topicbox.js"></script>>
+<script src="/static/js/topicbox.js"></script>
 {% endblock %}
 
 {% block title %}Topic Detail{% endblock %}
@@ -137,7 +137,7 @@
                 </div>
 
                 <div class="panel-google-plus-comment">
-                    <img class="img-circle" src="https://lh3.googleusercontent.com/uFp_tsTJboUY7kue5XAsGA=s46"
+                    <img class="img-circle" src="{% gravatar_url topic.owner.email 100 %}"
                          alt="User Image"/>
 
                     <div class="panel-google-plus-textarea">
