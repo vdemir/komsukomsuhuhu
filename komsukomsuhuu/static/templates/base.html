@@ -16,6 +16,7 @@
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/static/js/markerclusterer.js"></script>
+    <script src="/static/js/detectdevice.js"></script>
     {% endblock %}
 
     <title>{% block title %}{% endblock %}</title>
@@ -32,7 +33,7 @@
        </script>
 </head>
 
-<body>
+<body onload="detectDevice();">
 
 {% include 'navbar.html' %}
 <hr>
