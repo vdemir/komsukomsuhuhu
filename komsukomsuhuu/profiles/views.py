@@ -121,16 +121,19 @@ def logout(request):
 @login_required(login_url='/login')
 def users(request, username):
     user = get_object_or_404(User, username=username)
-    form = NewMessageForm()
+    if user == request.user:
+        return user_profile(request)
+    else:
+        form = NewMessageForm()
 
-    return render_to_response("users.html", {
-        'users': user,
-        'form': form,
-        'favorited_groups': info(request)[0],
-        'favorited_topics': info(request)[1],
-        'notifications': info(request)[2],
-        'inbox_notifications': info(request)[3],
-    }, RequestContext(request))
+        return render_to_response("users.html", {
+            'users': user,
+            'form': form,
+            'favorited_groups': info(request)[0],
+            'favorited_topics': info(request)[1],
+            'notifications': info(request)[2],
+            'inbox_notifications': info(request)[3],
+        }, RequestContext(request))
 
 
 @login_required(login_url='/login')
