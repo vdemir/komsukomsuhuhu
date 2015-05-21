@@ -135,9 +135,8 @@
 
         {% include 'new_group.html' %}
 
-        <button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#ModalNearestGroup" onclick="getLocation();">Nearest Groups</button>
+        <button type="button" class="btn btn-success btn-md" onclick="getLocation();">Nearest Groups</button>
 
-        {% include 'nearest_groups.html' %}
 
 
         {% for group in mygroups %}
@@ -213,16 +212,14 @@
         {% empty %}
         <h1>No groups available!</h1>
         {% endfor %}
-        <form action="{%  url 'nearest_groups' %}" method="POST" id="form3">
-                {% csrf_token %}
-                <input type="hidden" name="latitude" id="latitude2"/>
-                <input type="hidden" name="longitude" id="longitude2"/>
-
-
-            </form>
-
     </div>
 </div>
+<form action="{%  url 'nearest_groups' %}" method="POST" id="form3">
+        {% csrf_token %}
+        <input type="hidden" name="latitude" id="latitude2"/>
+        <input type="hidden" name="longitude" id="longitude2"/>
+</form>
+
 <script>
     var latitude2 = document.getElementById("latitude2");
     var longitude2 = document.getElementById("longitude2");
@@ -240,11 +237,7 @@
         latitude2.value = position.coords.latitude;
         longitude2.value = position.coords.longitude;
         form.submit();
-
-
-
     }
-
 </script>
 
 {% endblock %}
