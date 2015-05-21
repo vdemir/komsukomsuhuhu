@@ -47,6 +47,7 @@ urlpatterns = patterns('',
     url(r'^profile$', profiles.views.user_profile, name='profile'),
 
     #group processes
+    url(r'nearest_groups$', groups.views.list_nearest_groups, name='nearest_groups'),
     url(r'groups$', groups.views.list_groups, name='groups'),
     url(r'new_group$', groups.views.new_group, name='new_group'),
     url(r'^delete_group/(?P<pk>[\d]+)$', groups.views.delete_group, name='delete_group'),

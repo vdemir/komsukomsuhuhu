@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% load gravatar %}
+
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" href="/static/css/groups.css"/>
+<link rel="stylesheet" href="/static/css/new_group.css"/>
+<!--<link rel="stylesheet" href="/static/css/bootstrap-theme.min.css"/>-->
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+{% endblock %}
+
+{% block title %}Groups Page{% endblock %}
+
+{% block sidebarjs%}
+<script>document.getElementById("groups").style.cssText = "color: #fff;background-color: #ffbb33;border-radius: 10px;";</script>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="col-md-9">
+    <div class="main-content">
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#ModalNewGroup"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Create New Group</button>
+
+        {% include 'new_group.html' %}
+
+        <a href="{% url 'groups' %}"><button type="button" class="btn btn-success btn-md">Joined Groups</button></a>
+
+                {% load gravatar %}
+                {% for group in nearest_groups %}
+                    <section class="comment-list">
+
+                        <div class="col-md-10 col-sm-10">
+                            <div class="panel panel-default arrow left">
+                                <div class="panel-body">
+                                    <div class="comment-post">
+                                        <p><a href="{% url 'detail_group' group.id %}">{{ group.name }}</a></p>
+
+                                        <header class="text-left">
+
+                                            <div class="comment-user"><img src="{% gravatar_url group.manager.email 100 %}" alt="" class="img-circle" style="width:14px;height:14px;*margin-right:.3em;line-height:14px;vertical-align:text-top;}"/>
+                                                By <a href="{% url 'users' group.manager.username %}">{{ group.manager}}</a>
+                                            </div>
+                                            <time class="comment-date" datetime="{{ group.date_created }}">
+                                                <span class="glyphicon glyphicon-time"></span>{{ group.date_created }}
+                                            </time>
+                                            {% if user in group.members.all %}
+                                                <div class="comment-user"><img src="/static/media/tick.png" class="img-circle" style="width:14px;height:14px;*margin-right:.3em;line-height:14px;vertical-align:text-top;}"/><b><font color="green"> Already Joined</font></b></div>
+                                            {% endif %}
+
+                                        </header>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+
+        {% empty %}
+        <h1>No groups available!</h1>
+        {% endfor %}
+
+            </div>
+        </div>
+
+{% endblock %}

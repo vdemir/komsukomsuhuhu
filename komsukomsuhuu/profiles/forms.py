@@ -42,7 +42,7 @@ class AdvancedRegistrationForm(UserCreationForm):
     def clean_email(self):
         if not self.cleaned_data['email']:
             raise forms.ValidationError(u'Enter email.')
- 
+
         if User.objects.filter(email__iexact=self.cleaned_data['email']):
             raise forms.ValidationError(
                 u'''

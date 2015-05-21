@@ -15,11 +15,9 @@ from functions.function import info
 db = Connection()['komsukomsuhuu']
 
 # Create your views here.
-
-
 @login_required(login_url='/login')
 def list_groups(request):
-    groups = Group.objects.filter(isActive=True).order_by('-date_created')
+    mygroup_list = list(Group.objects.filter(isActive=True, members=request.user))
     delete_group = request.GET.get("delete_group")
     leave_group = request.GET.get("leave_group")
     create_group = request.GET.get("create_group")
@@ -30,12 +28,40 @@ def list_groups(request):
         'favorited_topics': info(request)[1],
         'notifications': info(request)[2],
         'inbox_notifications': info(request)[3],
-        'groups': groups,
+        'mygroups': mygroup_list,
         'create_group': create_group,
         'join_group': join_group,
         'leave_group': leave_group,
         'delete_group': delete_group,
         'error': error
+    }, RequestContext(request))
+
+@login_required(login_url='/login')
+def list_nearest_groups(request):
+    form = UserLocationForm()
+    nearest_group_list = []
+    if request.method == "POST":
+        form = UserLocationForm(request.POST)
+        if form.is_valid():
+            try:
+                longitude = float(form.cleaned_data['longitude'])
+                latitude = float(form.cleaned_data['latitude'])
+                data = {
+                    'coordinates':SON([( '$near', [longitude, latitude]), ('$maxDistance', 5/111.12 )])
+                }
+                groups = list(db.location.find(data))
+                for group in groups:
+                    temp = Group.objects.get(id=group['group'])
+                    if temp.isActive == True:
+                        nearest_group_list.append(temp)
+            except Exception:
+                        return HttpResponse("Something is wrong")
+    return render_to_response('nearest_groups.html', {
+        'favorited_groups': info(request)[0],
+        'favorited_topics': info(request)[1],
+        'notifications': info(request)[2],
+        'inbox_notifications': info(request)[3],
+        'nearest_groups': nearest_group_list
     }, RequestContext(request))
 
 
@@ -52,7 +78,6 @@ def list_groups_on_map(request):
     }, RequestContext(request))
 
 
-# TODO Private group icin enrollment key mekanizmasi
 @login_required(login_url='/login')
 def new_group(request):
     form = GroupForm()
