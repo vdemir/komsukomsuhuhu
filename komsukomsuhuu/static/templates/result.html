@@ -12,7 +12,7 @@
 <script>document.getElementById("home").style.cssText = "color: #fff;background-color: #ffbb33;border-radius: 10px;";</script>
 {% endblock %}
 
-{% block title %}Results{% endblock %}
+{% block title %}Komsu Komsu Huu{% endblock %}
 
 {% block sidebarjs%}
 
@@ -34,9 +34,9 @@
     </div>
 </div>
 <div class="col-md-9">
-    <div class="main-content">
-        <div class="row">
-            <div class="span4 well"
+    <div class="main-content">          
+        <div class="row">          
+            <div class="span4 well" 
                  style="padding-bottom:0; border-color: #ffbb33; width:70%; background-color: #fff; margin-bottom:10px;">
                 {% for user in users %}
                 <a href="{% url 'users' user.username %}">
@@ -50,10 +50,10 @@
                 </a>
                 {% empty %}
                 <p>No result found.</p>
-                {% endfor %}
-            </div>
-        </div>
+             {% endfor %}
+            </div>            
+        </div>         
     </div>
 </div>
-
+ 
 {% endblock %}
