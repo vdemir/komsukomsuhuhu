@@ -15,7 +15,7 @@
 <script src="/static/js/members.js"></script>>
 {% endblock %}
 
-{% block title %}Detail Group Page{% endblock %}
+{% block title %}Komsu Komsu Huu{% endblock %}
 
 {% block sidebarjs%}
 <script>document.getElementById("groups").style.cssText = "color: #fff;background-color: #ffbb33;border-radius: 10px;";</script>
@@ -25,10 +25,17 @@
 {% if password_fail %}
 <div class="col-md-5">
     <div class="main-content">
-        <div class="span2 well">
-
-            <b>Password is not correct!</b>
-
+        <div class="row">
+            <div class="col-sm-6 col-md-6">
+                <div class="alert alert-danger" style="width:400px;">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                        &times;</button>
+                    <span class="glyphicon glyphicon-hand-right"></span> <strong>Warning Message</strong>
+                    <hr class="message-inner-separator">
+                    <p>
+                        The password is not correct!</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -95,7 +102,7 @@
                 <div class="alert alert-danger" style="width:400px;">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
                         &times;</button>
-                    <span class="glyphicon glyphicon-hand-right"></span> <strong>Success Message</strong>
+                    <span class="glyphicon glyphicon-hand-right"></span> <strong>Warning Message</strong>
                     <hr class="message-inner-separator">
                     <p>
                         Only owner can edit the group!</p>
@@ -149,7 +156,7 @@
                 <div class="alert alert-danger" style="width:400px;">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
                         &times;</button>
-                    <span class="glyphicon glyphicon-hand-right"></span> <strong>Success Message</strong>
+                    <span class="glyphicon glyphicon-hand-right"></span> <strong>Warning Message</strong>
                     <hr class="message-inner-separator">
                     <p>
                         You are not a member of this group yet!</p>
