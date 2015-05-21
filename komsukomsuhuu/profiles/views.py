@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response, HttpResponseRedirect, redirect, get_object_or_404, get_list_or_404, \
     render, HttpResponse
 from django.template import RequestContext
-from django.contrib.auth import login as auth_login, logout as auth_logout
+from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
 from profiles.forms import LoginForm, AdvancedRegistrationForm
 from django.contrib.auth.decorators import login_required
 from profiles.models import CustomUser
@@ -64,11 +64,13 @@ def register(request):
             msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
             msg.attach_alternative(html_content, "text/html")
             msg.send()
-            redirect_to = "%(path)s?register_success=true" % {
-                "path": reverse("login")
-            }
 
-            return redirect(redirect_to)
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password1")
+            user = authenticate(username=username, password=password)
+            auth_login(request, user)
+            return redirect(reverse("home"))
+
         else:
             redirect_to = "%(path)s?register_fail=true" % {
                 "path": reverse("register")
