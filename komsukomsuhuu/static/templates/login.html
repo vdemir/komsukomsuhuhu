@@ -113,7 +113,8 @@
                     <div style="display: none;" id="form-olvidado">
                         <h4 class="">Forgot your password?</h4>
 
-                        <form accept-charset="UTF-8" role="form" id="login-recordar" method="post">
+                        <form action="{% url 'password_reset' %}" accept-charset="UTF-8" role="form" id="login-recordar" method="post">
+                            {% csrf_token %}
                             <fieldset>
                                 <span class="help-block"
                                       style="font-family: 'Open Sans',sans-serif;color:#fff;font-weight: 500;">
@@ -125,11 +126,11 @@
                                 <div class="form-group input-group">
                                     <span class="input-group-addon">@</span>
                                     <input class="form-control" placeholder="Email" name="email" type="email"
-                                           required="">
+                                           id="id_email">
                                 </div>
                                 <div class="last-btn">
-                                    <button type="submit" class="btn btn-primary btn-block" id="btn-olvidado">Continue
-                                    </button>
+                                    <input type="submit" class="btn btn-primary btn-block" id="btn-olvidado" value="Continue"/>
+
                                 </div>
                                 <p class="help-block">
                                     <a class="text-muted" href="#" id="acceso" style="color: #55A0E0;">
