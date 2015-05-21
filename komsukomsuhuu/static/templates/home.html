@@ -4,10 +4,13 @@
     {{ block.super }}
     <link rel="stylesheet" href="/static/css/home.css"/>
     <link rel="stylesheet" href="/static/css/postbox.css"/>
+    <link rel="stylesheet" href="/static/css/detail_topic.css"/>
+    <link rel="stylesheet" href="/static/css/topic_comment.css"/>
 {% endblock %}
 
 {% block js %}
     {{ block.super }}
+    <script src="/static/js/topicbox.js"></script>
 {% endblock %}
 
 {% block title %}Komsu Komsu Huu{% endblock %}
@@ -50,8 +53,11 @@
                 </div>
                 <!-- Status Upload  -->
             </div>
-
             <!-- Widget Area -->
+
+         <div class="clearfix"></div>
+
+            <h3>Hot Topics</h3>
             <div class="qa-message-list" id="wallmessages">
                 {% for post in lates_post|slice:":5" %}
                     <div class="message-item">
@@ -65,7 +71,7 @@
                                 </div>
                                 <div class="user-detail">
 
-                                    <h5 class="handle">{{ post.owner }}</h5>
+                                    <h5 class="handle">{{ post.owner }} posted on {{ post.topic.title }}</h5>
 
                                     <div class="post-meta">
                                         <div class="asker-meta">
@@ -79,15 +85,15 @@
                                             <span class="qa-message-who-data">
                                                 <a href="{% url 'users' post.owner %}">{{ post.owner }}</a>
                                             </span>
-                                            <div class="qa-message-content">
-                                                <a href="{% url 'detail_topic' post.topic.id %}">{{ post.content }}</a>
-                                            </div>
+
                                         </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="qa-message-content">
+                                                <a href="{% url 'detail_topic' post.topic.id %}">{{ post.content}}</a>
+                                            </div>
                         </div>
                     </div>
                 {% endfor %}

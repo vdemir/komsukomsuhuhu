@@ -194,6 +194,9 @@ def edit_group(request, pk):
             form = EditGroupForm(request.POST, instance=group)
             if form.is_valid():
                 form.save()
+                if form.cleaned_data["type"] == 1:
+                    group.enrollment_key = ""
+                    group.save()
                 redirect_to = "%(path)s?edit_group=permission" % {
                     "path": reverse("detail_group", args=[pk])
                 }

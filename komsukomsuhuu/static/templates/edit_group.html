@@ -1,4 +1,15 @@
 {% load profiles_extras %}
+<script>
+function check_private() {
+
+    if(document.getElementById("id_type").value == '2'){
+    document.getElementById("enrollment_key").style.display = "block";
+
+    } else{
+    document.getElementById("enrollment_key").style.display = "none";
+    }
+}
+</script>
 <div class="modal fade" id="ModalEditGroup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -20,7 +31,7 @@
                         <label for="id_type" class="col-sm-2 control-label">Type:</label>
 
                         <div class="col-sm-10">
-                            <select class="form-control" id="id_type" name="type">
+                            <select class="form-control" id="id_type" name="type" onchange="check_private()">
                                 <option value="1" {% if group.type == 1 %} selected="selected" {% endif %} >Public</option>
                                 <option value="2" {% if group.type == 2 %} selected="selected" {% endif %}>Private</option>
                             </select>
@@ -36,6 +47,13 @@
                                 <option value="{{ i }}" {% if i == group.range %} selected="selected" {% endif %}>{{ i }} km</option>
                                 {% endfor %}
                             </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="enrollment_key" style={% if group.type == 1 %}"display:none"{% else %}"display:block"{% endif %}>
+                        <label for="id_enrollment_key" class="col-sm-2 control-label">Enrollment Key:</label>
+
+                        <div class="col-sm-10">
+                            <input class="form-control" id="id_enrollment_key" maxlength="20" name="enrollment_key" type="text" value="{{ group.enrollment_key }}"/>
                         </div>
                     </div>
 
