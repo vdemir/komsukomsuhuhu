@@ -13,27 +13,9 @@
     color:#A8A8A8;
 }
 
-.main-content>li{
+p{
     list-style-type: none;
-    margin-bottom:15px;
+    margin-bottom:15px; 
 }
 
-.main-content>li>a{
-    padding: 3px;
-    text-decoration: none;
-    border: 1px solid #ffbb33;
-    border-radius: 10px;
-    color: #333;
-    font-size: 17px;
-    font-family: 'Open Sans', sans-serif;   
-}
 
-.main-content>li>a:hover{
-    background-color: #ffbb33;
-    color: #fff;
-}
-
-.main-content>li>a:focus{
-    background-color: #e5a82e;
-    color: #333;
-}

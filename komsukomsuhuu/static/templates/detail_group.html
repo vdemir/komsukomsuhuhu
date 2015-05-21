@@ -227,25 +227,26 @@
             <a class="btn btn-danger btn-sm" href="{% url 'leave_group' group.id %}">Leave Group</a>
 
             {% else %}
-
+            <!--<div class="row">-->
             <form action="{% url 'detail_group' group.id %}" method="POST" id="form1">
                 {% csrf_token %}
                 {% if group.type == 2 %}
-                <div class="form-group">
-                    <label for="id_name" class="col-sm-2 control-label">Key:</label>
+                <!--<div class="form-group">-->
+                    <!--<label for="id_name" class="col-sm-2 control-label">Key:</label>-->
 
                     <div class="col-sm-10">
-                        <input class="form-control" id="id_key" maxlength="100" name="key" type="password"/>
+                        <input style="width:80%; margin-left:-14px;" class="form-control" id="id_key" maxlength="100" name="key" type="password" placeholder="Enrollment Key"/>
                     </div>
-                </div>
+                <!--</div>-->
                 {% endif %}
                 <input type="hidden" name="latitude" id="latitude"/>
                 <input type="hidden" name="longitude" id="longitude"/>
             </form>
-            <button type="button" class="btn btn-primary btn-sm" onclick="getLocation();">Join Group</button>
-
+            <div class="col-sm-2">
+            <button style="margin-top:5.3px; margin-left: -100px; height:37.5px;" type="button" class="btn btn-primary btn-md" onclick="getLocation();">Join Group</button>
+            </div>
             {% endif %}
-
+            <!--</div>-->
 
         </div>
     </div>
@@ -259,22 +260,22 @@
                     <div class="panel-heading c-list">
 
                         <span class="title">Members</span>
-                        <ul class="pull-right c-controls">
+                       <!-- <ul class="pull-right c-controls">
                             <li><a href="#" style="color:#fff;" class="hide-search" data-command="toggle-search"
                                    data-toggle="tooltip" data-placement="top" title="Toggle Search"><i
                                     class="fa fa-ellipsis-v"></i></a></li>
-                        </ul>
+                        </ul>-->
                     </div>
 
                     <div class="row" style="display: none;">
                         <div class="col-xs-12">
-                            <div class="input-group c-search">
+                            <!--<div class="input-group c-search">
                                 <input type="text" class="form-control" placeholder="Search" id="contact-list-search">
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" type="button"><span
                                                     class="glyphicon glyphicon-search text-muted"></span></button>
                                         </span>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
 

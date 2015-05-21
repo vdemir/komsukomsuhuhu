@@ -16,10 +16,7 @@
         height: 1px !important;
     }
 }
-#back-to-bootsnipp {
-    position: fixed;
-    top: 10px; right: 10px;
-}
+
 
 .panel-default{
     width:350px;
