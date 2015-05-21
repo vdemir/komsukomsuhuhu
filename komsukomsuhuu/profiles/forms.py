@@ -60,10 +60,17 @@ class ChangeCustomUserDetails(forms.ModelForm):
         fields = ('address', 'phone', 'birthDay')
 
 
-
 class UserLocationForm(forms.ModelForm):
 
     class Meta:
         model = UserLocation
 
         fields = ['longitude', 'latitude']
+
+
+class UserStatusForm(forms.ModelForm):
+
+    class Meta:
+        model = CustomUser
+
+        fields = ('status',)

@@ -5,7 +5,7 @@ from django.contrib.auth import login as auth_login, logout as auth_logout, auth
 from profiles.forms import LoginForm, AdvancedRegistrationForm
 from django.contrib.auth.decorators import login_required
 from profiles.models import CustomUser
-from profiles.forms import ChangeCustomUserDetails
+from profiles.forms import ChangeCustomUserDetails, UserStatusForm
 from messages.forms import NewMessageForm
 from groups.models import Group
 from entities.models import Topic
@@ -29,6 +29,11 @@ def home(request):
         for topic in group.group.all():
             for post in topic.topic.all():
                 latest_post.append(post)
+
+    if request.method == 'POST':
+        form = UserStatusForm(request.POST, instance=request.user.customuser)
+        if form.is_valid():
+            form.save()
 
     latest_post = latest_post[::-1]
     return render_to_response('home.html', {

@@ -31,9 +31,9 @@
     border-top: 0;
 }
 
-
-.table-user-information > body > tr > td {
+.table-user-information  td {
     border-top: 0;
+    word-wrap: break-word;
 }
 
 li{

@@ -8,6 +8,7 @@ class CustomUser(models.Model):
     phone = models.CharField(max_length=10, blank=True)
     birthDay = models.DateField(verbose_name="Date of Birth", blank=True, null=True, help_text="This field must be 'YYYY-MM-DD' format")
     user = models.OneToOneField(User)
+    status = models.CharField(max_length=600, default="Hey there! I'm using Komsu Komsu Huu ")
 
 
 class UserLocation(models.Model):

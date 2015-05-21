@@ -38,17 +38,10 @@
         <div class="main-content">
             <div class="widget-area no-padding blank">
                 <div class="status-upload">
-                    <form>
-                        <textarea placeholder="Write something about your neighbourhood!"></textarea>
-                        <ul>
-                            <li><a title="" data-toggle="tooltip" data-placement="bottom"
-                                   data-original-title="Video"><i class="fa fa-video-camera"></i></a></li>
-                            <li><a title="" data-toggle="tooltip" data-placement="bottom"
-                                   data-original-title="Picture"><i class="fa fa-picture-o"></i></a></li>
-                            <li><a title="" data-toggle="tooltip" data-placement="bottom"
-                                   data-original-title="Sound Record"><i class="fa fa-microphone"></i></a></li>
-                        </ul>
-                        <button type="submit" class="btn btn-success green"><i class="fa fa-share"></i> Share</button>
+                    <form class="form-horizontal" action="{% url 'home' %}" method="post" id="status_form">
+                        {% csrf_token %}
+                        <textarea placeholder="What's on your mind?" name="status"></textarea>
+                        <button type="submit" class="btn btn-success green" style="margin:5px;"><i class="fa fa-share"></i> Update status</button>
                     </form>
                 </div>
                 <!-- Status Upload  -->
