@@ -1,0 +1,52 @@
+<div class="modal fade" id="ModalNearestGroup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow-y:auto; height: 500px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Nearest Groups</h4>
+            </div>
+            <div class="modal-body">
+
+                {% load gravatar %}
+                {% for group in nearest_groups %}
+                    <section class="comment-list">
+
+                        <div class="col-md-10 col-sm-10">
+                            <div class="panel panel-default arrow left">
+                                <div class="panel-body">
+                                    <div class="comment-post">
+                                        <p><a href="{% url 'detail_group' group.id %}">{{ group.name }}</a></p>
+
+                                        <header class="text-left">
+
+                                            <div class="comment-user"><img src="{% gravatar_url group.manager.email 100 %}" alt="" class="img-circle" style="width:14px;height:14px;*margin-right:.3em;line-height:14px;vertical-align:text-top;}"/>
+                                                By <a href="{% url 'users' group.manager.username %}">{{ group.manager}}</a>
+                                            </div>
+                                            <time class="comment-date" datetime="{{ group.date_created }}">
+                                                <span class="glyphicon glyphicon-time"></span>{{ group.date_created }}
+                                            </time>
+                                            {% if user in group.members.all %}
+                                                <div class="comment-user"><img src="/static/media/tick.png" class="img-circle" style="width:14px;height:14px;*margin-right:.3em;line-height:14px;vertical-align:text-top;}"/><b><font color="green"> Already Joined</font></b></div>
+                                            {% endif %}
+
+                                        </header>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+                    <br><br>
+        {% empty %}
+        <h1>No groups available!</h1>
+        {% endfor %}
+        <br><br>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
