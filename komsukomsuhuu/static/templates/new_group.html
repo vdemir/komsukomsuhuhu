@@ -105,7 +105,7 @@ function check_private() {
 <script>
 var latitude = document.getElementById("latitude");
 var longitude = document.getElementById("longitude");
-var form = document.getElementById("form1");
+var form1 = document.getElementById("form1");
 
 function getLocation5() {
     if (navigator.geolocation) {
@@ -118,7 +118,7 @@ function getLocation5() {
 function showPosition5(position) {
     latitude.value = position.coords.latitude;
     longitude.value = position.coords.longitude;
-    form.submit();
+    form1.submit();
 }
 
 

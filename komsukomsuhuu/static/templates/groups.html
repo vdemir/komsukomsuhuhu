@@ -137,7 +137,7 @@
 
             {% include 'new_group.html' %}
 
-            <button type="button" class="btn btn-success btn-md" onclick="getLocation();">Nearest Groups</button>
+            <button type="button" class="btn btn-success btn-md" onclick="getLocation9();">Nearest Groups</button>
 
 
 
@@ -196,20 +196,20 @@
     <script>
         var latitude2 = document.getElementById("latitude2");
         var longitude2 = document.getElementById("longitude2");
-        var form = document.getElementById("form3");
+        var form3 = document.getElementById("form3");
 
-        function getLocation() {
+        function getLocation9() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
+                navigator.geolocation.getCurrentPosition(showPosition9);
             } else {
                 x.innerHTML = "Geolocation is not supported by this browser.";
             }
         }
 
-        function showPosition(position) {
+        function showPosition9(position) {
             latitude2.value = position.coords.latitude;
             longitude2.value = position.coords.longitude;
-            form.submit();
+            form3.submit();
         }
     </script>
 
