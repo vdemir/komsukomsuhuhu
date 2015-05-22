@@ -51,11 +51,15 @@ def list_nearest_groups(request):
                 }
                 groups = list(db.location.find(data))
                 for group in groups:
-                    temp = Group.objects.get(id=group['group'])
-                    if temp.isActive == True:
-                        nearest_group_list.append(temp)
-            except Exception:
-                        return HttpResponse("Something is wrong")
+                    try:
+                        temp = Group.objects.get(id=group['group'])
+                        if temp.isActive == True:
+                            nearest_group_list.append(temp)
+                    except Group.DoesNotExist:
+                        temp = None
+            except Exception as e:
+                        return HttpResponse(e)
+                        #return HttpResponse("Something is wrong")
     return render_to_response('nearest_groups.html', {
         'favorited_groups': info(request)[0],
         'favorited_topics': info(request)[1],
