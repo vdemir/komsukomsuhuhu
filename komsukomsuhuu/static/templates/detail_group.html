@@ -242,9 +242,15 @@
                 <input type="hidden" name="latitude" id="latitude"/>
                 <input type="hidden" name="longitude" id="longitude"/>
             </form>
+            {% if group.type == 1 %}
+            <div class="col-sm-2">
+            <button style="margin-top:5.3px; margin-left: -10px; height:37.5px;" type="button" class="btn btn-primary btn-md" onclick="getLocation();">Join Group</button>
+            </div>
+            {% else %}
             <div class="col-sm-2">
             <button style="margin-top:5.3px; margin-left: -100px; height:37.5px;" type="button" class="btn btn-primary btn-md" onclick="getLocation();">Join Group</button>
             </div>
+                {% endif %}
             {% endif %}
             <!--</div>-->
 
