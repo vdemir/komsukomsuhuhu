@@ -11,12 +11,10 @@ django-model-utils==2.2
 django-notifications-hq==0.6.2
 django-user-sessions==1.1.0
 elasticsearch==1.4.0
-flower==0.8.2
 futures==2.2.0
 gnureadline==6.3.3
 ipython==3.0.0
 kombu==3.0.26
 pymongo==2.8
 pytz==2015.2
-tornado==4.1
 urllib3==1.10.2
